@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, untMdlCds0, Data.FMTBcd, Data.DB,
   Datasnap.DBClient, Datasnap.Provider, Data.SqlExpr, System.ImageList,
   Vcl.ImgList, Vcl.Imaging.pngimage, MetroTile, Vcl.StdCtrls, Vcl.ComCtrls,
-  Vcl.ToolWin, Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, untConstantes;
+  Vcl.ToolWin, Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, untConstantes, untCnsUsr0;
 
 type
   TfrmCdsUsr0 = class(TfrmMdlCds0)
@@ -52,10 +52,12 @@ type
     chbStatus: TDBCheckBox;
     procedure FormCreate(Sender: TObject);
     procedure btnMetroNovoClick(Sender: TObject);
+    procedure btnMetroProcurarClick(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
-    { Private declarations }
+    procedure ExibeConsulta;
   public
-    { Public declarations }
+
   end;
 
 var
@@ -71,6 +73,17 @@ begin
    cdsPrincipalSTATUS.AsString := 'A';
 end;
 
+procedure TfrmCdsUsr0.btnMetroProcurarClick(Sender: TObject);
+begin
+  inherited;
+  ExibeConsulta;
+end;
+
+procedure TfrmCdsUsr0.ExibeConsulta;
+begin
+   with TfrmCnsUsr0.Create(Application) do ShowModal;
+end;
+
 procedure TfrmCdsUsr0.FormCreate(Sender: TObject);
 begin
   inherited;
@@ -79,6 +92,16 @@ begin
    FieldID     := ID_CDSUSR0;
    EditID      := fldIDUSUARIO;
    EditDesc    := fldUSUARIO;
+end;
+
+procedure TfrmCdsUsr0.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+   inherited;
+
+   if key = VK_F5 then begin
+      btnMetroProcurar.Click;
+   end;
 end;
 
 end.

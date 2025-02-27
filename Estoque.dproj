@@ -152,6 +152,10 @@
             <Form>frmCnsPai0</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="SOURCES\untCnsUsr0.pas">
+            <Form>frmCnsUsr0</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

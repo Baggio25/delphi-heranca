@@ -29,8 +29,6 @@ object frmCnsCid0: TfrmCnsCid0
     ParentBackground = False
     ParentFont = False
     TabOrder = 0
-    ExplicitTop = 406
-    ExplicitWidth = 784
   end
   object pnlLeft: TPanel
     Left = 0
@@ -47,8 +45,6 @@ object frmCnsCid0: TfrmCnsCid0
     ParentBackground = False
     ParentFont = False
     TabOrder = 1
-    ExplicitLeft = -6
-    ExplicitTop = -6
     object Label2: TLabel
       Left = 5
       Top = 11
@@ -73,7 +69,7 @@ object frmCnsCid0: TfrmCnsCid0
     object Label5: TLabel
       Left = 5
       Top = 159
-      Width = 155
+      Width = 84
       Height = 19
       Alignment = taCenter
       Caption = 'Ordena'#231#227'o'
@@ -152,10 +148,6 @@ object frmCnsCid0: TfrmCnsCid0
     Font.Style = []
     ParentFont = False
     TabOrder = 2
-    ExplicitLeft = 312
-    ExplicitTop = 224
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     object Panel1: TPanel
       Left = 0
       Top = 0
@@ -165,13 +157,10 @@ object frmCnsCid0: TfrmCnsCid0
       Color = 16446693
       ParentBackground = False
       TabOrder = 0
-      ExplicitLeft = 232
-      ExplicitTop = 184
-      ExplicitWidth = 185
       object Label1: TLabel
-        Left = 24
+        Left = 27
         Top = 11
-        Width = 114
+        Width = 111
         Height = 18
         Alignment = taRightJustify
         Caption = 'Texto Pesquisar'
@@ -204,6 +193,7 @@ object frmCnsCid0: TfrmCnsCid0
       Align = alClient
       BorderStyle = bsNone
       DataSource = dsCid0
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
       TabOrder = 1
       TitleFont.Charset = ANSI_CHARSET
       TitleFont.Color = clWindowText

@@ -49,11 +49,10 @@ object frmCnsPai0: TfrmCnsPai0
       Caption = 'Campo'
     end
     object Label5: TLabel
-      Left = 5
+      Left = 35
       Top = 159
-      Width = 155
+      Width = 84
       Height = 19
-      Alignment = taCenter
       Caption = 'Ordena'#231#227'o'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -189,6 +188,7 @@ object frmCnsPai0: TfrmCnsPai0
       Height = 478
       Align = alClient
       DataSource = dsPai0
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
       TabOrder = 1
       TitleFont.Charset = ANSI_CHARSET
       TitleFont.Color = clWindowText
