@@ -31,8 +31,10 @@ type
     fldCODIGOIBGE: TDBEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnMetroProcurarClick(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { Private declarations }
+    procedure ExibeConsulta;
   public
     { Public declarations }
   end;
@@ -47,6 +49,11 @@ implementation
 procedure TfrmCdsCid0.btnMetroProcurarClick(Sender: TObject);
 begin
    inherited;
+   ExibeConsulta
+end;
+
+procedure TfrmCdsCid0.ExibeConsulta;
+begin
    with TfrmCnsCid0.Create(Application) do ShowModal;
 end;
 
@@ -58,6 +65,16 @@ begin
    FieldID     := ID_CDSCID0;
    EditID      := fldIDCIDADE;
    EditDesc    := fldCIDADE;
+end;
+
+procedure TfrmCdsCid0.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+   inherited;
+   if key = VK_F5 then begin
+      key := 0;
+      ExibeConsulta;
+   end;
 end;
 
 end.
