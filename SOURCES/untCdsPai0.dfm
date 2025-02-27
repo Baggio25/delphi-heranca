@@ -20,6 +20,7 @@ inherited frmCdsPai0: TfrmCdsPai0
       ExplicitWidth = 504
       inherited lblAtalho: TLabel
         Left = 432
+        Height = 24
         ExplicitLeft = 432
       end
       inherited toolBarNavigator: TToolBar
@@ -34,6 +35,9 @@ inherited frmCdsPai0: TfrmCdsPai0
     inherited pnlLeftMetro: TPanel
       Height = 211
       ExplicitHeight = 211
+      inherited btnMetroProcurar: TMetroTile
+        OnClick = btnMetroProcurarClick
+      end
     end
   end
   inherited pnlFront: TScrollBox

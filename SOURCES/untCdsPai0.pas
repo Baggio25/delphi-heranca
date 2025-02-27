@@ -7,7 +7,8 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, untMdlCds0, System.ImageList,
   Vcl.ImgList, Vcl.Imaging.pngimage, MetroTile, Vcl.StdCtrls, Vcl.ComCtrls,
   Vcl.ToolWin, Vcl.ExtCtrls, Data.FMTBcd, Data.DB, Datasnap.DBClient,
-  Datasnap.Provider, Data.SqlExpr, Vcl.Mask, Vcl.DBCtrls, untConstantes;
+  Datasnap.Provider, Data.SqlExpr, Vcl.Mask, Vcl.DBCtrls, untConstantes,
+  untCnsPai0;
 
 type
   TfrmCdsPai0 = class(TfrmMdlCds0)
@@ -21,10 +22,12 @@ type
     Label3: TLabel;
     fldSIGLA: TDBEdit;
     procedure FormCreate(Sender: TObject);
+    procedure btnMetroProcurarClick(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
-    { Private declarations }
+    procedure ExibeConsulta;
   public
-    { Public declarations }
+
   end;
 
 var
@@ -34,6 +37,17 @@ implementation
 
 {$R *.dfm}
 
+procedure TfrmCdsPai0.btnMetroProcurarClick(Sender: TObject);
+begin
+   inherited;
+   ExibeConsulta;
+end;
+
+procedure TfrmCdsPai0.ExibeConsulta;
+begin
+   with TfrmCnsPai0.Create(Application) do ShowModal;
+end;
+
 procedure TfrmCdsPai0.FormCreate(Sender: TObject);
 begin
    inherited;
@@ -42,6 +56,16 @@ begin
    FieldID     := ID_CDSPAI0;
    EditID      := fldIDPAIS;
    EditDesc    := fldPAIS;
+end;
+
+procedure TfrmCdsPai0.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+   inherited;
+
+   if key = VK_F5 then begin
+      btnMetroProcurar.Click;
+   end;
 end;
 
 end.

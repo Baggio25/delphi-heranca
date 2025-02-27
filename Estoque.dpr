@@ -13,7 +13,8 @@ uses
   untCdsSec0 in 'SOURCES\untCdsSec0.pas' {frmCdsSec0},
   untCdsIte0 in 'SOURCES\untCdsIte0.pas' {frmCdsIte0},
   untConstantes in 'SOURCES\untConstantes.pas',
-  untCnsCid0 in 'SOURCES\untCnsCid0.pas' {frmCnsCid0};
+  untCnsCid0 in 'SOURCES\untCnsCid0.pas' {frmCnsCid0},
+  untCnsPai0 in 'SOURCES\untCnsPai0.pas' {frmCnsPai0};
 
 {$R *.res}
 

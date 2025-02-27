@@ -182,7 +182,7 @@ object frmCnsCid0: TfrmCnsCid0
         Width = 105
         Height = 25
         Caption = 'Pesquisar'
-        TabOrder = 0
+        TabOrder = 1
         OnClick = btnPesquisarClick
       end
       object edtPesquisa: TEdit
@@ -193,7 +193,7 @@ object frmCnsCid0: TfrmCnsCid0
         CharCase = ecUpperCase
         Ctl3D = False
         ParentCtl3D = False
-        TabOrder = 1
+        TabOrder = 0
       end
     end
     object dbgCid: TDBGrid
