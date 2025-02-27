@@ -144,6 +144,10 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="SOURCES\untConstantes.pas"/>
+        <DCCReference Include="SOURCES\untCnsCid0.pas">
+            <Form>frmCnsCid0</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

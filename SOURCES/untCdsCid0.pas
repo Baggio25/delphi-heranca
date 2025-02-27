@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, untMdlCds0, Data.FMTBcd, Data.DB,
   Datasnap.DBClient, Datasnap.Provider, Data.SqlExpr, System.ImageList,
   Vcl.ImgList, Vcl.Imaging.pngimage, MetroTile, Vcl.StdCtrls, Vcl.ComCtrls,
-  Vcl.ToolWin, Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, untConstantes;
+  Vcl.ToolWin, Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, untConstantes, untCnsCid0;
 
 type
   TfrmCdsCid0 = class(TfrmMdlCds0)
@@ -30,6 +30,7 @@ type
     Label6: TLabel;
     fldCODIGOIBGE: TDBEdit;
     procedure FormCreate(Sender: TObject);
+    procedure btnMetroProcurarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -42,6 +43,12 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TfrmCdsCid0.btnMetroProcurarClick(Sender: TObject);
+begin
+   inherited;
+   with TfrmCnsCid0.Create(Application) do ShowModal;
+end;
 
 procedure TfrmCdsCid0.FormCreate(Sender: TObject);
 begin
