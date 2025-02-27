@@ -1,0 +1,17 @@
+program Estoque;
+
+uses
+  Vcl.Forms,
+  untMain in 'SOURCES\untMain.pas' {frmMain},
+  untDtmDados in 'SOURCES\untDtmDados.pas' {dtmDados: TDataModule},
+  untMdlCds0 in 'SOURCES\untMdlCds0.pas' {frmMdlCds0};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfrmMain, frmMain);
+  Application.CreateForm(TdtmDados, dtmDados);
+  Application.Run;
+end.

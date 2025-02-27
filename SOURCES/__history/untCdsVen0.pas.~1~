@@ -1,0 +1,27 @@
+unit untCdsVen0;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, untMdlCds0, Data.FMTBcd, Data.DB,
+  Datasnap.DBClient, Datasnap.Provider, Data.SqlExpr, System.ImageList,
+  Vcl.ImgList, Vcl.Imaging.pngimage, MetroTile, Vcl.StdCtrls, Vcl.ComCtrls,
+  Vcl.ToolWin, Vcl.ExtCtrls;
+
+type
+  TfrmMdlCds1 = class(TfrmMdlCds0)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmMdlCds1: TfrmMdlCds1;
+
+implementation
+
+{$R *.dfm}
+
+end.

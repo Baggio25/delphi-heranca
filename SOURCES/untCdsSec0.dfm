@@ -1,0 +1,103 @@
+inherited frmCdsSec0: TfrmCdsSec0
+  Caption = 'frmCdsSec0'
+  ClientHeight = 257
+  ClientWidth = 497
+  OnCreate = FormCreate
+  ExplicitWidth = 513
+  ExplicitHeight = 296
+  TextHeight = 15
+  inherited scrRodape: TScrollBox
+    Top = 213
+    Width = 497
+    ExplicitTop = 213
+    ExplicitWidth = 497
+    inherited StatusBar1: TStatusBar
+      Width = 497
+      ExplicitWidth = 497
+    end
+    inherited pnlToolBarNavigator: TPanel
+      Width = 497
+      ExplicitWidth = 497
+      inherited lblAtalho: TLabel
+        Left = 425
+        Height = 24
+        ExplicitLeft = 425
+      end
+      inherited toolBarNavigator: TToolBar
+        Width = 425
+        ExplicitWidth = 425
+      end
+    end
+  end
+  inherited pnlLeftButtonMetro: TScrollBox
+    Height = 213
+    ExplicitHeight = 213
+    inherited pnlLeftMetro: TPanel
+      Height = 213
+      ExplicitHeight = 213
+    end
+  end
+  inherited pnlFront: TScrollBox
+    Width = 383
+    Height = 213
+    ExplicitWidth = 383
+    ExplicitHeight = 213
+    object Label1: TLabel
+      Left = 13
+      Top = 23
+      Width = 52
+      Height = 18
+      Caption = 'C'#243'digo'
+      FocusControl = fldIDSECAO
+    end
+    object Label2: TLabel
+      Left = 20
+      Top = 55
+      Width = 46
+      Height = 18
+      Caption = 'Se'#231#227'o'
+      FocusControl = fldSECAO
+    end
+    object fldIDSECAO: TDBEdit
+      Left = 69
+      Top = 20
+      Width = 95
+      Height = 26
+      DataField = 'IDSECAO'
+      DataSource = dsPrincipal
+      TabOrder = 0
+    end
+    object fldSECAO: TDBEdit
+      Left = 69
+      Top = 52
+      Width = 300
+      Height = 26
+      CharCase = ecUpperCase
+      DataField = 'SECAO'
+      DataSource = dsPrincipal
+      TabOrder = 1
+    end
+  end
+  inherited sdsPrincipal: TSQLDataSet
+    CommandText = 'SELECT * FROM TBLCDSSEC0 WHERE IDSECAO = :ID'
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'ID'
+        ParamType = ptInput
+      end>
+  end
+  inherited cdsPrincipal: TClientDataSet
+    object cdsPrincipalIDSECAO: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'IDSECAO'
+      Required = True
+    end
+    object cdsPrincipalSECAO: TStringField
+      DisplayLabel = 'Se'#231#227'o'
+      FieldName = 'SECAO'
+      Required = True
+      Size = 40
+    end
+  end
+end

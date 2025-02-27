@@ -1,0 +1,366 @@
+inherited frmCdsUsr0: TfrmCdsUsr0
+  Caption = 'frmCdsUsr0'
+  ClientHeight = 318
+  ClientWidth = 518
+  OnCreate = FormCreate
+  ExplicitWidth = 534
+  ExplicitHeight = 357
+  TextHeight = 15
+  inherited scrRodape: TScrollBox
+    Top = 274
+    Width = 518
+    ExplicitTop = 274
+    ExplicitWidth = 518
+    inherited StatusBar1: TStatusBar
+      Width = 518
+      ExplicitWidth = 518
+    end
+    inherited pnlToolBarNavigator: TPanel
+      Width = 518
+      ExplicitWidth = 518
+      inherited lblAtalho: TLabel
+        Left = 446
+        Height = 24
+        ExplicitLeft = 446
+      end
+      inherited toolBarNavigator: TToolBar
+        Width = 446
+        ExplicitWidth = 446
+      end
+    end
+  end
+  inherited pnlLeftButtonMetro: TScrollBox
+    Height = 274
+    ExplicitHeight = 274
+    inherited pnlLeftMetro: TPanel
+      Height = 274
+      ExplicitHeight = 274
+    end
+  end
+  inherited pnlFront: TScrollBox
+    Width = 404
+    Height = 274
+    ExplicitWidth = 404
+    ExplicitHeight = 274
+    object Label1: TLabel
+      Left = 31
+      Top = 12
+      Width = 52
+      Height = 18
+      Caption = 'C'#243'digo'
+      FocusControl = fldIDUSUARIO
+    end
+    object Label2: TLabel
+      Left = 29
+      Top = 44
+      Width = 54
+      Height = 18
+      Caption = 'Usu'#225'rio'
+      FocusControl = fldUSUARIO
+    end
+    object Label3: TLabel
+      Left = 44
+      Top = 76
+      Width = 39
+      Height = 18
+      Caption = 'Login'
+      FocusControl = fldLOGIN
+    end
+    object Label4: TLabel
+      Left = 38
+      Top = 108
+      Width = 45
+      Height = 18
+      Caption = 'Senha'
+      FocusControl = fldSENHA
+    end
+    object Label5: TLabel
+      Left = 236
+      Top = 140
+      Width = 52
+      Height = 18
+      Caption = 'Cidade'
+      FocusControl = fldIDCIDADE
+    end
+    object Label6: TLabel
+      Left = 15
+      Top = 172
+      Width = 68
+      Height = 18
+      Caption = 'Endere'#231'o'
+      FocusControl = fldENDERECO
+    end
+    object Label7: TLabel
+      Left = 28
+      Top = 204
+      Width = 55
+      Height = 18
+      Caption = 'N'#250'mero'
+      FocusControl = fldNUMERO
+    end
+    object Label8: TLabel
+      Left = 40
+      Top = 236
+      Width = 43
+      Height = 18
+      Caption = 'Bairro'
+      FocusControl = fldBAIRRO
+    end
+    object Label9: TLabel
+      Left = 223
+      Top = 204
+      Width = 34
+      Height = 18
+      Caption = 'CEP'
+      FocusControl = fldCEP
+    end
+    object Label10: TLabel
+      Left = 188
+      Top = 108
+      Width = 33
+      Height = 18
+      Caption = 'CPF'
+      FocusControl = fldCPF
+    end
+    object Label11: TLabel
+      Left = 40
+      Top = 140
+      Width = 42
+      Height = 18
+      Caption = 'CNPJ'
+      FocusControl = fldCNPJ
+    end
+    object fldIDUSUARIO: TDBEdit
+      Left = 87
+      Top = 9
+      Width = 95
+      Height = 26
+      CharCase = ecUpperCase
+      DataField = 'IDUSUARIO'
+      DataSource = dsPrincipal
+      TabOrder = 0
+    end
+    object fldUSUARIO: TDBEdit
+      Left = 87
+      Top = 41
+      Width = 300
+      Height = 26
+      CharCase = ecUpperCase
+      DataField = 'USUARIO'
+      DataSource = dsPrincipal
+      TabOrder = 3
+    end
+    object fldLOGIN: TDBEdit
+      Left = 87
+      Top = 73
+      Width = 300
+      Height = 26
+      CharCase = ecUpperCase
+      DataField = 'LOGIN'
+      DataSource = dsPrincipal
+      TabOrder = 4
+    end
+    object fldSENHA: TDBEdit
+      Left = 87
+      Top = 105
+      Width = 95
+      Height = 26
+      DataField = 'SENHA'
+      DataSource = dsPrincipal
+      PasswordChar = '*'
+      TabOrder = 5
+    end
+    object fldIDCIDADE: TDBEdit
+      Left = 292
+      Top = 137
+      Width = 95
+      Height = 26
+      CharCase = ecUpperCase
+      DataField = 'IDCIDADE'
+      DataSource = dsPrincipal
+      TabOrder = 8
+    end
+    object fldENDERECO: TDBEdit
+      Left = 87
+      Top = 169
+      Width = 300
+      Height = 26
+      CharCase = ecUpperCase
+      DataField = 'ENDERECO'
+      DataSource = dsPrincipal
+      TabOrder = 9
+    end
+    object fldNUMERO: TDBEdit
+      Left = 87
+      Top = 201
+      Width = 58
+      Height = 26
+      CharCase = ecUpperCase
+      DataField = 'NUMERO'
+      DataSource = dsPrincipal
+      TabOrder = 10
+    end
+    object fldBAIRRO: TDBEdit
+      Left = 87
+      Top = 233
+      Width = 300
+      Height = 26
+      CharCase = ecUpperCase
+      DataField = 'BAIRRO'
+      DataSource = dsPrincipal
+      TabOrder = 12
+    end
+    object fldCEP: TDBEdit
+      Left = 263
+      Top = 201
+      Width = 124
+      Height = 26
+      CharCase = ecUpperCase
+      DataField = 'CEP'
+      DataSource = dsPrincipal
+      TabOrder = 11
+    end
+    object fldCPF: TDBEdit
+      Left = 227
+      Top = 105
+      Width = 160
+      Height = 26
+      CharCase = ecUpperCase
+      DataField = 'CPF'
+      DataSource = dsPrincipal
+      TabOrder = 6
+    end
+    object fldCNPJ: TDBEdit
+      Left = 87
+      Top = 137
+      Width = 134
+      Height = 26
+      CharCase = ecUpperCase
+      DataField = 'CNPJ'
+      DataSource = dsPrincipal
+      TabOrder = 7
+    end
+    object chbAdm: TDBCheckBox
+      Left = 200
+      Top = 15
+      Width = 126
+      Height = 17
+      Caption = 'Administrador'
+      DataField = 'ADM'
+      DataSource = dsPrincipal
+      TabOrder = 1
+      ValueChecked = '1'
+      ValueUnchecked = '0'
+    end
+    object chbStatus: TDBCheckBox
+      Left = 332
+      Top = 15
+      Width = 56
+      Height = 17
+      Caption = 'Ativo'
+      DataField = 'STATUS'
+      DataSource = dsPrincipal
+      TabOrder = 2
+      ValueChecked = 'A'
+      ValueUnchecked = 'I'
+    end
+  end
+  inherited sdsPrincipal: TSQLDataSet
+    CommandText = 
+      'SELECT'#13#10'    USR0.IDUSUARIO,'#13#10'    USR0.USUARIO,'#13#10'    USR0.FONE,'#13#10 +
+      '    USR0.CELULAR,'#13#10'    USR0.IDCIDADE,'#13#10'    USR0.ENDERECO,'#13#10'    U' +
+      'SR0.NUMERO,'#13#10'    USR0.BAIRRO,'#13#10'    USR0.CEP,'#13#10'    USR0.CPF,'#13#10'   ' +
+      ' USR0.CNPJ,'#13#10'    USR0.LOGIN,'#13#10'    USR0.SENHA,'#13#10'    USR0.STATUS,'#13 +
+      #10'    USR0.ADM'#13#10'FROM TBLCDSUSR0 USR0'#13#10'WHERE USR0.IDUSUARIO = :ID'
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'ID'
+        ParamType = ptInput
+      end>
+    Left = 232
+    Top = 264
+  end
+  inherited dspPrincipal: TDataSetProvider
+    Left = 308
+    Top = 264
+  end
+  inherited cdsPrincipal: TClientDataSet
+    Left = 384
+    Top = 264
+    object cdsPrincipalIDUSUARIO: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'IDUSUARIO'
+      Required = True
+    end
+    object cdsPrincipalUSUARIO: TStringField
+      DisplayLabel = 'Usu'#225'rio'
+      FieldName = 'USUARIO'
+      Required = True
+      Size = 40
+    end
+    object cdsPrincipalFONE: TStringField
+      DisplayLabel = 'Fone'
+      FieldName = 'FONE'
+      Size = 16
+    end
+    object cdsPrincipalCELULAR: TStringField
+      DisplayLabel = 'Celular'
+      FieldName = 'CELULAR'
+      Size = 16
+    end
+    object cdsPrincipalIDCIDADE: TIntegerField
+      DisplayLabel = 'Cidade'
+      FieldName = 'IDCIDADE'
+    end
+    object cdsPrincipalENDERECO: TStringField
+      DisplayLabel = 'Endere'#231'o'
+      FieldName = 'ENDERECO'
+      Required = True
+      Size = 40
+    end
+    object cdsPrincipalNUMERO: TStringField
+      DisplayLabel = 'N'#250'mero'
+      FieldName = 'NUMERO'
+      Size = 10
+    end
+    object cdsPrincipalBAIRRO: TStringField
+      DisplayLabel = 'Bairro'
+      FieldName = 'BAIRRO'
+    end
+    object cdsPrincipalCEP: TStringField
+      FieldName = 'CEP'
+      EditMask = '99\.999\-999;0;_'
+      Size = 8
+    end
+    object cdsPrincipalCPF: TStringField
+      FieldName = 'CPF'
+      EditMask = '999\.999\.999\-99;0;_'
+      Size = 11
+    end
+    object cdsPrincipalCNPJ: TStringField
+      FieldName = 'CNPJ'
+      EditMask = '99\.999\.999\/9999\-99;0; '
+      Size = 14
+    end
+    object cdsPrincipalLOGIN: TStringField
+      DisplayLabel = 'Login'
+      FieldName = 'LOGIN'
+    end
+    object cdsPrincipalSENHA: TStringField
+      DisplayLabel = 'Senha'
+      FieldName = 'SENHA'
+    end
+    object cdsPrincipalSTATUS: TStringField
+      FieldName = 'STATUS'
+      Size = 1
+    end
+    object cdsPrincipalADM: TSmallintField
+      FieldName = 'ADM'
+    end
+  end
+  inherited dsPrincipal: TDataSource
+    Left = 457
+    Top = 264
+  end
+end

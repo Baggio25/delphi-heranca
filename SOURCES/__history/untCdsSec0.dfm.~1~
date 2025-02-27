@@ -1,0 +1,11 @@
+inherited frmCdsSec0: TfrmCdsSec0
+  Caption = 'frmCdsSec0'
+  TextHeight = 15
+  inherited scrRodape: TScrollBox
+    inherited pnlToolBarNavigator: TPanel
+      inherited lblAtalho: TLabel
+        Height = 24
+      end
+    end
+  end
+end

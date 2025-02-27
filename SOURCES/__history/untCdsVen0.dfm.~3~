@@ -1,0 +1,49 @@
+inherited frmCdsVen0: TfrmCdsVen0
+  Caption = 'frmCdsVen0'
+  OnCreate = FormCreate
+  TextHeight = 15
+  inherited scrRodape: TScrollBox
+    inherited pnlToolBarNavigator: TPanel
+      inherited lblAtalho: TLabel
+        Height = 24
+      end
+    end
+  end
+  inherited sdsPrincipal: TSQLDataSet
+    CommandText = 'SELECT * FROM TBLCDSVEN0 WHERE IDVENDEDOR = :ID'
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'ID'
+        ParamType = ptInput
+      end>
+  end
+  inherited cdsPrincipal: TClientDataSet
+    object cdsPrincipalIDVENDEDOR: TIntegerField
+      FieldName = 'IDVENDEDOR'
+      Required = True
+    end
+    object cdsPrincipalVENDEDOR: TStringField
+      FieldName = 'VENDEDOR'
+      Required = True
+      Size = 40
+    end
+    object cdsPrincipalIDCIDADE: TIntegerField
+      FieldName = 'IDCIDADE'
+    end
+    object cdsPrincipalCOMISSAOVISTA: TFMTBCDField
+      FieldName = 'COMISSAOVISTA'
+      Precision = 9
+      Size = 2
+    end
+    object cdsPrincipalCOMISSAOPRAZO: TFMTBCDField
+      FieldName = 'COMISSAOPRAZO'
+      Precision = 9
+      Size = 2
+    end
+    object cdsPrincipalSTATUS: TStringField
+      FieldName = 'STATUS'
+      Size = 1
+    end
+  end
+end

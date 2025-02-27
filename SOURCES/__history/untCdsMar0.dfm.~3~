@@ -1,0 +1,21 @@
+inherited frmCdsMar0: TfrmCdsMar0
+  Caption = 'frmCdsMar0'
+  OnCreate = FormCreate
+  TextHeight = 15
+  inherited scrRodape: TScrollBox
+    inherited pnlToolBarNavigator: TPanel
+      inherited lblAtalho: TLabel
+        Height = 24
+      end
+    end
+  end
+  inherited sdsPrincipal: TSQLDataSet
+    CommandText = 'SELECT * FROM TBLCDSMAR0 WHERE IDMARCA = :ID'
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'ID'
+        ParamType = ptInput
+      end>
+  end
+end

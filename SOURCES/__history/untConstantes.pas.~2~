@@ -1,0 +1,16 @@
+unit untConstantes;
+
+interface
+
+const
+   TBCDSVEN0 = 'TBLCDSVEN0';
+   TBCDSPAI0 = 'TBLCDSPAI0';
+   TBCDSCID0 = 'TBLCDSCID0';
+
+   PKCDSVEN0 = 'IDVENDEDOR';
+   PKCDSPAI0 = 'IDPAIS';
+   PKCDSCID0 = 'IDCIDADE';
+
+implementation
+
+end.

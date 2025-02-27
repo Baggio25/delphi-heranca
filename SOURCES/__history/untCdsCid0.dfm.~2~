@@ -1,0 +1,43 @@
+inherited frmCdsCid0: TfrmCdsCid0
+  Caption = 'frmCdsCid0'
+  OnCreate = FormCreate
+  TextHeight = 15
+  inherited scrRodape: TScrollBox
+    ExplicitWidth = 531
+    inherited StatusBar1: TStatusBar
+      ExplicitWidth = 531
+    end
+    inherited pnlToolBarNavigator: TPanel
+      ExplicitWidth = 531
+      inherited lblAtalho: TLabel
+        ExplicitLeft = 459
+      end
+      inherited toolBarNavigator: TToolBar
+        ExplicitWidth = 459
+      end
+    end
+  end
+  inherited pnlLeftButtonMetro: TScrollBox
+    inherited pnlLeftMetro: TPanel
+      inherited btnMetroSair: TMetroTile
+        ExplicitLeft = 0
+        ExplicitTop = 180
+      end
+    end
+  end
+  inherited pnlFront: TScrollBox
+    ExplicitWidth = 417
+  end
+  inherited sdsPrincipal: TSQLDataSet
+    CommandText = 
+      'SELECT'#13#10'    CID0.IDCIDADE,'#13#10'    CID0.CIDADE,'#13#10'    CID0.UF,'#13#10'    ' +
+      'CID0.CODIGOIBGE,'#13#10'    CID0.POPULACAO,'#13#10'    CID0.IDPAIS'#13#10'FROM TBL' +
+      'CDSCID0 CID0'#13#10'WHERE CID0.IDCIDADE = :ID'
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'ID'
+        ParamType = ptInput
+      end>
+  end
+end

@@ -1,0 +1,111 @@
+unit untMain;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, System.Actions, Vcl.ActnList, Vcl.Menus,
+  Vcl.ComCtrls, Vcl.Imaging.pngimage, Vcl.ExtCtrls, Vcl.OleCtrls, SHDocVw,
+  Vcl.ToolWin, System.ImageList, Vcl.ImgList, untDtmDados, untCdsPai0,
+  untCdsCid0, untCdsUsr0;
+
+type
+  TfrmMain = class(TForm)
+    imgBotes: TImageList;
+    Panel1: TPanel;
+    tbAtalhos: TToolBar;
+    tbtnCadCli: TToolButton;
+    tbtnCadCliRes: TToolButton;
+    tbtnCnsSPC: TToolButton;
+    tbtnCadIte: TToolButton;
+    tbtnVenOrcBal: TToolButton;
+    tbtnVenRpd: TToolButton;
+    tbtnOrdServ: TToolButton;
+    tbtnCadAgd: TToolButton;
+    tbtnCtaRcb: TToolButton;
+    tbtnCtaPag: TToolButton;
+    tbtnMvtoFin: TToolButton;
+    tbtnChqRec: TToolButton;
+    tbtnChqPag: TToolButton;
+    tbtnAltPre: TToolButton;
+    tbtnAgenda: TToolButton;
+    tbtnCtrlRel: TToolButton;
+    tbtnLibSol: TToolButton;
+    tbtnLibUsr: TToolButton;
+    tbtnSairSist: TToolButton;
+    imgFundo: TImage;
+    stsRodape: TStatusBar;
+    mnuPrincipal: TMainMenu;
+    mnuiAtendimento: TMenuItem;
+    mnuiCadastros: TMenuItem;
+    mnuiPais: TMenuItem;
+    N1: TMenuItem;
+    mnuiSair: TMenuItem;
+    mnuiCidade: TMenuItem;
+    mnuiUsuario: TMenuItem;
+    Vendedores1: TMenuItem;
+    Marcas1: TMenuItem;
+    Sees1: TMenuItem;
+    Itens1: TMenuItem;
+    procedure FormShow(Sender: TObject);
+    procedure ConectaDabase;
+    procedure DesconectaDatabase;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure tbtnSairSistClick(Sender: TObject);
+    procedure mnuiPaisClick(Sender: TObject);
+    procedure mnuiCidadeClick(Sender: TObject);
+    procedure mnuiUsuarioClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmMain: TfrmMain;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmMain.mnuiCidadeClick(Sender: TObject);
+begin
+   with TfrmCdsCid0.Create(Application) do Show;
+end;
+
+procedure TfrmMain.ConectaDabase;
+begin
+   dtmDados.cnxEstoque.Connected := True;
+end;
+
+procedure TfrmMain.DesconectaDatabase;
+begin
+   dtmDados.cnxEstoque.Connected := False;
+end;
+
+procedure TfrmMain.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+   DesconectaDatabase;
+end;
+
+procedure TfrmMain.FormShow(Sender: TObject);
+begin
+   ConectaDabase;
+end;
+
+procedure TfrmMain.mnuiPaisClick(Sender: TObject);
+begin
+   with TfrmCdsPai0.Create(Application) do Show;
+end;
+
+procedure TfrmMain.mnuiUsuarioClick(Sender: TObject);
+begin
+   with TfrmCdsUsr0.Create(Application) do Show;
+end;
+
+procedure TfrmMain.tbtnSairSistClick(Sender: TObject);
+begin
+   Close;
+end;
+
+end.

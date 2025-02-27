@@ -1,0 +1,58 @@
+inherited frmCdsUsr0: TfrmCdsUsr0
+  Caption = 'frmCdsUsr0'
+  TextHeight = 15
+  inherited scrRodape: TScrollBox
+    ExplicitWidth = 531
+    inherited StatusBar1: TStatusBar
+      ExplicitWidth = 531
+    end
+    inherited pnlToolBarNavigator: TPanel
+      ExplicitWidth = 531
+      inherited lblAtalho: TLabel
+        ExplicitLeft = 459
+      end
+      inherited toolBarNavigator: TToolBar
+        ExplicitWidth = 459
+      end
+    end
+  end
+  inherited pnlLeftButtonMetro: TScrollBox
+    inherited pnlLeftMetro: TPanel
+      inherited btnMetroSair: TMetroTile
+        ExplicitLeft = 0
+        ExplicitTop = 180
+      end
+    end
+  end
+  inherited pnlFront: TScrollBox
+    ExplicitWidth = 417
+  end
+  inherited sdsPrincipal: TSQLDataSet
+    CommandText = 
+      'SELECT'#13#10'    USR0.IDUSUARIO,'#13#10'    USR0.USUARIO,'#13#10'    USR0.FONE,'#13#10 +
+      '    USR0.CELULAR,'#13#10'    USR0.IDCIDADE,'#13#10'    USR0.ENDERECO,'#13#10'    U' +
+      'SR0.NUMERO,'#13#10'    USR0.BAIRRO,'#13#10'    USR0.CEP,'#13#10'    USR0.CPF,'#13#10'   ' +
+      ' USR0.CNPJ,'#13#10'    USR0.LOGIN,'#13#10'    USR0.SENHA,'#13#10'    USR0.STATUS,'#13 +
+      #10'    USR0.ADM'#13#10'FROM TBLCDSUSR0 USR0'#13#10'WHERE USR0.IDUSUARIO = :ID'
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'ID'
+        ParamType = ptInput
+      end>
+    Left = 128
+    Top = 288
+  end
+  inherited dspPrincipal: TDataSetProvider
+    Left = 204
+    Top = 288
+  end
+  inherited cdsPrincipal: TClientDataSet
+    Left = 280
+    Top = 288
+  end
+  inherited dsPrincipal: TDataSource
+    Left = 353
+    Top = 288
+  end
+end
