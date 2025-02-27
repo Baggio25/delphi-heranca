@@ -17,6 +17,14 @@ type
     btnPesquisar: TButton;
     edtPesquisa: TEdit;
     Label1: TLabel;
+    cmbCampoFiltrar: TComboBox;
+    Label2: TLabel;
+    Label3: TLabel;
+    cmbTipoPesquisa: TComboBox;
+    Label4: TLabel;
+    cmbCampoOrdem: TComboBox;
+    Label5: TLabel;
+    rdgOrdem: TRadioGroup;
   private
     { Private declarations }
   public
