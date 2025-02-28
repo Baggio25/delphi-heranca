@@ -76,7 +76,7 @@ var
   lR: TRect;
   lCheck: integer;
 begin
-   if Assigned(cdsUsr0.FindField('ADM')) and (Column.Index = 0) then begin
+   if (Column.Index = 4) then begin
       if (cdsUsr0.FieldByName('ADM').Value = 1) then
          lCheck := DFCS_BUTTONCHECK or DFCS_CHECKED
       else

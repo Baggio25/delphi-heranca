@@ -2,13 +2,6 @@ inherited frmCdsCid0: TfrmCdsCid0
   Caption = 'frmCdsCid0'
   OnCreate = FormCreate
   TextHeight = 15
-  inherited scrRodape: TScrollBox
-    inherited pnlToolBarNavigator: TPanel
-      inherited lblAtalho: TLabel
-        Height = 24
-      end
-    end
-  end
   inherited pnlLeftButtonMetro: TScrollBox
     inherited pnlLeftMetro: TPanel
       inherited btnMetroProcurar: TMetroTile

@@ -27,7 +27,7 @@ type
   private
     procedure ExibeConsulta;
   public
-
+    function ValidaDados : Boolean; override;
   end;
 
 var
@@ -66,6 +66,30 @@ begin
    if key = VK_F5 then begin
       btnMetroProcurar.Click;
    end;
+end;
+
+function TfrmCdsPai0.ValidaDados: Boolean;
+var bResult : Boolean;
+begin
+
+   bResult := True;
+   if cdsPrincipalPAIS.AsString = '' then begin
+      bResult := False;
+      ShowMessage('Campo País é obrigatório');
+
+      if fldPAIS.CanFocus then fldPAIS.SetFocus;
+   end;
+
+   if bResult then begin
+      if cdsPrincipalSIGLA.AsString = '' then begin
+         bResult := False;
+         ShowMessage('Campo Sigla é obrigatório');
+
+         if fldSIGLA.CanFocus then fldSIGLA.SetFocus;
+      end;
+   end;
+
+   Result := bResult;
 end;
 
 end.

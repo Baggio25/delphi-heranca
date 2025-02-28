@@ -7,7 +7,8 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, untMdlCds0, Data.FMTBcd, Data.DB,
   Datasnap.DBClient, Datasnap.Provider, Data.SqlExpr, System.ImageList,
   Vcl.ImgList, Vcl.Imaging.pngimage, MetroTile, Vcl.StdCtrls, Vcl.ComCtrls,
-  Vcl.ToolWin, Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, untConstantes, untCnsUsr0;
+  Vcl.ToolWin, Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, untConstantes, untCnsUsr0,
+  untDados;
 
 type
   TfrmCdsUsr0 = class(TfrmMdlCds0)
@@ -54,10 +55,12 @@ type
     procedure btnMetroNovoClick(Sender: TObject);
     procedure btnMetroProcurarClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure btnMetroSalvarClick(Sender: TObject);
   private
     procedure ExibeConsulta;
   public
-
+    function ValidaDados : Boolean; override;
+    function ValidaCidade : Boolean;
   end;
 
 var
@@ -71,12 +74,22 @@ procedure TfrmCdsUsr0.btnMetroNovoClick(Sender: TObject);
 begin
   inherited;
    cdsPrincipalSTATUS.AsString := 'A';
+   cdsPrincipalADM.AsInteger   := 0;
 end;
 
 procedure TfrmCdsUsr0.btnMetroProcurarClick(Sender: TObject);
 begin
   inherited;
   ExibeConsulta;
+end;
+
+procedure TfrmCdsUsr0.btnMetroSalvarClick(Sender: TObject);
+begin
+
+  if cdsPrincipalADM.AsInteger <> 1 then cdsPrincipalADM.AsInteger := 0;
+  
+  inherited;
+
 end;
 
 procedure TfrmCdsUsr0.ExibeConsulta;
@@ -102,6 +115,58 @@ begin
    if key = VK_F5 then begin
       btnMetroProcurar.Click;
    end;
+end;
+
+function TfrmCdsUsr0.ValidaCidade: Boolean;
+var bResult : Boolean;
+begin
+
+   bResult := True;
+   if SearchRecordDados('IDCIDADE', 'TBLCDSCID0', 'WHERE IDCIDADE = ' + IntToStr(cdsPrincipalIDCIDADE.AsInteger) ) = '' then begin
+      bResult := False;
+      ShowMessage('Cidade não encontrada');
+   end;
+
+   Result := bResult;
+end;
+
+function TfrmCdsUsr0.ValidaDados: Boolean;
+var bResult : Boolean;
+begin
+
+   bResult := True;
+   if cdsPrincipalUSUARIO.AsString = '' then begin
+      bResult := False;
+      ShowMessage('O campo usuário é obrigatório');
+
+      if fldUSUARIO.CanFocus then fldUSUARIO.SetFocus;
+   end;
+
+   if bResult then begin
+      if cdsPrincipalLOGIN.AsString = '' then begin
+         bResult := False;
+         ShowMessage('O campo login é obrigatório');
+
+         if fldLOGIN.CanFocus then fldLOGIN.SetFocus;
+      end;
+   end;
+
+   if bResult then begin
+      if cdsPrincipalSENHA.AsString = '' then begin
+         bResult := False;
+         ShowMessage('O campo senha é obrigatório');
+
+         if fldSENHA.CanFocus then fldSENHA.SetFocus;
+      end;
+   end;
+
+   if bResult then begin
+      bResult := ValidaCidade;
+
+      if not bResult then fldIDCIDADE.SetFocus;      
+   end;
+
+   Result := bResult;
 end;
 
 end.

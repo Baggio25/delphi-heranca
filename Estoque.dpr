@@ -15,7 +15,8 @@ uses
   untConstantes in 'SOURCES\untConstantes.pas',
   untCnsCid0 in 'SOURCES\untCnsCid0.pas' {frmCnsCid0},
   untCnsPai0 in 'SOURCES\untCnsPai0.pas' {frmCnsPai0},
-  untCnsUsr0 in 'SOURCES\untCnsUsr0.pas' {frmCnsUsr0};
+  untCnsUsr0 in 'SOURCES\untCnsUsr0.pas' {frmCnsUsr0},
+  untDados in 'SOURCES\untDados.pas';
 
 {$R *.res}
 

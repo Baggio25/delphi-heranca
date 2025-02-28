@@ -7,7 +7,8 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, untMdlCds0, Data.FMTBcd, Data.DB,
   Datasnap.DBClient, Datasnap.Provider, Data.SqlExpr, System.ImageList,
   Vcl.ImgList, Vcl.Imaging.pngimage, MetroTile, Vcl.StdCtrls, Vcl.ComCtrls,
-  Vcl.ToolWin, Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, untConstantes, untCnsCid0;
+  Vcl.ToolWin, Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, untConstantes, untCnsCid0,
+  untDtmDados, untDados;
 
 type
   TfrmCdsCid0 = class(TfrmMdlCds0)
@@ -33,10 +34,10 @@ type
     procedure btnMetroProcurarClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
-    { Private declarations }
     procedure ExibeConsulta;
+    function ValidaPais : Boolean;
   public
-    { Public declarations }
+    function ValidaDados : Boolean; override;
   end;
 
 var
@@ -75,6 +76,66 @@ begin
       key := 0;
       ExibeConsulta;
    end;
+end;
+
+function TfrmCdsCid0.ValidaDados: Boolean;
+var bResult : Boolean;
+begin
+   bResult := True;
+   if cdsPrincipalCIDADE.AsString = '' then begin
+      bResult := False;
+      ShowMessage('Campo cidade é obrigatório');
+
+      if fldCIDADE.CanFocus then fldCIDADE.SetFocus;
+   end;
+
+   if bResult then begin
+      if cdsPrincipalUF.AsString = '' then begin
+         bResult := False;
+         ShowMessage('Campo UF é obrigatório');
+
+         if fldUF.CanFocus then fldUF.SetFocus;
+      end;
+   end;
+
+   if bResult then begin
+      if cdsPrincipalCODIGOIBGE.AsString = '' then begin
+         bResult := False;
+         ShowMessage('Campo IBGE é obrigatório');
+
+         if fldCODIGOIBGE.CanFocus then fldCODIGOIBGE.SetFocus;
+      end;
+   end;
+
+   if bResult then begin  
+      bResult := ValidaPais;
+
+      if not bResult then fldIDPAIS.SetFocus;
+   end;     
+
+   Result := bResult;
+end;
+
+function TfrmCdsCid0.ValidaPais: Boolean;
+var bResult : Boolean;
+begin
+
+   bResult := True;
+   if cdsPrincipalIDPAIS.AsString = '' then begin
+      bResult := False;
+      ShowMessage('Campo País é obrigatório');
+   end;
+   
+   if bResult then begin
+
+      if SearchRecordDados('IDPAIS', 'TBLCDSPAI0', 'WHERE IDPAIS = ' + IntToStr(cdsPrincipalIDPAIS.AsInteger) ) = '' then begin
+         bResult := False;
+         ShowMessage('País não encontrado');
+      end;                                  
+
+   end;
+
+   Result := bResult;   
 end;
 
 end.

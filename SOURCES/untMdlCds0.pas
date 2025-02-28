@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Imaging.pngimage, MetroTile,
   Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ToolWin, Vcl.ExtCtrls, System.ImageList,
   Vcl.ImgList, Data.FMTBcd, Data.DB, Datasnap.DBClient, Datasnap.Provider,
-  Data.SqlExpr, untDtmDados, Vcl.DBCtrls;
+  Data.SqlExpr, untDtmDados, Vcl.DBCtrls, untDados;
 
 type
   TfrmMdlCds0 = class(TForm)
@@ -70,6 +70,8 @@ type
     FieldID     : String;
     EditID      : TDBEdit;
     EditDesc    : TDBEdit;
+
+    function ValidaDados : Boolean; Virtual;
   end;
 
 var
@@ -134,12 +136,16 @@ end;
 
 procedure TfrmMdlCds0.btnMetroSalvarClick(Sender: TObject);
 begin
-   if dsPrincipal.State = dsInsert then CheckNextCod;   
+   SendMessage(Handle, WM_NEXTDLGCTL, 0, 0);
 
-   cdsPrincipal.Post;
-   cdsPrincipal.ApplyUpdates(-1);
-   AtivaButtons;
-   UpdateNavigator;
+   if ValidaDados then begin
+      if dsPrincipal.State = dsInsert then CheckNextCod;
+
+      cdsPrincipal.Post;
+      cdsPrincipal.ApplyUpdates(-1);
+      AtivaButtons;
+      UpdateNavigator;
+   end;
 end;
 
 procedure TfrmMdlCds0.btnPrimeiroClick(Sender: TObject);
@@ -373,6 +379,8 @@ begin
    btnAvancar.Enabled  := ( iRegAtual <> iRegLast );     
 end;
 
-
+function TfrmMdlCds0.ValidaDados: Boolean;
+begin
+end;
 
 end.

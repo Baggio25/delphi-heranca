@@ -189,6 +189,13 @@ object frmCnsUsr0: TfrmCnsUsr0
       Height = 478
       Align = alClient
       DataSource = dsUsr0
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = []
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+      ParentFont = False
       TabOrder = 1
       TitleFont.Charset = ANSI_CHARSET
       TitleFont.Color = clWindowText
@@ -197,13 +204,6 @@ object frmCnsUsr0: TfrmCnsUsr0
       TitleFont.Style = []
       OnDrawColumnCell = dbgPaisDrawColumnCell
       Columns = <
-        item
-          Expanded = False
-          FieldName = 'ADM'
-          Title.Alignment = taCenter
-          Title.Caption = 'Adm'
-          Visible = True
-        end
         item
           Expanded = False
           FieldName = 'IDUSUARIO'
@@ -228,6 +228,11 @@ object frmCnsUsr0: TfrmCnsUsr0
           FieldName = 'STATUS'
           Title.Alignment = taCenter
           Title.Caption = 'Status'
+          Visible = True
+        end
+        item
+          Expanded = False
+          Title.Caption = 'ADM'
           Visible = True
         end>
     end
