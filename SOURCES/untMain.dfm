@@ -26495,6 +26495,14 @@ object frmMain: TfrmMain
           Caption = 'Itens'
           OnClick = Itens1Click
         end
+        object MeiosdeCobrana1: TMenuItem
+          Caption = 'Meios de Cobran'#231'a'
+          OnClick = MeiosdeCobrana1Click
+        end
+        object FormasdePagamento1: TMenuItem
+          Caption = 'Formas de Pagamento'
+          OnClick = FormasdePagamento1Click
+        end
       end
       object N1: TMenuItem
         Caption = '-'

@@ -7,7 +7,8 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, System.Actions, Vcl.ActnList, Vcl.Menus,
   Vcl.ComCtrls, Vcl.Imaging.pngimage, Vcl.ExtCtrls, Vcl.OleCtrls, SHDocVw,
   Vcl.ToolWin, System.ImageList, Vcl.ImgList, untDtmDados, untCdsPai0,
-  untCdsCid0, untCdsUsr0, untCdsVen0, untCdsMar0, untCdsSec0, untCdsIte0;
+  untCdsCid0, untCdsUsr0, untCdsVen0, untCdsMar0, untCdsSec0, untCdsIte0,
+  untCdsMcb0, untCdsFpg0;
 
 type
   TfrmMain = class(TForm)
@@ -47,6 +48,8 @@ type
     Marcas1: TMenuItem;
     Sees1: TMenuItem;
     Itens1: TMenuItem;
+    MeiosdeCobrana1: TMenuItem;
+    FormasdePagamento1: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure ConectaDabase;
     procedure DesconectaDatabase;
@@ -59,6 +62,8 @@ type
     procedure Marcas1Click(Sender: TObject);
     procedure Sees1Click(Sender: TObject);
     procedure Itens1Click(Sender: TObject);
+    procedure MeiosdeCobrana1Click(Sender: TObject);
+    procedure FormasdePagamento1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -87,6 +92,11 @@ begin
    dtmDados.cnxEstoque.Connected := False;
 end;
 
+procedure TfrmMain.FormasdePagamento1Click(Sender: TObject);
+begin
+   with TfrmCdsFpg0.Create(Application) do Show;
+end;
+
 procedure TfrmMain.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
    DesconectaDatabase;
@@ -105,6 +115,11 @@ end;
 procedure TfrmMain.Marcas1Click(Sender: TObject);
 begin
    with TfrmCdsMar0.Create(Application) do Show;
+end;
+
+procedure TfrmMain.MeiosdeCobrana1Click(Sender: TObject);
+begin
+   with TfrmCdsMcb0.Create(Application) do Show;
 end;
 
 procedure TfrmMain.mnuiPaisClick(Sender: TObject);

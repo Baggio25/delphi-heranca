@@ -157,6 +157,14 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="SOURCES\untDados.pas"/>
+        <DCCReference Include="SOURCES\untCdsMcb0.pas">
+            <Form>frmCdsMcb0</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="SOURCES\untCdsFpg0.pas">
+            <Form>frmCdsFpg0</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
