@@ -7,7 +7,8 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, untMdlCds0, Data.FMTBcd, Data.DB,
   Datasnap.DBClient, Datasnap.Provider, Data.SqlExpr, System.ImageList,
   Vcl.ImgList, Vcl.Imaging.pngimage, MetroTile, Vcl.StdCtrls, Vcl.ComCtrls,
-  Vcl.ToolWin, Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, untConstantes;
+  Vcl.ToolWin, Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, untConstantes, untDados,
+  Vcl.Buttons;
 
 type
   TfrmCdsVen0 = class(TfrmMdlCds0)
@@ -28,12 +29,15 @@ type
     Label5: TLabel;
     fldCOMISSAOPRAZO: TDBEdit;
     chbStatus: TDBCheckBox;
+    btnIDCIDADE: TSpeedButton;
+    lblIDCIDADE: TEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnMetroNovoClick(Sender: TObject);
+    procedure fldIDCIDADEChange(Sender: TObject);
   private
-    { Private declarations }
+    function ValidaCidade : Boolean;
   public
-    { Public declarations }
+    function ValidaDados : Boolean; override;
   end;
 
 var
@@ -49,6 +53,12 @@ begin
    cdsPrincipalSTATUS.AsString := 'A';
 end;
 
+procedure TfrmCdsVen0.fldIDCIDADEChange(Sender: TObject);
+begin
+   inherited;
+   LoadCaptionID(TBL_CDSCID0, ID_CDSCID0, DE_CDSCID0, fldIDCIDADE, lblIDCIDADE);
+end;
+
 procedure TfrmCdsVen0.FormCreate(Sender: TObject);
 begin
    inherited;
@@ -57,6 +67,42 @@ begin
    FieldID     := ID_CDSVEN0;
    EditID      := fldIDVENDEDOR;
    EditDesc    := fldVENDEDOR;
+end;
+
+function TfrmCdsVen0.ValidaCidade: Boolean;
+var bResult : Boolean;
+begin
+
+   bResult := True;
+   if (SearchRecordDados('IDCIDADE', 'TBLCDSCID0', 'WHERE IDCIDADE = ' + IntToStr(cdsPrincipalIDCIDADE.AsInteger) ) = '') and
+      (cdsPrincipalIDCIDADE.AsInteger <> 0) then begin
+
+      bResult := False;
+      ShowMessage('Cidade não foi encontrada');
+   end;
+
+   Result := bResult;
+end;
+
+function TfrmCdsVen0.ValidaDados: Boolean;
+var bResult : Boolean;
+begin
+
+   bResult := True;
+   if cdsPrincipalVENDEDOR.AsString = '' then begin
+      bResult := False;
+      ShowMessage('O campo vendedor é obrigatório');
+
+      if fldVENDEDOR.CanFocus then fldVENDEDOR.SetFocus;
+   end;
+
+   if bResult then begin
+      bResult := ValidaCidade;
+
+      if not bResult then fldIDCIDADE.SetFocus;
+   end;
+
+   Result := bResult;
 end;
 
 end.

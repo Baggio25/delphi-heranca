@@ -21,7 +21,7 @@ type
   private
     { Private declarations }
   public
-    { Public declarations }
+    function ValidaDados : Boolean; override;
   end;
 
 var
@@ -39,6 +39,21 @@ begin
    FieldID     := ID_CDSSEC0;
    EditID      := fldIDSECAO;
    EditDesc    := fldSECAO;
+end;
+
+function TfrmCdsSec0.ValidaDados: Boolean;
+var bResult : Boolean;
+begin
+
+   bResult := True;
+   if cdsPrincipalSECAO.AsString = '' then begin
+      bResult := False;
+      ShowMessage('Campo seção é obrigatório');
+
+      if fldSECAO.CanFocus then fldSECAO.SetFocus;
+   end;
+
+   Result := bResult;
 end;
 
 end.

@@ -8,7 +8,7 @@ uses
   Datasnap.DBClient, Datasnap.Provider, Data.SqlExpr, System.ImageList,
   Vcl.ImgList, Vcl.Imaging.pngimage, MetroTile, Vcl.StdCtrls, Vcl.ComCtrls,
   Vcl.ToolWin, Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, untConstantes, untCnsUsr0,
-  untDados;
+  untDados, Vcl.Buttons;
 
 type
   TfrmCdsUsr0 = class(TfrmMdlCds0)
@@ -51,16 +51,19 @@ type
     fldCNPJ: TDBEdit;
     chbAdm: TDBCheckBox;
     chbStatus: TDBCheckBox;
+    btnIDCIDADE: TSpeedButton;
+    lblIDCIDADE: TEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnMetroNovoClick(Sender: TObject);
     procedure btnMetroProcurarClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnMetroSalvarClick(Sender: TObject);
+    procedure fldIDCIDADEChange(Sender: TObject);
   private
     procedure ExibeConsulta;
+    function ValidaCidade : Boolean;
   public
     function ValidaDados : Boolean; override;
-    function ValidaCidade : Boolean;
   end;
 
 var
@@ -97,6 +100,13 @@ begin
    with TfrmCnsUsr0.Create(Application) do ShowModal;
 end;
 
+procedure TfrmCdsUsr0.fldIDCIDADEChange(Sender: TObject);
+begin
+   inherited;
+
+   LoadCaptionID(TBL_CDSCID0, ID_CDSCID0, DE_CDSCID0, fldIDCIDADE, lblIDCIDADE);
+end;
+
 procedure TfrmCdsUsr0.FormCreate(Sender: TObject);
 begin
   inherited;
@@ -122,7 +132,9 @@ var bResult : Boolean;
 begin
 
    bResult := True;
-   if SearchRecordDados('IDCIDADE', 'TBLCDSCID0', 'WHERE IDCIDADE = ' + IntToStr(cdsPrincipalIDCIDADE.AsInteger) ) = '' then begin
+   if (SearchRecordDados('IDCIDADE', 'TBLCDSCID0', 'WHERE IDCIDADE = ' + IntToStr(cdsPrincipalIDCIDADE.AsInteger) ) = '') and
+      (cdsPrincipalIDCIDADE.AsInteger <> 0) then begin
+
       bResult := False;
       ShowMessage('Cidade não encontrada');
    end;

@@ -19,6 +19,14 @@ const
    ID_CDSITE0 = 'IDITEM';
    ID_CDSUSR0 = 'IDUSUARIO';
 
+   DE_CDSVEN0 = 'VENDEDOR';
+   DE_CDSPAI0 = 'PAIS';
+   DE_CDSCID0 = 'CIDADE';
+   DE_CDSSEC0 = 'SECAO';
+   DE_CDSMAR0 = 'MARCA';
+   DE_CDSITE0 = 'ITEM';
+   DE_CDSUSR0 = 'USUARIO';
+
 implementation
 
 end.

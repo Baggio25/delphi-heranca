@@ -8,7 +8,7 @@ uses
   Datasnap.DBClient, Datasnap.Provider, Data.SqlExpr, System.ImageList,
   Vcl.ImgList, Vcl.Imaging.pngimage, MetroTile, Vcl.StdCtrls, Vcl.ComCtrls,
   Vcl.ToolWin, Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, untConstantes, untCnsCid0,
-  untDtmDados, untDados;
+  untDtmDados, untDados, Vcl.Buttons;
 
 type
   TfrmCdsCid0 = class(TfrmMdlCds0)
@@ -30,9 +30,12 @@ type
     fldIDPAIS: TDBEdit;
     Label6: TLabel;
     fldCODIGOIBGE: TDBEdit;
+    btnIDPAIS: TSpeedButton;
+    lblIDPAIS: TEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnMetroProcurarClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure fldIDPAISChange(Sender: TObject);
   private
     procedure ExibeConsulta;
     function ValidaPais : Boolean;
@@ -56,6 +59,13 @@ end;
 procedure TfrmCdsCid0.ExibeConsulta;
 begin
    with TfrmCnsCid0.Create(Application) do ShowModal;
+end;
+
+procedure TfrmCdsCid0.fldIDPAISChange(Sender: TObject);
+begin
+   inherited;
+
+   LoadCaptionID(TBL_CDSPAI0, ID_CDSPAI0, DE_CDSPAI0, fldIDPAIS, lblIDPAIS);
 end;
 
 procedure TfrmCdsCid0.FormCreate(Sender: TObject);

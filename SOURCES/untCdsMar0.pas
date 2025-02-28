@@ -21,7 +21,7 @@ type
   private
     { Private declarations }
   public
-    { Public declarations }
+    function ValidaDados : Boolean; override;
   end;
 
 var
@@ -39,6 +39,21 @@ begin
    FieldID     := ID_CDSMAR0;
    EditID      := fldIDMARCA;
    EditDesc    := fldMARCA;
+end;
+
+function TfrmCdsMar0.ValidaDados: Boolean;
+var bResult : Boolean;
+begin
+
+   bResult := True;
+   if cdsPrincipalMARCA.AsString = '' then begin
+      bResult := False;
+      ShowMessage('Campo marca é obrigatório');
+
+      if fldMARCA.CanFocus then fldMARCA.SetFocus      
+   end;
+
+   Result := bResult;
 end;
 
 end.
