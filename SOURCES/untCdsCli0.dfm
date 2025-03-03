@@ -3,7 +3,7 @@ inherited frmCdsCli0: TfrmCdsCli0
   ClientHeight = 547
   ClientWidth = 1137
   OnCreate = FormCreate
-  ExplicitLeft = -167
+  ExplicitLeft = -119
   ExplicitTop = -22
   ExplicitWidth = 1153
   ExplicitHeight = 586
@@ -42,7 +42,7 @@ inherited frmCdsCli0: TfrmCdsCli0
       Top = 0
       Width = 1023
       Height = 503
-      ActivePage = tbsCliente
+      ActivePage = tbsInfoCliente
       Align = alClient
       TabOrder = 0
       ExplicitLeft = 6

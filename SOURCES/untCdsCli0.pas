@@ -133,6 +133,10 @@ type
   private
     procedure SetaTabCliente;
     procedure InicializaCampos;
+    function ValidaCidade       : Boolean;
+    function ValidaMeioCobranca : Boolean;
+    function ValidaFormaPagto   : Boolean;
+    function ValidaTabPreco     : Boolean;
   public
      function ValidaDados : Boolean; override;
   end;
@@ -206,6 +210,20 @@ begin
    pgcCliente.ActivePage := tbsCliente;
 end;
 
+function TfrmCdsCli0.ValidaCidade: Boolean;
+var bResult : Boolean;
+begin
+   bResult := True;
+   if (SearchRecordDados('IDCIDADE', 'TBLCDSCID0', 'WHERE IDCIDADE = ' + IntToStr(cdsPrincipalIDCIDADE.AsInteger) ) = '') and
+      (cdsPrincipalIDCIDADE.AsInteger <> 0) then begin
+
+      bResult := False;
+      ShowMessage('Cidade não encontrada');
+   end;
+
+   Result := bResult;
+end;
+
 function TfrmCdsCli0.ValidaDados: Boolean;
 var bResult : Boolean;
 begin
@@ -218,6 +236,80 @@ begin
       if fldRAZAO.CanFocus then fldRAZAO.SetFocus;
    end;
 
+   if bResult then begin
+      bResult := ValidaCidade;
+
+      if not bResult then fldIDCIDADE.SetFocus;
+   end;
+
+   if bResult then begin
+      if cdsPrincipalENDERECO.AsString = '' then begin
+         bResult := False;
+         ShowMessage('Campo endereço é obrigatório');
+
+         if fldENDERECO.CanFocus then fldENDERECO.SetFocus;
+      end;
+   end;
+
+   if bResult then begin
+      bResult := ValidaMeioCobranca;
+
+      if not bResult then fldIDMEIOCOB.SetFocus;
+   end;
+
+   if bResult then begin
+      bResult := ValidaFormaPagto;
+
+      if not bResult then fldIDFORMPAG.SetFocus;
+   end;
+
+   if bResult then begin
+      bResult := ValidaTabPreco;
+
+      if not bResult then fldIDTABPRECO.SetFocus;
+   end;
+
    Result := bResult;
 end;
+
+function TfrmCdsCli0.ValidaFormaPagto: Boolean;
+var bResult : Boolean;
+begin
+   bResult := True;
+   if (SearchRecordDados('IDFORMPAG', 'TBLCDSFPG0', 'WHERE IDFORMPAG = ' + IntToStr(cdsPrincipalIDFORMPAG.AsInteger) ) = '') then begin
+
+      bResult := False;
+      ShowMessage('Forma de Pagamento não encontrada');
+   end;
+
+   Result := bResult;
+end;
+
+
+function TfrmCdsCli0.ValidaMeioCobranca: Boolean;
+var bResult : Boolean;
+begin
+   bResult := True;
+   if (SearchRecordDados('IDMEIOCOB', 'TBLCDSMCB0', 'WHERE IDMEIOCOB = ' + IntToStr(cdsPrincipalIDMEIOCOB.AsInteger) ) = '') then begin
+
+      bResult := False;
+      ShowMessage('Meio de Cobrança não encontrado');
+   end;
+
+   Result := bResult;
+end;
+
+function TfrmCdsCli0.ValidaTabPreco: Boolean;
+var bResult : Boolean;
+begin
+   bResult := True;
+   if (SearchRecordDados('IDTABPRECO', 'TBLCDSPRE0', 'WHERE IDTABPRECO = ' + IntToStr(cdsPrincipalIDTABPRECO.AsInteger) ) = '') then begin
+
+      bResult := False;
+      ShowMessage('Meio de Cobrança não encontrado');
+   end;
+
+   Result := bResult;
+end;
+
 end.
