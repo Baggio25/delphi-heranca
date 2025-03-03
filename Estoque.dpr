@@ -18,7 +18,9 @@ uses
   untCnsUsr0 in 'SOURCES\untCnsUsr0.pas' {frmCnsUsr0},
   untDados in 'SOURCES\untDados.pas',
   untCdsMcb0 in 'SOURCES\untCdsMcb0.pas' {frmCdsMcb0},
-  untCdsFpg0 in 'SOURCES\untCdsFpg0.pas' {frmCdsFpg0};
+  untCdsFpg0 in 'SOURCES\untCdsFpg0.pas' {frmCdsFpg0},
+  untCdsPre0 in 'SOURCES\untCdsPre0.pas' {frmCdsPre0},
+  untCdsCli0 in 'SOURCES\untCdsCli0.pas' {frmCdsCli0};
 
 {$R *.res}
 

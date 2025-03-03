@@ -1,28 +1,42 @@
 inherited frmCdsFpg0: TfrmCdsFpg0
   Caption = 'frmCdsFpg0'
+  ClientHeight = 257
   ClientWidth = 555
   OnCreate = FormCreate
   ExplicitWidth = 571
+  ExplicitHeight = 296
   TextHeight = 15
   inherited scrRodape: TScrollBox
+    Top = 213
     Width = 555
+    ExplicitWidth = 555
     inherited StatusBar1: TStatusBar
       Width = 555
+      ExplicitWidth = 555
     end
     inherited pnlToolBarNavigator: TPanel
       Width = 555
+      ExplicitWidth = 555
       inherited lblAtalho: TLabel
         Left = 483
         Height = 24
+        ExplicitLeft = 483
       end
       inherited toolBarNavigator: TToolBar
         Width = 483
+        ExplicitWidth = 483
       end
+    end
+  end
+  inherited pnlLeftButtonMetro: TScrollBox
+    Height = 213
+    inherited pnlLeftMetro: TPanel
+      Height = 213
     end
   end
   inherited pnlFront: TScrollBox
     Width = 441
-    ExplicitTop = -6
+    Height = 213
     ExplicitWidth = 441
     object Label1: TLabel
       Left = 69

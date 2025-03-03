@@ -535,6 +535,7 @@ object frmMdlCds0: TfrmMdlCds0
     ParentShowHint = False
     ShowHint = False
     TabOrder = 2
+    ExplicitTop = -6
   end
   object imgNavigator: TImageList
     Height = 18

@@ -20334,6 +20334,7 @@ object frmMain: TfrmMain
         ImageIndex = 0
         ParentShowHint = False
         ShowHint = True
+        OnClick = tbtnCadCliClick
       end
       object tbtnCadCliRes: TToolButton
         Left = 55
@@ -26502,6 +26503,14 @@ object frmMain: TfrmMain
         object FormasdePagamento1: TMenuItem
           Caption = 'Formas de Pagamento'
           OnClick = FormasdePagamento1Click
+        end
+        object abeladePreo1: TMenuItem
+          Caption = 'Tabela de Pre'#231'os'
+          OnClick = abeladePreo1Click
+        end
+        object CadastrodeClientes1: TMenuItem
+          Caption = 'Cadastro de Clientes'
+          OnClick = CadastrodeClientes1Click
         end
       end
       object N1: TMenuItem
