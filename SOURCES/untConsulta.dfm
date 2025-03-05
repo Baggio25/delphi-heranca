@@ -140,7 +140,7 @@ object frmConsulta: TfrmConsulta
       end
       object btnPesquisar: TButton
         Left = 544
-        Top = 9
+        Top = 10
         Width = 105
         Height = 25
         Caption = 'Pesquisar'
@@ -165,7 +165,13 @@ object frmConsulta: TfrmConsulta
       Height = 498
       Align = alClient
       DataSource = dsDados
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -15
+      Font.Name = 'Arial'
+      Font.Style = []
       Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+      ParentFont = False
       TabOrder = 1
       TitleFont.Charset = ANSI_CHARSET
       TitleFont.Color = clWindowText

@@ -27,18 +27,24 @@ begin
 
    Campo.CampoID  := 'IDCIDADE';
    Campo.CampoLeg := 'Código';
+   Campo.Width    := 70;
+   Campo.Tipo     := tpInteiro;
    addFieldFiltro(Campo);
    addFieldOrdem(Campo);
    addFieldColunas(Campo);
 
    Campo.CampoID  := 'CIDADE';
    Campo.CampoLeg := 'Cidade';
+   Campo.Width    := 330;
+   Campo.Tipo     := tpString;
    addFieldFiltro(Campo);
    addFieldOrdem(Campo);
    addFieldColunas(Campo);
 
    Campo.CampoID  := 'UF';
    Campo.CampoLeg := 'Estado';
+   Campo.Width    := 60;
+   Campo.Tipo     := tpString;
    addFieldColunas(Campo);
 
    ItemIndexFiltro := 1;

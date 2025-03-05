@@ -36,6 +36,9 @@ type
     procedure ConfiguraTelaConsulta;
     procedure ConfiguraComboBox;
     procedure ConfiguraGrid;
+    procedure ConsultaDados;
+    function MontaSql : string;
+    function ValidaDados : Boolean;
   public
     SqlCommandText  : String;
     ItemIndexFiltro : Integer;
@@ -55,13 +58,9 @@ implementation
 
 procedure TfrmConsulta.btnPesquisarClick(Sender: TObject);
 begin
-   sdsDados.Close;
-   cdsDados.Close;
-
-   sdsDados.CommandText := SqlCommandText;
-
-   sdsDados.Open;
-   cdsDados.Open;
+   if ValidaDados then begin
+      ConsultaDados;
+   end;
 end;
 
 procedure TfrmConsulta.ConfiguraComboBox;
@@ -93,6 +92,7 @@ begin
       dbgDados.Columns[i].FieldName          := Campo.CampoID;
       dbgDados.Columns[i].Title.Caption      := Campo.CampoLeg;
       dbgDados.Columns[i].Title.Font.Style   := [fsBold];
+      dbgDados.Columns[i].Width              := Campo.Width;
    end;
 
 end;
@@ -104,6 +104,17 @@ begin
    ConfiguraGrid;
 end;
 
+procedure TfrmConsulta.ConsultaDados;
+begin
+   sdsDados.Close;
+   cdsDados.Close;
+
+   sdsDados.CommandText := MontaSql;
+
+   sdsDados.Open;
+   cdsDados.Open;
+end;
+
 procedure TfrmConsulta.FormCreate(Sender: TObject);
 begin
    ItemIndexFiltro := -1;
@@ -113,6 +124,55 @@ end;
 procedure TfrmConsulta.FormShow(Sender: TObject);
 begin
    ConfiguraTelaConsulta;
+end;
+
+function TfrmConsulta.MontaSql: string;
+var sSelect, sWhere, sOrderBy, sDesc : string;
+begin
+   sSelect  := SqlCommandText;
+
+   sWhere   := '';
+   if edtPesquisa.Text <> '' then begin
+      sWhere := ' WHERE ' + ListaOrdem[cmbCampoFiltrar.ItemIndex].CampoID;
+
+      if cmbTipoPesquisa.ItemIndex = 0 then begin
+         sWhere := sWhere + ' LIKE ' + QuotedStr(edtPesquisa.Text + '%');
+      end else if cmbTipoPesquisa.ItemIndex = 1 then begin
+         sWhere := sWhere + ' LIKE ' + QuotedStr('%' + edtPesquisa.Text + '%');
+      end else if cmbTipoPesquisa.ItemIndex = 2 then begin
+         sWhere := sWhere + ' = ' + QuotedStr(edtPesquisa.Text);
+      end;
+
+   end;
+
+   sOrderBy := ' ORDER BY ' + ListaOrdem[cmbCampoOrdem.ItemIndex].CampoID;
+
+   if rdgOrdem.ItemIndex = 0 then begin
+      sDesc := 'ASC'
+   end else begin
+      sDesc := 'DESC'
+   end;
+
+   Result := sSelect + ' ' + sWhere + ' ' + sOrderBy + ' ' + sDesc;
+end;
+
+function TfrmConsulta.ValidaDados: Boolean;
+var bResult : Boolean;
+begin
+
+   bResult := True;
+   if edtPesquisa.Text <> '' then begin
+      if cmbTipoPesquisa.ItemIndex = 2 then begin //Consulta Exata
+         if ListaFiltro[cmbCampoFiltrar.ItemIndex].Tipo = tpInteiro then begin
+            if StrToIntDef(edtPesquisa.Text, 0) = 0 then begin
+               bResult := False;
+               ShowMessage('Argumento para pesquisa inválido');
+            end;
+         end;
+      end;
+   end;
+
+   Result := bResult;
 end;
 
 end.
