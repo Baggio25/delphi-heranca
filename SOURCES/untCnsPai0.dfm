@@ -201,18 +201,33 @@ object frmCnsPai0: TfrmCnsPai0
           FieldName = 'IDPAIS'
           Title.Alignment = taRightJustify
           Title.Caption = 'C'#243'digo'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -16
+          Title.Font.Name = 'Arial'
+          Title.Font.Style = [fsBold]
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'PAIS'
           Title.Caption = 'Pa'#237's'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -16
+          Title.Font.Name = 'Arial'
+          Title.Font.Style = [fsBold]
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'SIGLA'
           Title.Caption = 'Sigla'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -16
+          Title.Font.Name = 'Arial'
+          Title.Font.Style = [fsBold]
           Visible = True
         end>
     end

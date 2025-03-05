@@ -3,52 +3,56 @@ inherited frmCdsCli0: TfrmCdsCli0
   ClientHeight = 547
   ClientWidth = 1137
   OnCreate = FormCreate
-  ExplicitLeft = -119
-  ExplicitTop = -22
   ExplicitWidth = 1153
   ExplicitHeight = 586
   TextHeight = 15
   inherited scrRodape: TScrollBox
     Top = 503
     Width = 1137
+    ExplicitTop = 503
+    ExplicitWidth = 1137
     inherited StatusBar1: TStatusBar
       Width = 1137
+      ExplicitWidth = 1137
     end
     inherited pnlToolBarNavigator: TPanel
       Width = 1137
+      ExplicitWidth = 1137
       inherited lblAtalho: TLabel
         Left = 1065
+        Height = 24
+        ExplicitLeft = 1065
       end
       inherited toolBarNavigator: TToolBar
         Width = 1065
+        ExplicitWidth = 1065
       end
     end
   end
   inherited pnlLeftButtonMetro: TScrollBox
     Height = 503
+    ExplicitHeight = 503
     inherited pnlLeftMetro: TPanel
       Height = 503
+      ExplicitHeight = 503
+      inherited btnMetroProcurar: TMetroTile
+        OnClick = btnMetroProcurarClick
+      end
     end
   end
   inherited pnlFront: TScrollBox
     Width = 1023
     Height = 503
-    ExplicitLeft = 153
-    ExplicitTop = 60
-    ExplicitWidth = 681
-    ExplicitHeight = 438
+    ExplicitWidth = 1023
+    ExplicitHeight = 503
     object pgcCliente: TPageControl
       Left = 0
       Top = 0
       Width = 1023
       Height = 503
-      ActivePage = tbsInfoCliente
+      ActivePage = tbsCliente
       Align = alClient
       TabOrder = 0
-      ExplicitLeft = 6
-      ExplicitTop = -6
-      ExplicitWidth = 894
-      ExplicitHeight = 467
       object tbsCliente: TTabSheet
         Caption = 'Cliente'
         object Panel1: TPanel
@@ -61,8 +65,6 @@ inherited frmCdsCli0: TfrmCdsCli0
           Color = 16446693
           ParentBackground = False
           TabOrder = 0
-          ExplicitLeft = 2
-          ExplicitTop = -3
           object Label1: TLabel
             Left = 58
             Top = 7
@@ -128,9 +130,9 @@ inherited frmCdsCli0: TfrmCdsCli0
             FocusControl = DBEdit2
           end
           object Label9: TLabel
-            Left = 35
+            Left = 49
             Top = 115
-            Width = 75
+            Width = 61
             Height = 18
             Alignment = taRightJustify
             Caption = 'Fantasia'
@@ -2545,10 +2547,6 @@ inherited frmCdsCli0: TfrmCdsCli0
           Color = 16446693
           ParentBackground = False
           TabOrder = 0
-          ExplicitLeft = 256
-          ExplicitTop = 200
-          ExplicitWidth = 185
-          ExplicitHeight = 41
           object btnIDMEIOCOB: TSpeedButton
             Left = 235
             Top = 14

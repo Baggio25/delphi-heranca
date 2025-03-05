@@ -8,7 +8,7 @@ uses
   Datasnap.DBClient, Datasnap.Provider, Data.SqlExpr, System.ImageList,
   Vcl.ImgList, Vcl.Imaging.pngimage, MetroTile, Vcl.StdCtrls, Vcl.ComCtrls,
   Vcl.ToolWin, Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, untConstantes, Vcl.Buttons,
-  untDados, Vcl.Imaging.jpeg;
+  untDados, Vcl.Imaging.jpeg, untCnsCli0;
 
 type
   TfrmCdsCli0 = class(TfrmMdlCds0)
@@ -130,9 +130,12 @@ type
     procedure fldIDCIDADEChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnMetroSalvarClick(Sender: TObject);
+    procedure btnMetroProcurarClick(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     procedure SetaTabCliente;
     procedure InicializaCampos;
+    procedure ExibeConsulta;
     function ValidaCidade       : Boolean;
     function ValidaMeioCobranca : Boolean;
     function ValidaFormaPagto   : Boolean;
@@ -155,10 +158,21 @@ begin
    fldCNPJ.SetFocus;
 end;
 
+procedure TfrmCdsCli0.btnMetroProcurarClick(Sender: TObject);
+begin
+   inherited;
+   ExibeConsulta;
+end;
+
 procedure TfrmCdsCli0.btnMetroSalvarClick(Sender: TObject);
 begin
    inherited;
    SetaTabCliente;
+end;
+
+procedure TfrmCdsCli0.ExibeConsulta;
+begin
+   with TfrmCnsCli0.Create(Application) do ShowModal;
 end;
 
 procedure TfrmCdsCli0.fldIDCIDADEChange(Sender: TObject);
@@ -186,6 +200,16 @@ begin
    FieldID           := ID_CDSCLI0;
    EditID            := fldIDCLIENTE;
    EditDesc          := fldRAZAO;
+end;
+
+procedure TfrmCdsCli0.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+   inherited;
+
+   if key = VK_F5 then begin
+      btnMetroProcurar.Click;
+   end;
 end;
 
 procedure TfrmCdsCli0.FormShow(Sender: TObject);

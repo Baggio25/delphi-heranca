@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, untMdlCds0, Data.FMTBcd, Data.DB,
   Datasnap.DBClient, Datasnap.Provider, Data.SqlExpr, System.ImageList,
   Vcl.ImgList, Vcl.Imaging.pngimage, MetroTile, Vcl.StdCtrls, Vcl.ComCtrls,
-  Vcl.ToolWin, Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, untConstantes;
+  Vcl.ToolWin, Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, untConstantes, untCnsFpg0;
 
 type
   TfrmCdsFpg0 = class(TfrmMdlCds0)
@@ -18,8 +18,10 @@ type
     Label2: TLabel;
     fldFORMPAG: TDBEdit;
     procedure FormCreate(Sender: TObject);
+    procedure btnMetroProcurarClick(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
-    { Private declarations }
+    procedure ExibeConsulta;
   public
     function ValidaDados : Boolean; override;
   end;
@@ -33,6 +35,17 @@ implementation
 
 { TfrmCdsFpg0 }
 
+procedure TfrmCdsFpg0.btnMetroProcurarClick(Sender: TObject);
+begin
+   inherited;
+   ExibeConsulta;
+end;
+
+procedure TfrmCdsFpg0.ExibeConsulta;
+begin
+   with TfrmCnsFpg0.Create(Application) do ShowModal;
+end;
+
 procedure TfrmCdsFpg0.FormCreate(Sender: TObject);
 begin
   inherited;
@@ -41,6 +54,16 @@ begin
    FieldID     := ID_CDSFPG0;
    EditID      := fldIDFORMAPAG;
    EditDesc    := fldFORMPAG;
+end;
+
+procedure TfrmCdsFpg0.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+   inherited;
+
+   if key = VK_F5 then begin
+      btnMetroProcurar.Click;
+   end;
 end;
 
 function TfrmCdsFpg0.ValidaDados: Boolean;

@@ -20,7 +20,11 @@ uses
   untCdsMcb0 in 'SOURCES\untCdsMcb0.pas' {frmCdsMcb0},
   untCdsFpg0 in 'SOURCES\untCdsFpg0.pas' {frmCdsFpg0},
   untCdsPre0 in 'SOURCES\untCdsPre0.pas' {frmCdsPre0},
-  untCdsCli0 in 'SOURCES\untCdsCli0.pas' {frmCdsCli0};
+  untCdsCli0 in 'SOURCES\untCdsCli0.pas' {frmCdsCli0},
+  untCnsPre0 in 'SOURCES\untCnsPre0.pas' {frmCnsPre0},
+  untCnsMcb0 in 'SOURCES\untCnsMcb0.pas' {frmCnsMcb0},
+  untCnsFpg0 in 'SOURCES\untCnsFpg0.pas' {frmCnsFpg0},
+  untCnsCli0 in 'SOURCES\untCnsCli0.pas' {frmCnsCli0};
 
 {$R *.res}
 

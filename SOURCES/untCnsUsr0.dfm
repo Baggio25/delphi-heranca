@@ -201,7 +201,7 @@ object frmCnsUsr0: TfrmCnsUsr0
       TitleFont.Color = clWindowText
       TitleFont.Height = -16
       TitleFont.Name = 'Arial'
-      TitleFont.Style = []
+      TitleFont.Style = [fsBold]
       OnDrawColumnCell = dbgPaisDrawColumnCell
       Columns = <
         item

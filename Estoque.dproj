@@ -173,6 +173,22 @@
             <Form>frmCdsCli0</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="SOURCES\untCnsPre0.pas">
+            <Form>frmCnsPre0</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="SOURCES\untCnsMcb0.pas">
+            <Form>frmCnsMcb0</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="SOURCES\untCnsFpg0.pas">
+            <Form>frmCnsFpg0</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="SOURCES\untCnsCli0.pas">
+            <Form>frmCnsCli0</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

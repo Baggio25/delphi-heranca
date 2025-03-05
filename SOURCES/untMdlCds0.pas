@@ -185,8 +185,6 @@ begin
 
    until bVazio;
 
-
-
    qrySel.Close;
    FreeAndNil(qrySel);
 end;

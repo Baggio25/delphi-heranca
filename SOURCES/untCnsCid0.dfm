@@ -206,18 +206,33 @@ object frmCnsCid0: TfrmCnsCid0
           FieldName = 'IDCIDADE'
           Title.Alignment = taRightJustify
           Title.Caption = 'C'#243'digo'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -16
+          Title.Font.Name = 'Arial'
+          Title.Font.Style = [fsBold]
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'CIDADE'
           Title.Caption = 'Cidade'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -16
+          Title.Font.Name = 'Arial'
+          Title.Font.Style = [fsBold]
           Width = 352
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'UF'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -16
+          Title.Font.Name = 'Arial'
+          Title.Font.Style = [fsBold]
           Width = 38
           Visible = True
         end
@@ -226,6 +241,11 @@ object frmCnsCid0: TfrmCnsCid0
           FieldName = 'CODIGOIBGE'
           Title.Alignment = taRightJustify
           Title.Caption = 'C'#243'd. Ibge'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -16
+          Title.Font.Name = 'Arial'
+          Title.Font.Style = [fsBold]
           Visible = True
         end
         item
@@ -233,6 +253,11 @@ object frmCnsCid0: TfrmCnsCid0
           FieldName = 'POPULACAO'
           Title.Alignment = taRightJustify
           Title.Caption = 'Popula'#231#227'o'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -16
+          Title.Font.Name = 'Arial'
+          Title.Font.Style = [fsBold]
           Visible = True
         end
         item
@@ -240,6 +265,11 @@ object frmCnsCid0: TfrmCnsCid0
           FieldName = 'IDPAIS'
           Title.Alignment = taRightJustify
           Title.Caption = 'Pa'#237's'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -16
+          Title.Font.Name = 'Arial'
+          Title.Font.Style = [fsBold]
           Visible = True
         end>
     end

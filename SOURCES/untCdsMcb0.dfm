@@ -9,29 +9,41 @@ inherited frmCdsMcb0: TfrmCdsMcb0
   inherited scrRodape: TScrollBox
     Top = 211
     Width = 570
+    ExplicitTop = 211
+    ExplicitWidth = 570
     inherited StatusBar1: TStatusBar
       Width = 570
+      ExplicitWidth = 570
     end
     inherited pnlToolBarNavigator: TPanel
       Width = 570
+      ExplicitWidth = 570
       inherited lblAtalho: TLabel
         Left = 498
-        Height = 24
+        ExplicitLeft = 498
       end
       inherited toolBarNavigator: TToolBar
         Width = 498
+        ExplicitWidth = 498
       end
     end
   end
   inherited pnlLeftButtonMetro: TScrollBox
     Height = 211
+    ExplicitHeight = 211
     inherited pnlLeftMetro: TPanel
       Height = 211
+      ExplicitHeight = 211
+      inherited btnMetroProcurar: TMetroTile
+        OnClick = btnMetroProcurarClick
+      end
     end
   end
   inherited pnlFront: TScrollBox
     Width = 456
     Height = 211
+    ExplicitWidth = 456
+    ExplicitHeight = 211
     object Label1: TLabel
       Left = 84
       Top = 16
