@@ -8,7 +8,7 @@ uses
   Datasnap.DBClient, Datasnap.Provider, Data.SqlExpr, System.ImageList,
   Vcl.ImgList, Vcl.Imaging.pngimage, MetroTile, Vcl.StdCtrls, Vcl.ComCtrls,
   Vcl.ToolWin, Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, untConstantes, untCnsCid0,
-  untDtmDados, untDados, Vcl.Buttons;
+  untDtmDados, untDados, Vcl.Buttons, untClassCnsCid0;
 
 type
   TfrmCdsCid0 = class(TfrmMdlCds0)
@@ -57,8 +57,13 @@ begin
 end;
 
 procedure TfrmCdsCid0.ExibeConsulta;
+var ConsultaCid : tCnsCid0;
 begin
-   with TfrmCnsCid0.Create(Application) do ShowModal;
+   //with TfrmCnsCid0.Create(Application) do ShowModal;
+   ConsultaCid := tCnsCid0.Create(Self);
+   ConsultaCid.Consultar;
+
+   FreeAndNil(ConsultaCid);
 end;
 
 procedure TfrmCdsCid0.fldIDPAISChange(Sender: TObject);

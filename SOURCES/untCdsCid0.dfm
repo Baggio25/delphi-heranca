@@ -43,8 +43,6 @@ inherited frmCdsCid0: TfrmCdsCid0
   inherited pnlFront: TScrollBox
     Width = 424
     Height = 222
-    ExplicitLeft = 120
-    ExplicitTop = -6
     ExplicitWidth = 424
     ExplicitHeight = 222
     object Label1: TLabel

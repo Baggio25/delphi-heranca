@@ -24,7 +24,11 @@ uses
   untCnsPre0 in 'SOURCES\untCnsPre0.pas' {frmCnsPre0},
   untCnsMcb0 in 'SOURCES\untCnsMcb0.pas' {frmCnsMcb0},
   untCnsFpg0 in 'SOURCES\untCnsFpg0.pas' {frmCnsFpg0},
-  untCnsCli0 in 'SOURCES\untCnsCli0.pas' {frmCnsCli0};
+  untCnsCli0 in 'SOURCES\untCnsCli0.pas' {frmCnsCli0},
+  untConsulta in 'SOURCES\untConsulta.pas' {frmConsulta},
+  untClassConsulta in 'SOURCES\untClassConsulta.pas',
+  untClassCnsCid0 in 'SOURCES\untClassCnsCid0.pas',
+  UntTipos in 'SOURCES\UntTipos.pas';
 
 {$R *.res}
 

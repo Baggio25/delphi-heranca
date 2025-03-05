@@ -189,6 +189,13 @@
             <Form>frmCnsCli0</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="SOURCES\untConsulta.pas">
+            <Form>frmConsulta</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="SOURCES\untClassConsulta.pas"/>
+        <DCCReference Include="SOURCES\untClassCnsCid0.pas"/>
+        <DCCReference Include="SOURCES\UntTipos.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
