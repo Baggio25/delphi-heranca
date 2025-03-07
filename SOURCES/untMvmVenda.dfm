@@ -11,10 +11,12 @@ object frmMvmVenda: TfrmMvmVenda
   Font.Name = 'Segoe UI'
   Font.Style = []
   FormStyle = fsMDIChild
+  KeyPreview = True
   Position = poScreenCenter
   Visible = True
   WindowState = wsMaximized
   OnClose = FormClose
+  OnKeyDown = FormKeyDown
   OnShow = FormShow
   TextHeight = 15
   object pnlCabecalho: TPanel
@@ -40,6 +42,7 @@ object frmMvmVenda: TfrmMvmVenda
       Align = alLeft
       Caption = 'Nota Fiscal'
       TabOrder = 0
+      OnEnter = gpbNotaEnter
       object Label1: TLabel
         Left = 46
         Top = 30
@@ -56,7 +59,7 @@ object frmMvmVenda: TfrmMvmVenda
         Alignment = taRightJustify
         Caption = 'Nota'
       end
-      object fldSerie: TEdit
+      object edtSerie: TEdit
         Left = 90
         Top = 27
         Width = 47
@@ -65,8 +68,9 @@ object frmMvmVenda: TfrmMvmVenda
         MaxLength = 3
         ParentCtl3D = False
         TabOrder = 0
+        OnExit = edtSerieExit
       end
-      object fldNota: TEdit
+      object edtNota: TEdit
         Left = 90
         Top = 55
         Width = 121
@@ -76,6 +80,7 @@ object frmMvmVenda: TfrmMvmVenda
         NumbersOnly = True
         ParentCtl3D = False
         TabOrder = 1
+        OnExit = edtNotaExit
       end
     end
     object gpbCliente: TGroupBox
@@ -209,6 +214,7 @@ object frmMvmVenda: TfrmMvmVenda
           C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3}
         NumGlyphs = 2
         ParentFont = False
+        OnClick = btnIDClienteClick
       end
       object Label3: TLabel
         Left = 27
@@ -226,7 +232,7 @@ object frmMvmVenda: TfrmMvmVenda
         Alignment = taRightJustify
         Caption = 'Emiss'#227'o'
       end
-      object edtCliente: TEdit
+      object edtIDCLIENTE: TEdit
         Left = 82
         Top = 28
         Width = 48
@@ -235,6 +241,7 @@ object frmMvmVenda: TfrmMvmVenda
         Ctl3D = False
         ParentCtl3D = False
         TabOrder = 0
+        OnChange = edtIDCLIENTEChange
       end
       object lblIDCliente: TEdit
         Left = 167
@@ -272,9 +279,9 @@ object frmMvmVenda: TfrmMvmVenda
   end
   object pnlRodape: TPanel
     Left = 0
-    Top = 432
+    Top = 424
     Width = 784
-    Height = 79
+    Height = 87
     Align = alBottom
     Color = 16446693
     Font.Charset = ANSI_CHARSET
@@ -287,10 +294,10 @@ object frmMvmVenda: TfrmMvmVenda
     TabOrder = 1
     DesignSize = (
       784
-      79)
+      87)
     object Label4: TLabel
       Left = 584
-      Top = 8
+      Top = 6
       Width = 185
       Height = 22
       Alignment = taRightJustify
@@ -324,7 +331,7 @@ object frmMvmVenda: TfrmMvmVenda
     Left = 0
     Top = 145
     Width = 784
-    Height = 287
+    Height = 279
     Align = alClient
     TabOrder = 2
     TitleFont.Charset = DEFAULT_CHARSET
@@ -388,12 +395,14 @@ object frmMvmVenda: TfrmMvmVenda
         Top = 0
         Caption = '&Novo'
         ImageIndex = 0
+        OnClick = btnNovoClick
       end
       object btnEditar: TToolButton
         Left = 48
         Top = 0
         Caption = '&Editar'
         ImageIndex = 1
+        OnClick = btnEditarClick
       end
       object btnExcluir: TToolButton
         Left = 96
@@ -408,6 +417,7 @@ object frmMvmVenda: TfrmMvmVenda
         ImageIndex = 3
         ParentShowHint = False
         ShowHint = False
+        OnClick = btnSalvarClick
       end
       object btnCancelar: TToolButton
         Left = 192
@@ -1241,7 +1251,7 @@ object frmMvmVenda: TfrmMvmVenda
   end
   object imgDisable: TImageList
     Left = 725
-    Top = 393
+    Top = 233
     Bitmap = {
       494C010109000D00040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030

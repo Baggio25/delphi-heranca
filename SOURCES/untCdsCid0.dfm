@@ -20,6 +20,7 @@ inherited frmCdsCid0: TfrmCdsCid0
       ExplicitWidth = 538
       inherited lblAtalho: TLabel
         Left = 466
+        Height = 24
         ExplicitLeft = 466
       end
       inherited toolBarNavigator: TToolBar

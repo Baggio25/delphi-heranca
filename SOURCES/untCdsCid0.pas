@@ -80,6 +80,7 @@ begin
    inherited;
    if key = VK_F5 then begin
       key := 0;
+      btnMetroProcurar.Click;
    end;
 end;
 

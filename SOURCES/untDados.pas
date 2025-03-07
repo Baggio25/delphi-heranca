@@ -9,8 +9,10 @@ const
   WC_MB_MSGYES = 1;
   WC_MB_MSGNO  = 2;
 
-  procedure LoadCaptionID( TableName, FieldID, FieldDesc : String; EditID : TDBEdit; EditDesc : TEdit );
-  procedure SearchId( ClasseConsulta: tConsulta; EditID : TDBEdit; FieldFK : String );
+  procedure LoadCaptionID( TableName, FieldID, FieldDesc : String; EditID : TDBEdit; EditDesc : TEdit ); overload;
+  procedure LoadCaptionID( TableName, FieldID, FieldDesc : String; EditID : TEdit; EditDesc : TEdit ); overload;
+  procedure SearchId( ClasseConsulta: tConsulta; EditID : TDBEdit; FieldFK : String ); overload;
+  procedure SearchId( ClasseConsulta: tConsulta; EditID : TEdit; FieldFK : String ); overload;
 
   function MsgYesNo(sTexto : string; sCabecalho:string='Pergunta'; iBotaoDefault: Integer = WC_MB_MSGYES):boolean;
   function SearchRecordDados(sCampo, sTabela, sCondicao: String): String;
@@ -92,12 +94,61 @@ begin
    end;
 end;
 
+procedure LoadCaptionID( TableName, FieldID, FieldDesc : String; EditID : TEdit; EditDesc : TEdit );
+var qrySel : tSqlQuery;
+    sID    : String;
+begin
+   sID           := EditID.Text;
+   EditID.Color  := clWindow;
+
+   if StrToIntDef(sID, 0) = 0 then begin
+      EditDesc.Text := '';
+   end else begin
+      qrySel               := TSQLQuery.Create(nil);
+      qrySel.SQLConnection := dtmDados.cnxEstoque;
+
+      with qrySel do begin
+         Close;
+         Sql.Clear;
+         Sql.Add('SELECT ' + FieldDesc + ' FROM ' + TableName);
+         Sql.Add('WHERE ' + FieldID + ' = ' + sID);
+         Open;
+
+         if IsEmpty then begin
+            EditID.Color  := clYellow;
+            EditDesc.Text := 'REGISTRO NÃO ENCONTRADO';
+         end else begin
+            EditDesc.Text := FieldByName(FieldDesc).AsString;
+         end;
+
+         Close;
+      end;
+      qrySel.close;
+      FreeAndNil(qrySel);
+   end;
+end;
+
 procedure SearchId( ClasseConsulta: tConsulta; EditID : TDBEdit; FieldFK : String );
 var iCodigo : Integer;
 begin
    iCodigo := ClasseConsulta.Consultar;
    if iCodigo > 0 then begin
       EditID.DataSource.DataSet.FieldByName(FieldFK).AsInteger := iCodigo;
+      EditID.Text := IntToStr( iCodigo );
+
+      if EditID.CanFocus then begin
+         EditID.SetFocus;
+         EditID.SelectAll;
+      end;
+
+   end;
+end;
+
+procedure SearchId( ClasseConsulta: tConsulta; EditID : TEdit; FieldFK : String );
+var iCodigo : Integer;
+begin
+   iCodigo := ClasseConsulta.Consultar;
+   if iCodigo > 0 then begin
       EditID.Text := IntToStr( iCodigo );
 
       if EditID.CanFocus then begin
