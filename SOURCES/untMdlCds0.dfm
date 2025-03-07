@@ -465,6 +465,7 @@ object frmMdlCds0: TfrmMdlCds0
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 5
+        OnClick = btnMetroProcurarClick
       end
       object btnMetroSair: TMetroTile
         Tag = 0
@@ -1502,6 +1503,7 @@ object frmMdlCds0: TfrmMdlCds0
   object dsPrincipal: TDataSource
     AutoEdit = False
     DataSet = cdsPrincipal
+    OnDataChange = dsPrincipalDataChange
     Left = 481
     Top = 176
   end

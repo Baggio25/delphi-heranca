@@ -8,7 +8,7 @@ uses
   Vcl.ComCtrls, Vcl.Imaging.pngimage, Vcl.ExtCtrls, Vcl.OleCtrls, SHDocVw,
   Vcl.ToolWin, System.ImageList, Vcl.ImgList, untDtmDados, untCdsPai0,
   untCdsCid0, untCdsUsr0, untCdsVen0, untCdsMar0, untCdsSec0, untCdsIte0,
-  untCdsMcb0, untCdsFpg0, untCdsPre0, untCdsCli0;
+  untCdsMcb0, untCdsFpg0, untCdsPre0, untCdsCli0, untMvmVenda;
 
 type
   TfrmMain = class(TForm)
@@ -69,6 +69,7 @@ type
     procedure abeladePreo1Click(Sender: TObject);
     procedure CadastrodeClientes1Click(Sender: TObject);
     procedure tbtnCadCliClick(Sender: TObject);
+    procedure tbtnVenOrcBalClick(Sender: TObject);
   private
     procedure AbreCadastroCliente;
   public
@@ -165,6 +166,11 @@ end;
 procedure TfrmMain.tbtnSairSistClick(Sender: TObject);
 begin
    Close;
+end;
+
+procedure TfrmMain.tbtnVenOrcBalClick(Sender: TObject);
+begin
+   with TfrmMvmVenda.Create(Application) do Show;
 end;
 
 procedure TfrmMain.Vendedores1Click(Sender: TObject);

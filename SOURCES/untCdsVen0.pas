@@ -8,7 +8,7 @@ uses
   Datasnap.DBClient, Datasnap.Provider, Data.SqlExpr, System.ImageList,
   Vcl.ImgList, Vcl.Imaging.pngimage, MetroTile, Vcl.StdCtrls, Vcl.ComCtrls,
   Vcl.ToolWin, Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, untConstantes, untDados,
-  Vcl.Buttons;
+  Vcl.Buttons, untClassCnsVen0, untClassCnsCid0;
 
 type
   TfrmCdsVen0 = class(TfrmMdlCds0)
@@ -34,6 +34,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure btnMetroNovoClick(Sender: TObject);
     procedure fldIDCIDADEChange(Sender: TObject);
+    procedure btnIDCIDADEClick(Sender: TObject);
   private
     function ValidaCidade : Boolean;
   public
@@ -46,6 +47,12 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TfrmCdsVen0.btnIDCIDADEClick(Sender: TObject);
+begin
+   inherited;
+   SearchId( tCnsCid0.Create(Self), fldIDCIDADE, ID_CDSCID0 );
+end;
 
 procedure TfrmCdsVen0.btnMetroNovoClick(Sender: TObject);
 begin
@@ -62,11 +69,13 @@ end;
 procedure TfrmCdsVen0.FormCreate(Sender: TObject);
 begin
    inherited;
-   CaptionForm := 'Cadastro de Vendedor';
-   TableName   := TBL_CDSVEN0;
-   FieldID     := ID_CDSVEN0;
-   EditID      := fldIDVENDEDOR;
-   EditDesc    := fldVENDEDOR;
+   CaptionForm    := 'Cadastro de Vendedor';
+   TableName      := TBL_CDSVEN0;
+   FieldID        := ID_CDSVEN0;
+   EditID         := fldIDVENDEDOR;
+   EditDesc       := fldVENDEDOR;
+   Generator      := GEN_TBLCDSVEN0;
+   ClasseConsulta := tCnsVen0.Create(Self);
 end;
 
 function TfrmCdsVen0.ValidaCidade: Boolean;

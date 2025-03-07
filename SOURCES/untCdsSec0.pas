@@ -7,7 +7,8 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, untMdlCds0, Data.FMTBcd, Data.DB,
   Datasnap.DBClient, Datasnap.Provider, Data.SqlExpr, System.ImageList,
   Vcl.ImgList, Vcl.Imaging.pngimage, MetroTile, Vcl.StdCtrls, Vcl.ComCtrls,
-  Vcl.ToolWin, Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, untConstantes;
+  Vcl.ToolWin, Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, untConstantes,
+  untClassCnsSec0;
 
 type
   TfrmCdsSec0 = class(TfrmMdlCds0)
@@ -34,11 +35,13 @@ implementation
 procedure TfrmCdsSec0.FormCreate(Sender: TObject);
 begin
    inherited;
-   CaptionForm := 'Cadastro de Seção';
-   TableName   := TBL_CDSSEC0;
-   FieldID     := ID_CDSSEC0;
-   EditID      := fldIDSECAO;
-   EditDesc    := fldSECAO;
+   CaptionForm    := 'Cadastro de Seção';
+   TableName      := TBL_CDSSEC0;
+   FieldID        := ID_CDSSEC0;
+   EditID         := fldIDSECAO;
+   EditDesc       := fldSECAO;
+   Generator      := GEN_TBLCDSSEC0;
+   ClasseConsulta := tCnsSec0.Create(Self);
 end;
 
 function TfrmCdsSec0.ValidaDados: Boolean;

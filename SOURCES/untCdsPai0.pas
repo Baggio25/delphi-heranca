@@ -7,8 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, untMdlCds0, System.ImageList,
   Vcl.ImgList, Vcl.Imaging.pngimage, MetroTile, Vcl.StdCtrls, Vcl.ComCtrls,
   Vcl.ToolWin, Vcl.ExtCtrls, Data.FMTBcd, Data.DB, Datasnap.DBClient,
-  Datasnap.Provider, Data.SqlExpr, Vcl.Mask, Vcl.DBCtrls, untConstantes,
-  untCnsPai0;
+  Datasnap.Provider, Data.SqlExpr, Vcl.Mask, Vcl.DBCtrls, untConstantes, untClassCnsPai0;
 
 type
   TfrmCdsPai0 = class(TfrmMdlCds0)
@@ -22,10 +21,8 @@ type
     Label3: TLabel;
     fldSIGLA: TDBEdit;
     procedure FormCreate(Sender: TObject);
-    procedure btnMetroProcurarClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
-    procedure ExibeConsulta;
   public
     function ValidaDados : Boolean; override;
   end;
@@ -37,25 +34,16 @@ implementation
 
 {$R *.dfm}
 
-procedure TfrmCdsPai0.btnMetroProcurarClick(Sender: TObject);
-begin
-   inherited;
-   ExibeConsulta;
-end;
-
-procedure TfrmCdsPai0.ExibeConsulta;
-begin
-   with TfrmCnsPai0.Create(Application) do ShowModal;
-end;
-
 procedure TfrmCdsPai0.FormCreate(Sender: TObject);
 begin
    inherited;
-   CaptionForm := 'Cadastro de País';
-   TableName   := TBL_CDSPAI0;
-   FieldID     := ID_CDSPAI0;
-   EditID      := fldIDPAIS;
-   EditDesc    := fldPAIS;
+   CaptionForm    := 'Cadastro de País';
+   TableName      := TBL_CDSPAI0;
+   FieldID        := ID_CDSPAI0;
+   EditID         := fldIDPAIS;
+   EditDesc       := fldPAIS;
+   Generator      := GEN_TBLCDSPAI0;
+   ClasseConsulta := tCnsPai0.Create(Self);
 end;
 
 procedure TfrmCdsPai0.FormKeyDown(Sender: TObject; var Key: Word;

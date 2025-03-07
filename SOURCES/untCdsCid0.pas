@@ -8,7 +8,7 @@ uses
   Datasnap.DBClient, Datasnap.Provider, Data.SqlExpr, System.ImageList,
   Vcl.ImgList, Vcl.Imaging.pngimage, MetroTile, Vcl.StdCtrls, Vcl.ComCtrls,
   Vcl.ToolWin, Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, untConstantes, untCnsCid0,
-  untDtmDados, untDados, Vcl.Buttons, untClassCnsCid0;
+  untDtmDados, untDados, Vcl.Buttons, untClassCnsCid0, untClassCnsPai0;
 
 type
   TfrmCdsCid0 = class(TfrmMdlCds0)
@@ -33,11 +33,10 @@ type
     btnIDPAIS: TSpeedButton;
     lblIDPAIS: TEdit;
     procedure FormCreate(Sender: TObject);
-    procedure btnMetroProcurarClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure fldIDPAISChange(Sender: TObject);
+    procedure btnIDPAISClick(Sender: TObject);
   private
-    procedure ExibeConsulta;
     function ValidaPais : Boolean;
   public
     function ValidaDados : Boolean; override;
@@ -50,20 +49,10 @@ implementation
 
 {$R *.dfm}
 
-procedure TfrmCdsCid0.btnMetroProcurarClick(Sender: TObject);
+procedure TfrmCdsCid0.btnIDPAISClick(Sender: TObject);
 begin
    inherited;
-   ExibeConsulta
-end;
-
-procedure TfrmCdsCid0.ExibeConsulta;
-var ConsultaCid : tCnsCid0;
-begin
-   //with TfrmCnsCid0.Create(Application) do ShowModal;
-   ConsultaCid := tCnsCid0.Create(Self);
-   ConsultaCid.Consultar;
-
-   FreeAndNil(ConsultaCid);
+   SearchId( tCnsPai0.Create(Self), fldIDPAIS, ID_CDSPAI0 );
 end;
 
 procedure TfrmCdsCid0.fldIDPAISChange(Sender: TObject);
@@ -76,11 +65,13 @@ end;
 procedure TfrmCdsCid0.FormCreate(Sender: TObject);
 begin
    inherited;
-   CaptionForm := 'Cadastro de Cidade';
-   TableName   := TBL_CDSCID0;
-   FieldID     := ID_CDSCID0;
-   EditID      := fldIDCIDADE;
-   EditDesc    := fldCIDADE;
+   CaptionForm    := 'Cadastro de Cidade';
+   TableName      := TBL_CDSCID0;
+   FieldID        := ID_CDSCID0;
+   EditID         := fldIDCIDADE;
+   EditDesc       := fldCIDADE;
+   Generator      := GEN_TBLCDSCID0;
+   ClasseConsulta := tCnsCid0.Create(Self);
 end;
 
 procedure TfrmCdsCid0.FormKeyDown(Sender: TObject; var Key: Word;
@@ -89,7 +80,6 @@ begin
    inherited;
    if key = VK_F5 then begin
       key := 0;
-      ExibeConsulta;
    end;
 end;
 

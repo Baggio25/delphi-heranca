@@ -189,13 +189,27 @@
             <Form>frmCnsCli0</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="SOURCES\untClassCnsCid0.pas"/>
+        <DCCReference Include="SOURCES\untClassConsulta.pas"/>
         <DCCReference Include="SOURCES\untConsulta.pas">
             <Form>frmConsulta</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="SOURCES\untClassConsulta.pas"/>
-        <DCCReference Include="SOURCES\untClassCnsCid0.pas"/>
         <DCCReference Include="SOURCES\UntTipos.pas"/>
+        <DCCReference Include="SOURCES\untClassCnsPai0.pas"/>
+        <DCCReference Include="SOURCES\untClassCnsUsr0.pas"/>
+        <DCCReference Include="SOURCES\untClassCnsVen0.pas"/>
+        <DCCReference Include="SOURCES\untClassCnsMar0.pas"/>
+        <DCCReference Include="SOURCES\untClassCnsSec0.pas"/>
+        <DCCReference Include="SOURCES\untClassCnsIte0.pas"/>
+        <DCCReference Include="SOURCES\untClassCnsMcb0.pas"/>
+        <DCCReference Include="SOURCES\untClassCnsFpg0.pas"/>
+        <DCCReference Include="SOURCES\untClassCnsPre0.pas"/>
+        <DCCReference Include="SOURCES\untClassCnsCli0.pas"/>
+        <DCCReference Include="SOURCES\untMvmVenda.pas">
+            <Form>frmMvmVenda</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

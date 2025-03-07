@@ -9,7 +9,7 @@ inherited frmCdsUsr0: TfrmCdsUsr0
   inherited scrRodape: TScrollBox
     Top = 268
     Width = 518
-    ExplicitTop = 274
+    ExplicitTop = 268
     ExplicitWidth = 518
     inherited StatusBar1: TStatusBar
       Width = 518
@@ -20,7 +20,6 @@ inherited frmCdsUsr0: TfrmCdsUsr0
       ExplicitWidth = 518
       inherited lblAtalho: TLabel
         Left = 446
-        Height = 24
         ExplicitLeft = 446
       end
       inherited toolBarNavigator: TToolBar
@@ -31,20 +30,17 @@ inherited frmCdsUsr0: TfrmCdsUsr0
   end
   inherited pnlLeftButtonMetro: TScrollBox
     Height = 268
-    ExplicitHeight = 274
+    ExplicitHeight = 268
     inherited pnlLeftMetro: TPanel
       Height = 268
-      ExplicitHeight = 274
-      inherited btnMetroProcurar: TMetroTile
-        OnClick = btnMetroProcurarClick
-      end
+      ExplicitHeight = 268
     end
   end
   inherited pnlFront: TScrollBox
     Width = 404
     Height = 268
     ExplicitWidth = 404
-    ExplicitHeight = 388
+    ExplicitHeight = 268
     object Label1: TLabel
       Left = 31
       Top = 12
@@ -256,6 +252,7 @@ inherited frmCdsUsr0: TfrmCdsUsr0
         C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3}
       NumGlyphs = 2
       ParentFont = False
+      OnClick = btnIDCIDADEClick
     end
     object fldIDUSUARIO: TDBEdit
       Left = 87

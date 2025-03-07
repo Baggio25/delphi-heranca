@@ -7,7 +7,8 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, untMdlCds0, Data.FMTBcd, Data.DB,
   Datasnap.DBClient, Datasnap.Provider, Data.SqlExpr, System.ImageList,
   Vcl.ImgList, Vcl.Imaging.pngimage, MetroTile, Vcl.StdCtrls, Vcl.ComCtrls,
-  Vcl.ToolWin, Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, untConstantes, untCnsFpg0;
+  Vcl.ToolWin, Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, untConstantes,
+  untClassCnsFpg0;
 
 type
   TfrmCdsFpg0 = class(TfrmMdlCds0)
@@ -18,10 +19,9 @@ type
     Label2: TLabel;
     fldFORMPAG: TDBEdit;
     procedure FormCreate(Sender: TObject);
-    procedure btnMetroProcurarClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
-    procedure ExibeConsulta;
+
   public
     function ValidaDados : Boolean; override;
   end;
@@ -35,25 +35,16 @@ implementation
 
 { TfrmCdsFpg0 }
 
-procedure TfrmCdsFpg0.btnMetroProcurarClick(Sender: TObject);
-begin
-   inherited;
-   ExibeConsulta;
-end;
-
-procedure TfrmCdsFpg0.ExibeConsulta;
-begin
-   with TfrmCnsFpg0.Create(Application) do ShowModal;
-end;
-
 procedure TfrmCdsFpg0.FormCreate(Sender: TObject);
 begin
   inherited;
-   CaptionForm := 'Cadastro de Forma de Pagamento';
-   TableName   := TBL_CDSFPG0;
-   FieldID     := ID_CDSFPG0;
-   EditID      := fldIDFORMAPAG;
-   EditDesc    := fldFORMPAG;
+   CaptionForm    := 'Cadastro de Forma de Pagamento';
+   TableName      := TBL_CDSFPG0;
+   FieldID        := ID_CDSFPG0;
+   EditID         := fldIDFORMAPAG;
+   EditDesc       := fldFORMPAG;
+   Generator      := GEN_TBLCDSFPG0;
+   ClasseConsulta := tCnsFpg0.Create(Self);
 end;
 
 procedure TfrmCdsFpg0.FormKeyDown(Sender: TObject; var Key: Word;

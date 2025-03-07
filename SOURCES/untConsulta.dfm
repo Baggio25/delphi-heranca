@@ -10,16 +10,18 @@ object frmConsulta: TfrmConsulta
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  KeyPreview = True
   Position = poScreenCenter
   WindowState = wsMaximized
   OnCreate = FormCreate
+  OnKeyPress = FormKeyPress
   OnShow = FormShow
   TextHeight = 15
   object pnlLeft: TPanel
     Left = 0
     Top = 0
     Width = 170
-    Height = 541
+    Height = 496
     Align = alLeft
     Color = 16446693
     Font.Charset = ANSI_CHARSET
@@ -112,7 +114,7 @@ object frmConsulta: TfrmConsulta
     Left = 170
     Top = 0
     Width = 824
-    Height = 541
+    Height = 496
     Align = alClient
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
@@ -121,7 +123,7 @@ object frmConsulta: TfrmConsulta
     Font.Style = []
     ParentFont = False
     TabOrder = 1
-    object Panel1: TPanel
+    object pnlTopo: TPanel
       Left = 1
       Top = 1
       Width = 822
@@ -149,7 +151,7 @@ object frmConsulta: TfrmConsulta
       end
       object edtPesquisa: TEdit
         Left = 144
-        Top = 9
+        Top = 11
         Width = 394
         Height = 24
         CharCase = ecUpperCase
@@ -162,7 +164,7 @@ object frmConsulta: TfrmConsulta
       Left = 1
       Top = 42
       Width = 822
-      Height = 498
+      Height = 453
       Align = alClient
       DataSource = dsDados
       Font.Charset = ANSI_CHARSET
@@ -178,6 +180,46 @@ object frmConsulta: TfrmConsulta
       TitleFont.Height = -16
       TitleFont.Name = 'Arial'
       TitleFont.Style = []
+      OnDblClick = dbgDadosDblClick
+    end
+  end
+  object pnlRodape: TPanel
+    Left = 0
+    Top = 496
+    Width = 994
+    Height = 45
+    Align = alBottom
+    Color = 16446693
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Arial'
+    Font.Style = []
+    ParentBackground = False
+    ParentFont = False
+    TabOrder = 2
+    DesignSize = (
+      994
+      45)
+    object btnConcluir: TButton
+      Left = 878
+      Top = 9
+      Width = 105
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = 'Concluir'
+      TabOrder = 0
+      OnClick = btnConcluirClick
+    end
+    object btnCancelar: TButton
+      Left = 767
+      Top = 9
+      Width = 105
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = 'Cancelar'
+      TabOrder = 1
+      OnClick = btnCancelarClick
     end
   end
   object sdsDados: TSQLDataSet

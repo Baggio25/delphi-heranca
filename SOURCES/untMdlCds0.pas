@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Imaging.pngimage, MetroTile,
   Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ToolWin, Vcl.ExtCtrls, System.ImageList,
   Vcl.ImgList, Data.FMTBcd, Data.DB, Datasnap.DBClient, Datasnap.Provider,
-  Data.SqlExpr, untDtmDados, Vcl.DBCtrls, untDados;
+  Data.SqlExpr, untDtmDados, Vcl.DBCtrls, untDados, untClassConsulta, vcl.Buttons;
 
 type
   TfrmMdlCds0 = class(TForm)
@@ -50,26 +50,32 @@ type
     procedure btnAvancarClick(Sender: TObject);
     procedure btnVoltarClick(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure btnMetroProcurarClick(Sender: TObject);
+    procedure dsPrincipalDataChange(Sender: TObject; Field: TField);
   private
-    { Private declarations }
+
     procedure LocateRegistro( iChaveFind : integer );
     procedure AtivaButtons;
     procedure UpdateNavigator;
     procedure AtivaCampoConsulta;
     procedure ExecutaConsultaRapida;
     procedure LoadNextCodigo;
-    function CheckNextCod : integer;
-    function LastID              : Integer;
-    function FirstID             : Integer;
-    function NextID              : Integer;
-    function PriorID             : Integer;
+    procedure PostGenerator( idSequencia : Integer );
+    function CheckNextCod                     : integer;
+    function LastID                           : Integer;
+    function FirstID                          : Integer;
+    function NextID                           : Integer;
+    function PriorID                          : Integer;
+    function LastGenerator(iSomar : Integer)  : Integer;
   public
-    { Public declarations }
-    CaptionForm : String;
-    TableName   : String;
-    FieldID     : String;
-    EditID      : TDBEdit;
-    EditDesc    : TDBEdit;
+
+    CaptionForm    : String;
+    TableName      : String;
+    FieldID        : String;
+    EditID         : TDBEdit;
+    EditDesc       : TDBEdit;
+    ClasseConsulta : tConsulta;
+    Generator      : String;
 
     function ValidaDados : Boolean; Virtual;
   end;
@@ -83,13 +89,14 @@ implementation
 
 procedure TfrmMdlCds0.AtivaButtons;
 begin
-   btnMetroNovo.Enabled     := not btnMetroNovo.Enabled;
-   btnMetroEditar.Enabled   := not btnMetroEditar.Enabled;
-   btnMetroExcluir.Enabled  := not btnMetroExcluir.Enabled;
-   btnMetroSalvar.Enabled   := not btnMetroSalvar.Enabled;
-   btnMetroCancelar.Enabled := not btnMetroCancelar.Enabled;
-   btnMetroProcurar.Enabled := not btnMetroProcurar.Enabled;
-   pnlFront.Enabled         := not pnlFront.Enabled;
+   btnMetroNovo.Enabled     := dsPrincipal.State = dsBrowse;
+   btnMetroSalvar.Enabled   := dsPrincipal.State in [dsInsert, dsEdit];
+   btnMetroCancelar.Enabled := dsPrincipal.State in [dsInsert, dsEdit];
+   btnMetroProcurar.Enabled := dsPrincipal.State = dsBrowse;
+   pnlFront.Enabled         := dsPrincipal.State in [dsInsert, dsEdit];
+
+   btnMetroExcluir.Enabled  := (dsPrincipal.State = dsBrowse) and (not cdsPrincipal.IsEmpty);
+   btnMetroEditar.Enabled   := (dsPrincipal.State = dsBrowse) and (not cdsPrincipal.IsEmpty);
 end;
 
 procedure TfrmMdlCds0.btnAvancarClick(Sender: TObject);
@@ -100,33 +107,64 @@ end;
 procedure TfrmMdlCds0.btnMetroCancelarClick(Sender: TObject);
 begin
    cdsPrincipal.Cancel;
-   AtivaButtons;
+   //AtivaButtons;
 end;
 
 procedure TfrmMdlCds0.btnMetroEditarClick(Sender: TObject);
 begin
-   AtivaButtons;
-
    if edtConsultaRapida.Visible then AtivaCampoConsulta;
 
    cdsPrincipal.Edit;
+   //AtivaButtons;
    EditDesc.SetFocus;
 end;
 
 procedure TfrmMdlCds0.btnMetroExcluirClick(Sender: TObject);
 begin
-   AtivaButtons;
+//   if Application.MessageBox('Confirma Exclusão', 'Atenção', MB_ICONQUESTION + MB_YESNO) = IDYES then begin
+//      qryDel               := TSQLQuery.Create(Self);
+//      qryDel.SQLConnection := dtmDados.cnxEstoque;
+
+      //AtivaButtons;
+
+      if Application.MessageBox('Confirma Exclusão', 'Atenção', MB_ICONQUESTION + MB_YESNO) = IDYES then begin
+         cdsPrincipal.Delete;
+         cdsPrincipal.ApplyUpdates(-1);
+
+         ShowMessage('Registro excluído com sucesso.');
+         LocateRegistro(LastID);
+      end;
+
+
+//         with qryDel do begin
+//            close;
+//            sql.Clear;
+//            sql.Add('DELETE FROM ' + TableName);
+//            sql.Add('WHERE ' + FieldID + ' = ' + cdsPrincipal.FieldByName(FieldID).AsString) ;
+//            ExecSQL;
+//            close;
+//         end;
+//
+//      FreeAndNil(qryDel);
+//      LocateRegistro(LastID);
+//   end;
 end;
 
 procedure TfrmMdlCds0.btnMetroNovoClick(Sender: TObject);
 begin
-   AtivaButtons;
-
    if edtConsultaRapida.Visible then AtivaCampoConsulta;
 
    cdsPrincipal.Append;
+//   AtivaButtons;
    LoadNextCodigo;
    EditDesc.SetFocus;
+end;
+
+procedure TfrmMdlCds0.btnMetroProcurarClick(Sender: TObject);
+var iCodigo : Integer;
+begin
+   iCodigo := ClasseConsulta.Consultar;
+   if iCodigo > 0 then LocateRegistro(iCodigo);   
 end;
 
 procedure TfrmMdlCds0.btnMetroSairClick(Sender: TObject);
@@ -143,7 +181,6 @@ begin
 
       cdsPrincipal.Post;
       cdsPrincipal.ApplyUpdates(-1);
-      AtivaButtons;
       UpdateNavigator;
    end;
 end;
@@ -181,12 +218,22 @@ begin
          bVazio := isEmpty;
          close;
       end;
-      if not bVazio then LoadNextCodigo;
+
+      if bVazio then begin
+         LastGenerator(1);
+      end else begin
+         cdsPrincipal.FieldByName(FieldID).AsInteger := LastGenerator(1);
+      end;
 
    until bVazio;
 
    qrySel.Close;
    FreeAndNil(qrySel);
+end;
+
+procedure TfrmMdlCds0.dsPrincipalDataChange(Sender: TObject; Field: TField);
+begin
+   AtivaButtons;
 end;
 
 procedure TfrmMdlCds0.ExecutaConsultaRapida;
@@ -229,6 +276,7 @@ end;
 
 procedure TfrmMdlCds0.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
+var sEditAtual, sEditFind : String;
 begin
    if key = VK_ESCAPE then begin
       key := 0;
@@ -248,6 +296,20 @@ begin
       if not (dsPrincipal.State in [dsInsert, dsEdit]) then begin
          AtivaCampoConsulta;
          key := 0;
+      end;
+   end else if key = VK_F5 then begin
+      if dsPrincipal.State = dsBrowse then begin
+         key := 0;
+         if btnMetroProcurar.Enabled then begin
+            btnMetroProcurar.Click;
+         end;
+      end else if dsPrincipal.State in [dsInsert, dsEdit] then begin
+         sEditAtual := ActiveControl.Name;
+         sEditFind  := 'btn' + Copy( sEditAtual, 4, Length(sEditAtual));
+
+         if FindComponent(sEditFind) is TSpeedButton then begin
+            TSpeedButton( FindComponent(sEditFind) ).Click;
+         end;
       end;
    end else if key = VK_F9 then begin
       if btnMetroSalvar.Enabled then begin
@@ -286,6 +348,24 @@ begin
    LocateRegistro(LastID);
 end;
 
+function TfrmMdlCds0.LastGenerator(iSomar : Integer) : Integer;
+var qrySel : TSQLQuery;
+begin
+   qrySel               := TSQLQuery.Create(Self);
+   qrySel.SQLConnection := dtmDados.cnxEstoque;
+
+   with qrySel do begin
+      close;
+      sQL.Clear;
+      sQL.Add( 'SELECT GEN_ID(' + Generator + ',' + IntToStr(iSomar) +  ') SEQUENCIA FROM RDB$DATABASE' );
+      open;
+      Result := qrySel.FieldByName('SEQUENCIA').AsInteger;
+      close;
+   end;
+
+   FreeAndNil(qrySel);
+end;
+
 function TfrmMdlCds0.LastID: integer;
 var qrySel : TSQLQuery;
 begin
@@ -306,7 +386,7 @@ end;
 
 procedure TfrmMdlCds0.LoadNextCodigo;
 begin
-   cdsPrincipal.FieldByName(FieldID).AsInteger := LastID + 1;
+   cdsPrincipal.FieldByName(FieldID).AsInteger := LastGenerator( 0 ) + 1;
 end;
 
 procedure TfrmMdlCds0.LocateRegistro(iChaveFind: integer);
@@ -341,6 +421,11 @@ begin
    end;
 
    FreeAndNil(qrySel);  
+end;
+
+procedure TfrmMdlCds0.PostGenerator(idSequencia: Integer);
+begin
+
 end;
 
 function TfrmMdlCds0.PriorID: Integer;

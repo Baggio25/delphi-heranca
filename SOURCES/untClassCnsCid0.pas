@@ -7,9 +7,7 @@ uses Classes, untClassConsulta, UntTipos;
 type tCnsCid0 = class ( tConsulta )
 
    private
-
    public
-
       constructor Create( Aowner : tComponent ); Override;
       destructor Destroy; override;
 

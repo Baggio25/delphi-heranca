@@ -8,7 +8,8 @@ uses
   Datasnap.DBClient, Datasnap.Provider, Data.SqlExpr, System.ImageList,
   Vcl.ImgList, Vcl.Imaging.pngimage, MetroTile, Vcl.StdCtrls, Vcl.ComCtrls,
   Vcl.ToolWin, Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, untConstantes, Vcl.Buttons,
-  untDados, Vcl.Imaging.jpeg, untCnsCli0;
+  untDados, Vcl.Imaging.jpeg, untClassCnsCli0, untClassCnsCid0, untClassCnsMcb0,
+  untClassCnsFpg0, untClassCnsPre0;
 
 type
   TfrmCdsCli0 = class(TfrmMdlCds0)
@@ -116,11 +117,11 @@ type
     lblIDMEIOCOB: TEdit;
     Label24: TLabel;
     fldIDFORMPAG: TDBEdit;
-    btnIDFORMAPAG: TSpeedButton;
+    btnIDFORMPAG: TSpeedButton;
     lblIDFORMPAG: TEdit;
     Label25: TLabel;
     fldIDTABPRECO: TDBEdit;
-    btnIDTABPRE: TSpeedButton;
+    btnIDTABPRECO: TSpeedButton;
     lblIDTABPRECO: TEdit;
     Label26: TLabel;
     rdgTipo: TDBRadioGroup;
@@ -130,12 +131,15 @@ type
     procedure fldIDCIDADEChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnMetroSalvarClick(Sender: TObject);
-    procedure btnMetroProcurarClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure btnIDCIDADEClick(Sender: TObject);
+    procedure btnIDMEIOCOBClick(Sender: TObject);
+    procedure btnIDFORMPAGClick(Sender: TObject);
+    procedure btnIDTABPRECOClick(Sender: TObject);
   private
     procedure SetaTabCliente;
+    procedure SetaTabInfCliente;
     procedure InicializaCampos;
-    procedure ExibeConsulta;
     function ValidaCidade       : Boolean;
     function ValidaMeioCobranca : Boolean;
     function ValidaFormaPagto   : Boolean;
@@ -151,6 +155,30 @@ implementation
 
 {$R *.dfm}
 
+procedure TfrmCdsCli0.btnIDCIDADEClick(Sender: TObject);
+begin
+   inherited;
+   SearchId( tCnsCid0.Create(Self), fldIDCIDADE, ID_CDSCID0 );
+end;
+
+procedure TfrmCdsCli0.btnIDFORMPAGClick(Sender: TObject);
+begin
+   inherited;
+   SearchId( tCnsFpg0.Create(Self), fldIDFORMPAG, ID_CDSFPG0 );
+end;
+
+procedure TfrmCdsCli0.btnIDMEIOCOBClick(Sender: TObject);
+begin
+   inherited;
+   SearchId( tCnsMcb0.Create(Self), fldIDMEIOCOB, ID_CDSMCB0 );
+end;
+
+procedure TfrmCdsCli0.btnIDTABPRECOClick(Sender: TObject);
+begin
+   inherited;
+   SearchId( tCnsPre0.Create(Self), fldIDTABPRECO, ID_CDSPRE0 );
+end;
+
 procedure TfrmCdsCli0.btnMetroNovoClick(Sender: TObject);
 begin
    inherited;
@@ -158,21 +186,10 @@ begin
    fldCNPJ.SetFocus;
 end;
 
-procedure TfrmCdsCli0.btnMetroProcurarClick(Sender: TObject);
-begin
-   inherited;
-   ExibeConsulta;
-end;
-
 procedure TfrmCdsCli0.btnMetroSalvarClick(Sender: TObject);
 begin
-   inherited;
    SetaTabCliente;
-end;
-
-procedure TfrmCdsCli0.ExibeConsulta;
-begin
-   with TfrmCnsCli0.Create(Application) do ShowModal;
+   inherited;
 end;
 
 procedure TfrmCdsCli0.fldIDCIDADEChange(Sender: TObject);
@@ -200,6 +217,8 @@ begin
    FieldID           := ID_CDSCLI0;
    EditID            := fldIDCLIENTE;
    EditDesc          := fldRAZAO;
+   Generator         := GEN_TBLCDSCLI0;
+   ClasseConsulta    := tCnsCli0.Create(Self);
 end;
 
 procedure TfrmCdsCli0.FormKeyDown(Sender: TObject; var Key: Word;
@@ -232,6 +251,11 @@ end;
 procedure TfrmCdsCli0.SetaTabCliente;
 begin
    pgcCliente.ActivePage := tbsCliente;
+end;
+
+procedure TfrmCdsCli0.SetaTabInfCliente;
+begin
+   pgcCliente.ActivePage := tbsInfoCliente;
 end;
 
 function TfrmCdsCli0.ValidaCidade: Boolean;
@@ -278,19 +302,28 @@ begin
    if bResult then begin
       bResult := ValidaMeioCobranca;
 
-      if not bResult then fldIDMEIOCOB.SetFocus;
+      if not bResult then begin
+         SetaTabInfCliente;
+         fldIDMEIOCOB.SetFocus;
+      end;
    end;
 
    if bResult then begin
       bResult := ValidaFormaPagto;
 
-      if not bResult then fldIDFORMPAG.SetFocus;
+      if not bResult then begin
+         SetaTabInfCliente;
+         fldIDFORMPAG.SetFocus;
+      end;
    end;
 
    if bResult then begin
       bResult := ValidaTabPreco;
 
-      if not bResult then fldIDTABPRECO.SetFocus;
+      if not bResult then begin
+         SetaTabInfCliente;
+         fldIDTABPRECO.SetFocus;
+      end;
    end;
 
    Result := bResult;
@@ -300,7 +333,8 @@ function TfrmCdsCli0.ValidaFormaPagto: Boolean;
 var bResult : Boolean;
 begin
    bResult := True;
-   if (SearchRecordDados('IDFORMPAG', 'TBLCDSFPG0', 'WHERE IDFORMPAG = ' + IntToStr(cdsPrincipalIDFORMPAG.AsInteger) ) = '') then begin
+   if (SearchRecordDados('IDFORMPAG', 'TBLCDSFPG0', 'WHERE IDFORMPAG = ' + IntToStr(cdsPrincipalIDFORMPAG.AsInteger) ) = '') and
+      (cdsPrincipalIDFORMPAG.AsInteger <> 0) then begin
 
       bResult := False;
       ShowMessage('Forma de Pagamento não encontrada');
@@ -314,7 +348,8 @@ function TfrmCdsCli0.ValidaMeioCobranca: Boolean;
 var bResult : Boolean;
 begin
    bResult := True;
-   if (SearchRecordDados('IDMEIOCOB', 'TBLCDSMCB0', 'WHERE IDMEIOCOB = ' + IntToStr(cdsPrincipalIDMEIOCOB.AsInteger) ) = '') then begin
+   if (SearchRecordDados('IDMEIOCOB', 'TBLCDSMCB0', 'WHERE IDMEIOCOB = ' + IntToStr(cdsPrincipalIDMEIOCOB.AsInteger) ) = '') and
+      (cdsPrincipalIDMEIOCOB.AsInteger <> 0) then begin
 
       bResult := False;
       ShowMessage('Meio de Cobrança não encontrado');
@@ -327,7 +362,8 @@ function TfrmCdsCli0.ValidaTabPreco: Boolean;
 var bResult : Boolean;
 begin
    bResult := True;
-   if (SearchRecordDados('IDTABPRECO', 'TBLCDSPRE0', 'WHERE IDTABPRECO = ' + IntToStr(cdsPrincipalIDTABPRECO.AsInteger) ) = '') then begin
+   if (SearchRecordDados('IDTABPRECO', 'TBLCDSPRE0', 'WHERE IDTABPRECO = ' + IntToStr(cdsPrincipalIDTABPRECO.AsInteger) ) = '') and
+      (cdsPrincipalIDTABPRECO.AsInteger <> 0) then begin
 
       bResult := False;
       ShowMessage('Meio de Cobrança não encontrado');

@@ -2,13 +2,15 @@ unit untDados;
 
 interface
 
-uses Forms, Windows, SqlExpr, untDtmDados, SysUtils, Vcl.StdCtrls, Vcl.DBCtrls, Vcl.Graphics;
+uses Forms, Windows, SqlExpr, untDtmDados, SysUtils, Vcl.StdCtrls, Vcl.DBCtrls, Vcl.Graphics,
+  untClassConsulta;
 
 const
   WC_MB_MSGYES = 1;
   WC_MB_MSGNO  = 2;
 
   procedure LoadCaptionID( TableName, FieldID, FieldDesc : String; EditID : TDBEdit; EditDesc : TEdit );
+  procedure SearchId( ClasseConsulta: tConsulta; EditID : TDBEdit; FieldFK : String );
 
   function MsgYesNo(sTexto : string; sCabecalho:string='Pergunta'; iBotaoDefault: Integer = WC_MB_MSGYES):boolean;
   function SearchRecordDados(sCampo, sTabela, sCondicao: String): String;
@@ -87,6 +89,22 @@ begin
       end;
       qrySel.close;
       FreeAndNil(qrySel);
+   end;
+end;
+
+procedure SearchId( ClasseConsulta: tConsulta; EditID : TDBEdit; FieldFK : String );
+var iCodigo : Integer;
+begin
+   iCodigo := ClasseConsulta.Consultar;
+   if iCodigo > 0 then begin
+      EditID.DataSource.DataSet.FieldByName(FieldFK).AsInteger := iCodigo;
+      EditID.Text := IntToStr( iCodigo );
+
+      if EditID.CanFocus then begin
+         EditID.SetFocus;
+         EditID.SelectAll;
+      end;
+
    end;
 end;
 

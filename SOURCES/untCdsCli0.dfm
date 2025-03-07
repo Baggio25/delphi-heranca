@@ -20,7 +20,6 @@ inherited frmCdsCli0: TfrmCdsCli0
       ExplicitWidth = 1137
       inherited lblAtalho: TLabel
         Left = 1065
-        Height = 24
         ExplicitLeft = 1065
       end
       inherited toolBarNavigator: TToolBar
@@ -35,9 +34,6 @@ inherited frmCdsCli0: TfrmCdsCli0
     inherited pnlLeftMetro: TPanel
       Height = 503
       ExplicitHeight = 503
-      inherited btnMetroProcurar: TMetroTile
-        OnClick = btnMetroProcurarClick
-      end
     end
   end
   inherited pnlFront: TScrollBox
@@ -50,7 +46,7 @@ inherited frmCdsCli0: TfrmCdsCli0
       Top = 0
       Width = 1023
       Height = 503
-      ActivePage = tbsCliente
+      ActivePage = tbsInfoCliente
       Align = alClient
       TabOrder = 0
       object tbsCliente: TTabSheet
@@ -277,6 +273,7 @@ inherited frmCdsCli0: TfrmCdsCli0
               C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3}
             NumGlyphs = 2
             ParentFont = False
+            OnClick = btnIDCIDADEClick
           end
           object Label12: TLabel
             Left = 42
@@ -2670,6 +2667,7 @@ inherited frmCdsCli0: TfrmCdsCli0
               C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3}
             NumGlyphs = 2
             ParentFont = False
+            OnClick = btnIDMEIOCOBClick
           end
           object Label24: TLabel
             Left = 41
@@ -2680,7 +2678,7 @@ inherited frmCdsCli0: TfrmCdsCli0
             Caption = 'Meio de Cobran'#231'a'
             FocusControl = fldIDCIDADE
           end
-          object btnIDFORMAPAG: TSpeedButton
+          object btnIDFORMPAG: TSpeedButton
             Left = 235
             Top = 45
             Width = 28
@@ -2803,6 +2801,7 @@ inherited frmCdsCli0: TfrmCdsCli0
               C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3}
             NumGlyphs = 2
             ParentFont = False
+            OnClick = btnIDFORMPAGClick
           end
           object Label25: TLabel
             Left = 18
@@ -2813,7 +2812,7 @@ inherited frmCdsCli0: TfrmCdsCli0
             Caption = 'Forma de Pagamento'
             FocusControl = fldIDCIDADE
           end
-          object btnIDTABPRE: TSpeedButton
+          object btnIDTABPRECO: TSpeedButton
             Left = 235
             Top = 76
             Width = 28
@@ -2936,6 +2935,7 @@ inherited frmCdsCli0: TfrmCdsCli0
               C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3}
             NumGlyphs = 2
             ParentFont = False
+            OnClick = btnIDTABPRECOClick
           end
           object Label26: TLabel
             Left = 57

@@ -34,9 +34,6 @@ inherited frmCdsFpg0: TfrmCdsFpg0
     inherited pnlLeftMetro: TPanel
       Height = 213
       ExplicitHeight = 213
-      inherited btnMetroProcurar: TMetroTile
-        OnClick = btnMetroProcurarClick
-      end
     end
   end
   inherited pnlFront: TScrollBox

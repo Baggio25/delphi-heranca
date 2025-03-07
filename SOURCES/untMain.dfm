@@ -20367,6 +20367,7 @@ object frmMain: TfrmMain
         Top = 0
         Caption = 'Vendas - Or'#231'amentos/Balc'#227'o'
         ImageIndex = 3
+        OnClick = tbtnVenOrcBalClick
       end
       object tbtnVenRpd: TToolButton
         Left = 275

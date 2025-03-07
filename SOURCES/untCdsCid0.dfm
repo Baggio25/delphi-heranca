@@ -20,7 +20,6 @@ inherited frmCdsCid0: TfrmCdsCid0
       ExplicitWidth = 538
       inherited lblAtalho: TLabel
         Left = 466
-        Height = 24
         ExplicitLeft = 466
       end
       inherited toolBarNavigator: TToolBar
@@ -35,9 +34,6 @@ inherited frmCdsCid0: TfrmCdsCid0
     inherited pnlLeftMetro: TPanel
       Height = 222
       ExplicitHeight = 222
-      inherited btnMetroProcurar: TMetroTile
-        OnClick = btnMetroProcurarClick
-      end
     end
   end
   inherited pnlFront: TScrollBox
@@ -220,6 +216,7 @@ inherited frmCdsCid0: TfrmCdsCid0
         C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3}
       NumGlyphs = 2
       ParentFont = False
+      OnClick = btnIDPAISClick
     end
     object fldIDCIDADE: TDBEdit
       Left = 74

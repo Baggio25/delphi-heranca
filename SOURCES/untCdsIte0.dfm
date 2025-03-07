@@ -9,34 +9,38 @@ inherited frmCdsIte0: TfrmCdsIte0
   inherited scrRodape: TScrollBox
     Top = 220
     Width = 530
-    ExplicitTop = 212
+    ExplicitTop = 220
+    ExplicitWidth = 530
     inherited StatusBar1: TStatusBar
       Width = 530
+      ExplicitWidth = 530
     end
     inherited pnlToolBarNavigator: TPanel
       Width = 530
+      ExplicitWidth = 530
       inherited lblAtalho: TLabel
         Left = 458
-        Height = 24
+        ExplicitLeft = 458
       end
       inherited toolBarNavigator: TToolBar
         Width = 458
+        ExplicitWidth = 458
       end
     end
   end
   inherited pnlLeftButtonMetro: TScrollBox
     Height = 220
-    ExplicitHeight = 212
+    ExplicitHeight = 220
     inherited pnlLeftMetro: TPanel
       Height = 220
-      ExplicitHeight = 212
+      ExplicitHeight = 220
     end
   end
   inherited pnlFront: TScrollBox
     Width = 416
     Height = 220
-    ExplicitWidth = 439
-    ExplicitHeight = 261
+    ExplicitWidth = 416
+    ExplicitHeight = 220
     object Label1: TLabel
       Left = 46
       Top = 21
@@ -208,6 +212,7 @@ inherited frmCdsIte0: TfrmCdsIte0
         C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3}
       NumGlyphs = 2
       ParentFont = False
+      OnClick = btnIDMarcaClick
     end
     object btnIDSecao: TSpeedButton
       Left = 152
@@ -332,6 +337,7 @@ inherited frmCdsIte0: TfrmCdsIte0
         C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3}
       NumGlyphs = 2
       ParentFont = False
+      OnClick = btnIDSecaoClick
     end
     object fldIDITEM: TDBEdit
       Left = 101

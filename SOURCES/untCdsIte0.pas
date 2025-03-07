@@ -8,7 +8,7 @@ uses
   Datasnap.DBClient, Datasnap.Provider, Data.SqlExpr, System.ImageList,
   Vcl.ImgList, Vcl.Imaging.pngimage, MetroTile, Vcl.StdCtrls, Vcl.ComCtrls,
   Vcl.ToolWin, Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, untConstantes, untDados,
-  Vcl.Buttons;
+  Vcl.Buttons, untClassCnsIte0, untClassCnsMar0, untClassCnsSec0;
 
 type
   TfrmCdsIte0 = class(TfrmMdlCds0)
@@ -40,6 +40,8 @@ type
     procedure btnMetroNovoClick(Sender: TObject);
     procedure fldIDMARCAChange(Sender: TObject);
     procedure fldIDSECAOChange(Sender: TObject);
+    procedure btnIDMarcaClick(Sender: TObject);
+    procedure btnIDSecaoClick(Sender: TObject);
   private
     function ValidaMarca : Boolean;
     function ValidaSecao : Boolean;
@@ -53,6 +55,18 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TfrmCdsIte0.btnIDMarcaClick(Sender: TObject);
+begin
+   inherited;
+   SearchId( tCnsMar0.Create(Self), fldIDMARCA, ID_CDSMAR0 );
+end;
+
+procedure TfrmCdsIte0.btnIDSecaoClick(Sender: TObject);
+begin
+   inherited;
+   SearchId( tCnsSec0.Create(Self), fldIDSECAO, ID_CDSSEC0 );
+end;
 
 procedure TfrmCdsIte0.btnMetroNovoClick(Sender: TObject);
 begin
@@ -75,11 +89,13 @@ end;
 procedure TfrmCdsIte0.FormCreate(Sender: TObject);
 begin
    inherited;
-   CaptionForm := 'Cadastro de Item';
-   TableName   := TBL_CDSITE0;
-   FieldID     := ID_CDSITE0;
-   EditID      := fldIDITEM;
-   EditDesc    := fldNOMEPRO;
+   CaptionForm    := 'Cadastro de Item';
+   TableName      := TBL_CDSITE0;
+   FieldID        := ID_CDSITE0;
+   EditID         := fldIDITEM;
+   EditDesc       := fldNOMEPRO;
+   Generator      := GEN_TBLCDSITE0;
+   ClasseConsulta := tCnsIte0.Create(Self);
 end;
 
 function TfrmCdsIte0.ValidaDados: Boolean;

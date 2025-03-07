@@ -20,7 +20,6 @@ inherited frmCdsVen0: TfrmCdsVen0
       ExplicitWidth = 542
       inherited lblAtalho: TLabel
         Left = 470
-        Height = 24
         ExplicitLeft = 470
       end
       inherited toolBarNavigator: TToolBar
@@ -205,6 +204,7 @@ inherited frmCdsVen0: TfrmCdsVen0
         C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3}
       NumGlyphs = 2
       ParentFont = False
+      OnClick = btnIDCIDADEClick
     end
     object fldIDVENDEDOR: TDBEdit
       Left = 112

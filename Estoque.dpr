@@ -25,10 +25,21 @@ uses
   untCnsMcb0 in 'SOURCES\untCnsMcb0.pas' {frmCnsMcb0},
   untCnsFpg0 in 'SOURCES\untCnsFpg0.pas' {frmCnsFpg0},
   untCnsCli0 in 'SOURCES\untCnsCli0.pas' {frmCnsCli0},
-  untConsulta in 'SOURCES\untConsulta.pas' {frmConsulta},
-  untClassConsulta in 'SOURCES\untClassConsulta.pas',
   untClassCnsCid0 in 'SOURCES\untClassCnsCid0.pas',
-  UntTipos in 'SOURCES\UntTipos.pas';
+  untClassConsulta in 'SOURCES\untClassConsulta.pas',
+  untConsulta in 'SOURCES\untConsulta.pas' {frmConsulta},
+  UntTipos in 'SOURCES\UntTipos.pas',
+  untClassCnsPai0 in 'SOURCES\untClassCnsPai0.pas',
+  untClassCnsUsr0 in 'SOURCES\untClassCnsUsr0.pas',
+  untClassCnsVen0 in 'SOURCES\untClassCnsVen0.pas',
+  untClassCnsMar0 in 'SOURCES\untClassCnsMar0.pas',
+  untClassCnsSec0 in 'SOURCES\untClassCnsSec0.pas',
+  untClassCnsIte0 in 'SOURCES\untClassCnsIte0.pas',
+  untClassCnsMcb0 in 'SOURCES\untClassCnsMcb0.pas',
+  untClassCnsFpg0 in 'SOURCES\untClassCnsFpg0.pas',
+  untClassCnsPre0 in 'SOURCES\untClassCnsPre0.pas',
+  untClassCnsCli0 in 'SOURCES\untClassCnsCli0.pas',
+  untMvmVenda in 'SOURCES\untMvmVenda.pas' {frmMvmVenda};
 
 {$R *.res}
 

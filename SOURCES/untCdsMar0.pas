@@ -7,7 +7,8 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, untMdlCds0, Data.FMTBcd, Data.DB,
   Datasnap.DBClient, Datasnap.Provider, Data.SqlExpr, System.ImageList,
   Vcl.ImgList, Vcl.Imaging.pngimage, MetroTile, Vcl.StdCtrls, Vcl.ComCtrls,
-  Vcl.ToolWin, Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, untConstantes;
+  Vcl.ToolWin, Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, untConstantes,
+  untClassCnsMar0;
 
 type
   TfrmCdsMar0 = class(TfrmMdlCds0)
@@ -34,11 +35,13 @@ implementation
 procedure TfrmCdsMar0.FormCreate(Sender: TObject);
 begin
    inherited;
-   CaptionForm := 'Cadastro de Marca';
-   TableName   := TBL_CDSMAR0;
-   FieldID     := ID_CDSMAR0;
-   EditID      := fldIDMARCA;
-   EditDesc    := fldMARCA;
+   CaptionForm    := 'Cadastro de Marca';
+   TableName      := TBL_CDSMAR0;
+   FieldID        := ID_CDSMAR0;
+   EditID         := fldIDMARCA;
+   EditDesc       := fldMARCA;
+   Generator      := GEN_TBLCDSMAR0;
+   ClasseConsulta := tCnsMar0.Create(Self);
 end;
 
 function TfrmCdsMar0.ValidaDados: Boolean;

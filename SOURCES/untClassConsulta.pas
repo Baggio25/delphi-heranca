@@ -2,7 +2,7 @@ unit untClassConsulta;
 
 interface
 
-uses Classes, untConsulta, SysUtils, UntTipos;
+uses Classes, untConsulta, SysUtils, UntTipos, Vcl.Controls, dialogs;
 
 type
 
@@ -61,9 +61,11 @@ begin
 end;
 
 function tConsulta.Consultar: Integer;
-var Frm : TfrmConsulta;
-    I   : Integer;
+var Frm        : TfrmConsulta;
+    I, iResult : Integer;
+
 begin
+   iResult         := 0;
    Frm             := TfrmConsulta.Create(Self);
    Frm.CaptionForm := Titulo;
 
@@ -80,7 +82,13 @@ begin
    Frm.SqlCommandText  := SqlCommadText;
    Frm.ShowModal;
 
+   if Frm.ModalResult = mrOk then begin
+     iResult := frm.idResult;
+   end;
+
    FreeAndNil( Frm );
+
+   Result := iResult;
 end;
 
 constructor tConsulta.Create(Aowner: tComponent);

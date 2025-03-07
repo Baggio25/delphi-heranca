@@ -7,8 +7,8 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, untMdlCds0, Data.FMTBcd, Data.DB,
   Datasnap.DBClient, Datasnap.Provider, Data.SqlExpr, System.ImageList,
   Vcl.ImgList, Vcl.Imaging.pngimage, MetroTile, Vcl.StdCtrls, Vcl.ComCtrls,
-  Vcl.ToolWin, Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, untConstantes, untCnsUsr0,
-  untDados, Vcl.Buttons;
+  Vcl.ToolWin, Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, untConstantes, untDados, Vcl.Buttons, untClassCnsUsr0,
+  untClassCnsCid0;
 
 type
   TfrmCdsUsr0 = class(TfrmMdlCds0)
@@ -55,12 +55,11 @@ type
     lblIDCIDADE: TEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnMetroNovoClick(Sender: TObject);
-    procedure btnMetroProcurarClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnMetroSalvarClick(Sender: TObject);
     procedure fldIDCIDADEChange(Sender: TObject);
+    procedure btnIDCIDADEClick(Sender: TObject);
   private
-    procedure ExibeConsulta;
     function ValidaCidade : Boolean;
   public
     function ValidaDados : Boolean; override;
@@ -73,6 +72,12 @@ implementation
 
 {$R *.dfm}
 
+procedure TfrmCdsUsr0.btnIDCIDADEClick(Sender: TObject);
+begin
+   inherited;
+   SearchId( tCnsCid0.Create(Self), fldIDCIDADE, ID_CDSCID0 );
+end;
+
 procedure TfrmCdsUsr0.btnMetroNovoClick(Sender: TObject);
 begin
   inherited;
@@ -80,24 +85,13 @@ begin
    cdsPrincipalADM.AsInteger   := 0;
 end;
 
-procedure TfrmCdsUsr0.btnMetroProcurarClick(Sender: TObject);
-begin
-  inherited;
-  ExibeConsulta;
-end;
-
 procedure TfrmCdsUsr0.btnMetroSalvarClick(Sender: TObject);
 begin
 
   if cdsPrincipalADM.AsInteger <> 1 then cdsPrincipalADM.AsInteger := 0;
-  
+
   inherited;
 
-end;
-
-procedure TfrmCdsUsr0.ExibeConsulta;
-begin
-   with TfrmCnsUsr0.Create(Application) do ShowModal;
 end;
 
 procedure TfrmCdsUsr0.fldIDCIDADEChange(Sender: TObject);
@@ -110,11 +104,13 @@ end;
 procedure TfrmCdsUsr0.FormCreate(Sender: TObject);
 begin
   inherited;
-   CaptionForm := 'Cadastro de Usuário';
-   TableName   := TBL_CDSUSR0;
-   FieldID     := ID_CDSUSR0;
-   EditID      := fldIDUSUARIO;
-   EditDesc    := fldUSUARIO;
+   CaptionForm    := 'Cadastro de Usuário';
+   TableName      := TBL_CDSUSR0;
+   FieldID        := ID_CDSUSR0;
+   EditID         := fldIDUSUARIO;
+   EditDesc       := fldUSUARIO;
+   Generator      := GEN_TBLCDSUSR0;
+   ClasseConsulta := tCnsUsr0.Create(Self);
 end;
 
 procedure TfrmCdsUsr0.FormKeyDown(Sender: TObject; var Key: Word;

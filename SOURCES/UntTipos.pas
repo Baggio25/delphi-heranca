@@ -9,10 +9,11 @@ type
    tTipoCampo = ( tpString, tpInteiro, tpNumerico, tpBoolean, tpDate, tpTime );
 
    tCampos = record
-      CampoID   : String;
-      CampoLeg  : String;
-      Width     : Integer;
-      Tipo      : tTipoCampo;
+      CampoID        : String;
+      CampoLeg       : String;
+      Width          : Integer;
+      Tipo           : tTipoCampo;
+      DisplayFormat  : String;
    end;
 
 implementation

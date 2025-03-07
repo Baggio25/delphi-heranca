@@ -20,7 +20,7 @@ type
     cmbCampoOrdem: TComboBox;
     rdgOrdem: TRadioGroup;
     pnlFundo: TPanel;
-    Panel1: TPanel;
+    pnlTopo: TPanel;
     Label1: TLabel;
     btnPesquisar: TButton;
     edtPesquisa: TEdit;
@@ -29,9 +29,16 @@ type
     dspDados: TDataSetProvider;
     cdsDados: TClientDataSet;
     dsDados: TDataSource;
+    pnlRodape: TPanel;
+    btnConcluir: TButton;
+    btnCancelar: TButton;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnPesquisarClick(Sender: TObject);
+    procedure btnConcluirClick(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
+    procedure dbgDadosDblClick(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
     procedure ConfiguraTelaConsulta;
     procedure ConfiguraComboBox;
@@ -40,6 +47,7 @@ type
     function MontaSql : string;
     function ValidaDados : Boolean;
   public
+    idResult        : Integer;
     SqlCommandText  : String;
     ItemIndexFiltro : Integer;
     ItemIndexOrdem  : Integer;
@@ -56,10 +64,25 @@ implementation
 
 {$R *.dfm}
 
+procedure TfrmConsulta.btnCancelarClick(Sender: TObject);
+begin
+   Close;
+end;
+
+procedure TfrmConsulta.btnConcluirClick(Sender: TObject);
+begin
+   if cdsDados.Active then begin
+      idResult := cdsDados.Fields[0].AsInteger;
+   end;
+
+   ModalResult := mrOk;
+end;
+
 procedure TfrmConsulta.btnPesquisarClick(Sender: TObject);
 begin
    if ValidaDados then begin
       ConsultaDados;
+      dbgDados.SetFocus;
    end;
 end;
 
@@ -93,6 +116,11 @@ begin
       dbgDados.Columns[i].Title.Caption      := Campo.CampoLeg;
       dbgDados.Columns[i].Title.Font.Style   := [fsBold];
       dbgDados.Columns[i].Width              := Campo.Width;
+
+//      if Campo.DisplayFormat <> '' then begin
+//         cdsDados.FieldByName(Campo.CampoID).EditMask := Campo.DisplayFormat;
+//      end;
+
    end;
 
 end;
@@ -102,6 +130,8 @@ begin
    Caption := CaptionForm;
    ConfiguraComboBox;
    ConfiguraGrid;
+
+   if edtPesquisa.CanFocus then edtPesquisa.SetFocus;   
 end;
 
 procedure TfrmConsulta.ConsultaDados;
@@ -115,10 +145,39 @@ begin
    cdsDados.Open;
 end;
 
+procedure TfrmConsulta.dbgDadosDblClick(Sender: TObject);
+begin
+   if btnConcluir.Enabled then btnConcluir.Click;
+   
+end;
+
 procedure TfrmConsulta.FormCreate(Sender: TObject);
 begin
+   idResult        := 0;
    ItemIndexFiltro := -1;
    ItemIndexOrdem  := -1;
+end;
+
+procedure TfrmConsulta.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+   if key = #13 then begin
+      if edtPesquisa.Focused then begin
+         if btnPesquisar.Enabled then begin
+            key := #0;
+            btnPesquisar.Click;
+         end;
+      end else if dbgDados.Focused then begin
+         if btnConcluir.Enabled then begin
+            key := #0;
+            btnConcluir.Click;
+         end;
+      end;
+   end;
+
+   if key = #27 then begin
+      key := #0;
+      if btnCancelar.Enabled then btnCancelar.Click;      
+   end;
 end;
 
 procedure TfrmConsulta.FormShow(Sender: TObject);
