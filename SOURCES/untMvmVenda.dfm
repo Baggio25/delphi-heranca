@@ -3,7 +3,7 @@ object frmMvmVenda: TfrmMvmVenda
   Top = 0
   Caption = 'Lan'#231'amento de Vendas'
   ClientHeight = 511
-  ClientWidth = 784
+  ClientWidth = 847
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -22,7 +22,7 @@ object frmMvmVenda: TfrmMvmVenda
   object pnlCabecalho: TPanel
     Left = 0
     Top = 46
-    Width = 784
+    Width = 847
     Height = 99
     Align = alTop
     Color = 16446693
@@ -34,6 +34,7 @@ object frmMvmVenda: TfrmMvmVenda
     ParentBackground = False
     ParentFont = False
     TabOrder = 0
+    ExplicitWidth = 784
     object gpbNota: TGroupBox
       Left = 1
       Top = 1
@@ -87,11 +88,12 @@ object frmMvmVenda: TfrmMvmVenda
     object gpbCliente: TGroupBox
       Left = 265
       Top = 1
-      Width = 518
+      Width = 581
       Height = 97
       Align = alClient
       Caption = 'Cliente'
       TabOrder = 1
+      ExplicitWidth = 518
       object btnIDCliente: TSpeedButton
         Left = 133
         Top = 25
@@ -280,9 +282,9 @@ object frmMvmVenda: TfrmMvmVenda
   end
   object pnlRodape: TPanel
     Left = 0
-    Top = 424
-    Width = 784
-    Height = 87
+    Top = 430
+    Width = 847
+    Height = 81
     Align = alBottom
     Color = 16446693
     Font.Charset = ANSI_CHARSET
@@ -294,10 +296,10 @@ object frmMvmVenda: TfrmMvmVenda
     ParentFont = False
     TabOrder = 1
     DesignSize = (
-      784
-      87)
+      847
+      81)
     object Label4: TLabel
-      Left = 729
+      Left = 792
       Top = 6
       Width = 40
       Height = 22
@@ -310,41 +312,130 @@ object frmMvmVenda: TfrmMvmVenda
       Font.Name = 'Arial'
       Font.Style = []
       ParentFont = False
+      ExplicitLeft = 729
     end
-    object fldVLRTOTAL: TEdit
-      Left = 584
-      Top = 30
-      Width = 185
-      Height = 41
+    object edtVALORTOTAL: TEdit
+      Left = 568
+      Top = 28
+      Width = 264
+      Height = 39
       Alignment = taRightJustify
       Anchors = [akTop, akRight]
+      Ctl3D = False
       Font.Charset = ANSI_CHARSET
       Font.Color = clNavy
       Font.Height = -29
       Font.Name = 'Arial'
       Font.Style = []
+      ParentCtl3D = False
       ParentFont = False
       ReadOnly = True
       TabOrder = 0
     end
   end
-  object dbgItems: TDBGrid
+  object dbgMVI: TDBGrid
     Left = 0
     Top = 145
-    Width = 784
-    Height = 279
+    Width = 847
+    Height = 285
     Align = alClient
+    DataSource = dsMVI
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Arial'
+    Font.Style = []
+    ParentFont = False
     TabOrder = 2
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -12
     TitleFont.Name = 'Segoe UI'
     TitleFont.Style = []
+    OnColEnter = dbgMVIColEnter
+    OnColExit = dbgMVIColExit
+    Columns = <
+      item
+        Alignment = taRightJustify
+        Expanded = False
+        FieldName = 'CODBARRA'
+        Title.Alignment = taRightJustify
+        Title.Caption = 'Item'
+        Title.Font.Charset = ANSI_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -16
+        Title.Font.Name = 'Arial'
+        Title.Font.Style = [fsBold]
+        Width = 150
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NOMEPRO'
+        ReadOnly = True
+        Title.Caption = 'Nome do Produto'
+        Title.Font.Charset = ANSI_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -16
+        Title.Font.Name = 'Arial'
+        Title.Font.Style = [fsBold]
+        Width = 339
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'UNIDADE'
+        ReadOnly = True
+        Title.Caption = 'Und.'
+        Title.Font.Charset = ANSI_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -16
+        Title.Font.Name = 'Arial'
+        Title.Font.Style = [fsBold]
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'QTDE'
+        Title.Alignment = taRightJustify
+        Title.Caption = 'Qtde'
+        Title.Font.Charset = ANSI_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -16
+        Title.Font.Name = 'Arial'
+        Title.Font.Style = [fsBold]
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'VLRUNIT'
+        Title.Alignment = taRightJustify
+        Title.Caption = 'Vlr Unit.'
+        Title.Font.Charset = ANSI_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -16
+        Title.Font.Name = 'Arial'
+        Title.Font.Style = [fsBold]
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'VLRTOTAL'
+        ReadOnly = True
+        Title.Alignment = taRightJustify
+        Title.Caption = 'Vlr Total'
+        Title.Font.Charset = ANSI_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -16
+        Title.Font.Name = 'Arial'
+        Title.Font.Style = [fsBold]
+        Visible = True
+      end>
   end
   object pnlTop: TPanel
     Left = 0
     Top = 0
-    Width = 784
+    Width = 847
     Height = 46
     Align = alTop
     BevelOuter = bvNone
@@ -363,15 +454,17 @@ object frmMvmVenda: TfrmMvmVenda
     ParentShowHint = False
     ShowHint = False
     TabOrder = 3
-    object ToolBar1: TToolBar
-      Left = 0
-      Top = 0
-      Width = 784
-      Height = 46
+    ExplicitWidth = 784
+    object tlbBotoes: TToolBar
+      AlignWithMargins = True
+      Left = 3
+      Top = 3
+      Width = 841
+      Height = 40
       Align = alClient
       ButtonHeight = 35
       ButtonWidth = 48
-      Caption = 'ToolBar1'
+      Caption = 'tlbBotoes'
       Color = clWhite
       Ctl3D = False
       DisabledImages = imgDisable
@@ -391,6 +484,10 @@ object frmMvmVenda: TfrmMvmVenda
       ShowHint = False
       TabOrder = 0
       Transparent = False
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 847
+      ExplicitHeight = 46
       object btnNovo: TToolButton
         Left = 0
         Top = 0
@@ -1657,5 +1754,63 @@ object frmMvmVenda: TfrmMvmVenda
       C0010003E3CF8000C0010001C7E78000C00100008FFB8000C00300001FFF8000
       C00700103FFF8000C00F0039FFFFC00100000000000000000000000000000000
       000000000000}
+  end
+  object cdsMVI: TClientDataSet
+    Aggregates = <>
+    AggregatesActive = True
+    FieldDefs = <>
+    IndexDefs = <>
+    Params = <>
+    StoreDefs = True
+    AfterDelete = cdsMVIAfterDelete
+    Left = 512
+    Top = 360
+    object cdsMVICODBARRA: TStringField
+      DisplayLabel = 'C'#243'd. Barras'
+      FieldName = 'CODBARRA'
+    end
+    object cdsMVIIDITEM: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'IDITEM'
+    end
+    object cdsMVINOMEPRO: TStringField
+      DisplayLabel = 'Item'
+      FieldName = 'NOMEPRO'
+      Size = 40
+    end
+    object cdsMVIQTDE: TFloatField
+      DisplayLabel = 'Quantidade'
+      FieldName = 'QTDE'
+      DisplayFormat = '#####0.0000'
+    end
+    object cdsMVIVLRUNIT: TFloatField
+      DisplayLabel = 'Valor Unit.'
+      FieldName = 'VLRUNIT'
+      DisplayFormat = '#####0.0000'
+    end
+    object cdsMVIVLRTOTAL: TFloatField
+      DisplayLabel = 'Valor Total'
+      FieldName = 'VLRTOTAL'
+      DisplayFormat = '#####0.00'
+    end
+    object cdsMVIUNIDADE: TStringField
+      FieldName = 'UNIDADE'
+      Size = 3
+    end
+    object cdsMVISOMAVLRTOTAL: TAggregateField
+      Alignment = taRightJustify
+      DefaultExpression = '######0.00'
+      FieldName = 'SOMAVLRTOTAL'
+      Active = True
+      DisplayName = ''
+      DisplayFormat = '######0.00'
+      Expression = 'SUM(VLRTOTAL)'
+    end
+  end
+  object dsMVI: TDataSource
+    DataSet = cdsMVI
+    OnStateChange = dsMVIStateChange
+    Left = 576
+    Top = 360
   end
 end

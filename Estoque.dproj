@@ -211,6 +211,7 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="SOURCES\untClassFaturamento.pas"/>
+        <DCCReference Include="SOURCES\untClassIte0.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

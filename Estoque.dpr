@@ -40,7 +40,8 @@ uses
   untClassCnsPre0 in 'SOURCES\untClassCnsPre0.pas',
   untClassCnsCli0 in 'SOURCES\untClassCnsCli0.pas',
   untMvmVenda in 'SOURCES\untMvmVenda.pas' {frmMvmVenda},
-  untClassFaturamento in 'SOURCES\untClassFaturamento.pas';
+  untClassFaturamento in 'SOURCES\untClassFaturamento.pas',
+  untClassIte0 in 'SOURCES\untClassIte0.pas';
 
 {$R *.res}
 

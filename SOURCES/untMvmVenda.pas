@@ -7,18 +7,19 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Data.DB, Vcl.StdCtrls,
   Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Vcl.ToolWin, System.ImageList,
   Vcl.ImgList, JvExMask, JvToolEdit, Vcl.Buttons, Vcl.Mask, Vcl.DBCtrls,
-  untClassFaturamento, untDados, untConstantes, untClassCnsCli0;
+  untClassFaturamento, untDados, untConstantes, untClassCnsCli0,
+  Datasnap.DBClient, UdfLib, untClassIte0;
 
 type
   TfrmMvmVenda = class(TForm)
     pnlCabecalho: TPanel;
     pnlRodape: TPanel;
-    dbgItems: TDBGrid;
+    dbgMVI: TDBGrid;
     imgDefault: TImageList;
     imgHot: TImageList;
     imgDisable: TImageList;
     pnlTop: TPanel;
-    ToolBar1: TToolBar;
+    tlbBotoes: TToolBar;
     btnNovo: TToolButton;
     btnEditar: TToolButton;
     btnExcluir: TToolButton;
@@ -37,8 +38,18 @@ type
     Label3: TLabel;
     edtDTEMISSAO: TJvDateEdit;
     lbl: TLabel;
-    fldVLRTOTAL: TEdit;
     Label4: TLabel;
+    cdsMVI: TClientDataSet;
+    cdsMVICODBARRA: TStringField;
+    cdsMVIIDITEM: TIntegerField;
+    cdsMVINOMEPRO: TStringField;
+    cdsMVIQTDE: TFloatField;
+    cdsMVIVLRUNIT: TFloatField;
+    cdsMVIVLRTOTAL: TFloatField;
+    dsMVI: TDataSource;
+    cdsMVIUNIDADE: TStringField;
+    cdsMVISOMAVLRTOTAL: TAggregateField;
+    edtVALORTOTAL: TEdit;
     procedure btnSairClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -53,8 +64,13 @@ type
     procedure btnSalvarClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
     procedure edtNotaEnter(Sender: TObject);
+    procedure dbgMVIColExit(Sender: TObject);
+    procedure dbgMVIColEnter(Sender: TObject);
+    procedure dsMVIStateChange(Sender: TObject);
+    procedure cdsMVIAfterDelete(DataSet: TDataSet);
   private
-    MovFat : tFaturamento;
+    iColSel : Integer;
+    MovFat  : tFaturamento;
 
     procedure ConfiguraFormulario;
     procedure BotaoNovoClick;
@@ -71,9 +87,15 @@ type
     procedure BotaoCancelarClick;
     procedure LimpaEdits;
     procedure LoadNextNota;
-    function ValidaDados : Boolean;
-    function ValidaEditsNota : Boolean;
-
+    procedure CarregaGrid;
+    procedure ProcessaTeclasGrid( var key: Word; Shift: TShiftState );
+    procedure CalculaTotalMvi;
+    procedure TotalNota;
+    function ValidaDados           : Boolean;
+    function ValidaEditsNota       : Boolean;
+    function ValidaColunaAnterior  : Boolean;
+    function ValidaQtde            : Boolean;
+    function ValidaCodigo          : Boolean;
   public
     { Public declarations }
   end;
@@ -82,6 +104,16 @@ var
   frmMvmVenda: TfrmMvmVenda;
 
 implementation
+
+const
+   CL_CODBARRA = 0;
+   CL_NOMEPRO  = 1;
+   CL_UNIDADE  = 2;
+   CL_QTDE     = 3;
+   CL_VLRUNIT  = 4;
+   CL_VLRTOTAL = 5;
+
+   CL_ULTIMACOL = 5;
 
 {$R *.dfm}
 
@@ -97,6 +129,7 @@ end;
 procedure TfrmMvmVenda.AtivaPainelCliente(bActive: Boolean);
 begin
    gpbCliente.Enabled := bActive;
+   dbgMVI.Enabled     := bActive;
 end;
 
 procedure TfrmMvmVenda.AtivaPainelNota(bActive: Boolean);
@@ -116,6 +149,7 @@ begin
    AtivaPainelNota( False );
    AtivaPainelCliente( False );
    MovFat.StatusFat := tpSNone;
+   cdsMVI.Close;
    LimpaEdits;
 end;
 
@@ -183,6 +217,11 @@ begin
    BotaoSalvarClick;
 end;
 
+procedure TfrmMvmVenda.CalculaTotalMvi;
+begin
+   cdsMVIVLRTOTAL.AsFloat := RoundVal(cdsMVIQTDE.AsFloat * cdsMVIVLRUNIT.AsFloat, 2);
+end;
+
 procedure TfrmMvmVenda.CarregaEdits;
 begin
    edtIDCLIENTE.Text := '';
@@ -191,6 +230,21 @@ begin
    edtDTEMISSAO.Date := MovFat.DtEmissao;
    edtSerie.Text     := MovFat.Serie;
    edtNota.Text      := IntToStr(MovFat.Nota);
+
+   CarregaGrid;
+end;
+
+procedure TfrmMvmVenda.CarregaGrid;
+begin
+   cdsMVI.Close;
+   cdsMVI.CreateDataSet;
+
+   iColSel := 0;
+end;
+
+procedure TfrmMvmVenda.cdsMVIAfterDelete(DataSet: TDataSet);
+begin
+   TotalNota;
 end;
 
 procedure TfrmMvmVenda.ConfiguraFormulario;
@@ -198,7 +252,7 @@ begin
 //   Configura groupbox e paineis
    gpbNota.Enabled      := False;
    gpbCliente.Enabled   := False;
-   dbgItems.Enabled     := False;
+   dbgMVI.Enabled       := False;
    pnlRodape.Enabled    := False;
 
 // Configura barra de botoes
@@ -215,6 +269,27 @@ end;
 procedure TfrmMvmVenda.CriaClasseFaturamento;
 begin
    MovFat := tFaturamento.Create(Self);
+end;
+
+procedure TfrmMvmVenda.dbgMVIColEnter(Sender: TObject);
+begin
+
+   if dsMVI.State in [dsInsert, dsEdit] then begin
+      if not ValidaColunaAnterior then begin
+         dbgMVI.SelectedIndex := iColSel;
+      end;
+   end;
+
+end;
+
+procedure TfrmMvmVenda.dbgMVIColExit(Sender: TObject);
+begin
+   iColSel := dbgMVI.SelectedIndex;
+end;
+
+procedure TfrmMvmVenda.dsMVIStateChange(Sender: TObject);
+begin
+   TotalNota;
 end;
 
 procedure TfrmMvmVenda.edtIDCLIENTEChange(Sender: TObject);
@@ -251,6 +326,8 @@ begin
    if key = VK_ESCAPE then begin
       key := 0;
       btnSair.Click;
+   end else if ( Self.ActiveControl is TDBGrid ) then begin
+      ProcessaTeclasGrid(key, Shift);
    end else if key = VK_RETURN then begin
       key := 0;
       SendMessage(Handle, WM_NEXTDLGCTL, 0, 0);
@@ -261,7 +338,7 @@ begin
       end;
    end else if key = VK_F9 then begin
       key := 0;
-      btnSalvar.Click;
+      if btnSalvar.Enabled then btnSalvar.Click;
    end;
 end;
 
@@ -304,6 +381,30 @@ begin
    end;
 end;
 
+procedure TfrmMvmVenda.ProcessaTeclasGrid( var key: Word; Shift: TShiftState );
+begin
+   if key = VK_RETURN then begin
+
+      with TDBGrid(ActiveControl) do begin
+         if SelectedIndex = CL_ULTIMACOL then begin
+            cdsMVI.Next;
+            if cdsMVI.Eof then cdsMVI.Append;
+         end;
+
+         if SelectedIndex < ( FieldCount - 1 ) then begin
+            SelectedIndex := SelectedIndex + 1;
+         end else begin
+            SelectedIndex := 0;
+         end;
+
+         if SelectedIndex = CL_NOMEPRO then SelectedIndex := SelectedIndex + 1;
+         if SelectedIndex = CL_UNIDADE then SelectedIndex := SelectedIndex + 1;
+      end;
+
+      key := 0;
+   end;
+end;
+
 procedure TfrmMvmVenda.SaveEdits;
 begin
    MovFat.Serie      := edtSerie.Text;
@@ -311,6 +412,69 @@ begin
    MovFat.IdCliente  := StrToInt(edtIDCLIENTE.Text);
    MovFat.DtEmissao  := edtDTEMISSAO.Date;
    MovFat.VlrTotal   := 150;
+end;
+
+procedure TfrmMvmVenda.TotalNota;
+var nSoma : Real;
+begin
+   nSoma := 0;
+   if cdsMVI.Active then begin
+      nSoma := StrToFloatDef(cdsMVISOMAVLRTOTAL.AsString, 0);
+   end;
+
+   edtVALORTOTAL.Text := FormatCurr('######0.00', nSoma);
+end;
+
+function TfrmMvmVenda.ValidaCodigo: Boolean;
+var bResult : Boolean;
+    sCodigo : String;
+    CadIte  : tItens;
+begin
+   bResult := True;
+
+   if cdsMVICODBARRA.AsString = '' then begin
+      bResult := False;
+      ShowMessage('Produto não informado');
+   end;
+
+   if bResult then begin
+      CadIte := tItens.Create(cdsMVICODBARRA.AsString);
+
+      if CadIte.IdItem = 0 then begin
+         bResult := False;
+         ShowMessage('Produto não cadastrado');
+      end else begin
+         cdsMVINOMEPRO.AsString := CadIte.NomePro;
+         cdsMVIUNIDADE.AsString := CadIte.Unidade;
+
+         if dsMVI.State = dsInsert then begin
+            cdsMVIVLRUNIT.AsFloat  := CadIte.Preco;
+            cdsMVIQTDE.AsInteger   := 1;           
+         end;                           
+      end;
+
+      FreeAndNil(CadIte);
+   end;
+
+   Result := bResult;
+end;
+
+function TfrmMvmVenda.ValidaColunaAnterior: Boolean;
+var bResult : Boolean;
+begin
+   bResult := True;
+
+   if iColSel = CL_CODBARRA then begin
+      bResult := ValidaCodigo;
+      CalculaTotalMvi;
+   end else if iColSel = CL_QTDE then begin
+      bResult := ValidaQtde;
+      CalculaTotalMvi;
+   end else if iColSel = CL_VLRUNIT then begin
+      CalculaTotalMvi;
+   end;
+
+   Result := bResult;
 end;
 
 function TfrmMvmVenda.ValidaDados: Boolean;
@@ -333,6 +497,26 @@ begin
       if StrToIntDef(edtNota.Text, 0) = 0 then begin
          bResult := False;
          ShowMessage('Nota não informada.');
+      end;
+   end;
+
+   Result := bResult;
+end;
+
+function TfrmMvmVenda.ValidaQtde: Boolean;
+var bResult : Boolean;
+begin
+
+   bResult := True;
+   if cdsMVIQTDE.AsFloat <= 0 then begin
+      bResult := False;
+      ShowMessage('Quantidade deve ser maior que zero.');
+   end;
+
+   if bResult then begin
+      if cdsMVIQTDE.AsFloat > 99999 then begin
+         bResult := False;
+         ShowMessage('Quantidade máxima permitida para venda: 99999.');
       end;
    end;
 
