@@ -51,6 +51,8 @@ type
     procedure edtIDCLIENTEChange(Sender: TObject);
     procedure btnIDClienteClick(Sender: TObject);
     procedure btnSalvarClick(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
+    procedure edtNotaEnter(Sender: TObject);
   private
     MovFat : tFaturamento;
 
@@ -64,7 +66,14 @@ type
     procedure AtribuiEditsNotaToClasse;
     procedure LocalizaFaturamento;
     procedure CarregaEdits;
-    procedure LimpaCampos;
+    procedure BotaoSalvarClick;
+    procedure SaveEdits;
+    procedure BotaoCancelarClick;
+    procedure LimpaEdits;
+    procedure LoadNextNota;
+    function ValidaDados : Boolean;
+    function ValidaEditsNota : Boolean;
+
   public
     { Public declarations }
   end;
@@ -99,21 +108,23 @@ procedure TfrmMvmVenda.AtribuiEditsNotaToClasse;
 begin
    MovFat.Serie      := edtSerie.Text;
    MovFat.Nota       := StrToIntDef(edtNota.Text, 0);
-   MovFat.VlrTotal   := 150; // temporario.
+end;
 
-   if gpbCliente.Enabled then begin
-      MovFat.IdCliente  := StrToIntDef(edtIDCLIENTE.Text, 0);
-      MovFat.DtEmissao  := StrToDate(edtDTEMISSAO.Text);
-   end;
+procedure TfrmMvmVenda.BotaoCancelarClick;
+begin
+   AtivaButtons;
+   AtivaPainelNota( False );
+   AtivaPainelCliente( False );
+   MovFat.StatusFat := tpSNone;
+   LimpaEdits;
 end;
 
 procedure TfrmMvmVenda.BotaoEditarClick;
 begin
    AtivaButtons;
-
    MovFat.ZeraClasse;
    MovFat.StatusFat := tpSEdit;
-
+   LimpaEdits;
    AtivaPainelNota( True );
    if edtSerie.CanFocus then edtSerie.SetFocus;
 end;
@@ -121,12 +132,30 @@ end;
 procedure TfrmMvmVenda.BotaoNovoClick;
 begin
    AtivaButtons;
-
    MovFat.ZeraClasse;
    MovFat.StatusFat := tpSInsert;
-
+   LimpaEdits;
    AtivaPainelNota( True );
    if edtSerie.CanFocus then edtSerie.SetFocus;
+end;
+
+procedure TfrmMvmVenda.BotaoSalvarClick;
+begin
+   if ValidaDados then begin
+      SaveEdits;
+      MovFat.PostFaturamento;
+      CarregaEdits;
+      AtivaButtons;
+      AtivaPainelNota( False );
+      AtivaPainelCliente( False );
+      MovFat.StatusFat := tpSNone;
+      ShowMessage('Nota: ' + FloatToStr(MovFat.Nota) + ', salva com sucesso.');
+   end;
+end;
+
+procedure TfrmMvmVenda.btnCancelarClick(Sender: TObject);
+begin
+   BotaoCancelarClick;
 end;
 
 procedure TfrmMvmVenda.btnEditarClick(Sender: TObject);
@@ -151,12 +180,7 @@ end;
 
 procedure TfrmMvmVenda.btnSalvarClick(Sender: TObject);
 begin
-
-   //fazer o valida dados
-   AtribuiEditsNotaToClasse;
-   MovFat.GravaDados;
-   LimpaCampos;
-   BotaoNovoClick;
+   BotaoSalvarClick;
 end;
 
 procedure TfrmMvmVenda.CarregaEdits;
@@ -165,6 +189,8 @@ begin
    if MovFat.IdCliente > 0 then edtIDCLIENTE.Text := IntToStr(MovFat.IdCliente);
 
    edtDTEMISSAO.Date := MovFat.DtEmissao;
+   edtSerie.Text     := MovFat.Serie;
+   edtNota.Text      := IntToStr(MovFat.Nota);
 end;
 
 procedure TfrmMvmVenda.ConfiguraFormulario;
@@ -196,6 +222,11 @@ begin
    LoadCaptionID(TBL_CDSCLI0, ID_CDSCLI0, DE_CDSCLI0, edtIDCLIENTE, lblIDCliente);
 end;
 
+procedure TfrmMvmVenda.edtNotaEnter(Sender: TObject);
+begin
+   edtNota.ReadOnly := ( MovFat.StatusFat = tpSInsert );
+end;
+
 procedure TfrmMvmVenda.edtNotaExit(Sender: TObject);
 begin
    AtribuiEditsNotaToClasse;
@@ -204,6 +235,7 @@ end;
 
 procedure TfrmMvmVenda.edtSerieExit(Sender: TObject);
 begin
+   if MovFat.StatusFat = tpSInsert then LoadNextNota;
    AtribuiEditsNotaToClasse;
 end;
 
@@ -223,9 +255,13 @@ begin
       key := 0;
       SendMessage(Handle, WM_NEXTDLGCTL, 0, 0);
    end else if key = VK_F5 then begin
+      key := 0;
       if MovFat.StatusFat in [tpSInsert, tpSEdit] then begin
          btnIDCliente.Click;
       end;
+   end else if key = VK_F9 then begin
+      key := 0;
+      btnSalvar.Click;
    end;
 end;
 
@@ -240,22 +276,67 @@ begin
    AtivaPainelCliente(False);
 end;
 
-procedure TfrmMvmVenda.LimpaCampos;
+procedure TfrmMvmVenda.LimpaEdits;
 begin
-   edtSerie.Text     := '';
-   edtNota.Text      := '';
-   edtIDCLIENTE.Text := '';
+   edtSerie.Text      := '';
+   edtNota.Text       := '';
+   edtIDCLIENTE.Text  := '';
+   edtDTEMISSAO.Clear;
+end;
+
+procedure TfrmMvmVenda.LoadNextNota;
+begin
+   edtNota.Text := IntToStr( GetNextGenerator(GEN_TBLMVMFAT0_NOTA, False) + 1 );
 end;
 
 procedure TfrmMvmVenda.LocalizaFaturamento;
 begin
-   if MovFat.LocateFaturamento then begin
-      AtivaPainelCliente( True );
-      CarregaEdits;
-      if edtIDCLIENTE.CanFocus then edtIDCLIENTE.SetFocus;
+   if ValidaEditsNota then begin
+      if MovFat.LocateFaturamento then begin
+         AtivaPainelCliente( True );
+         CarregaEdits;
+         if edtIDCLIENTE.CanFocus then edtIDCLIENTE.SetFocus;
+      end else begin
+         if edtSerie.CanFocus then edtSerie.SetFocus;
+      end;
    end else begin
       if edtSerie.CanFocus then edtSerie.SetFocus;
    end;
+end;
+
+procedure TfrmMvmVenda.SaveEdits;
+begin
+   MovFat.Serie      := edtSerie.Text;
+   MovFat.Nota       := StrToInt(edtNota.Text);
+   MovFat.IdCliente  := StrToInt(edtIDCLIENTE.Text);
+   MovFat.DtEmissao  := edtDTEMISSAO.Date;
+   MovFat.VlrTotal   := 150;
+end;
+
+function TfrmMvmVenda.ValidaDados: Boolean;
+var bResult : Boolean;
+begin
+   Result := True;
+end;
+
+function TfrmMvmVenda.ValidaEditsNota: Boolean;
+var bResult : Boolean;
+begin
+
+   bResult := True;
+   if Trim(edtSerie.Text) = '' then begin
+      bResult := False;
+      ShowMessage('Serie não informada.');
+   end;
+
+   if bResult then begin
+      if StrToIntDef(edtNota.Text, 0) = 0 then begin
+         bResult := False;
+         ShowMessage('Nota não informada.');
+      end;
+   end;
+
+   Result := bResult;
 end;
 
 end.

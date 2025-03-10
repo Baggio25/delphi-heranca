@@ -2,7 +2,7 @@ unit untClassFaturamento;
 
 interface
 
-uses Classes, untDtmDados, SqlExpr, SysUtils, Dialogs;
+uses Classes, untDtmDados, SqlExpr, SysUtils, Dialogs, untDados, untConstantes;
 
 type
 
@@ -37,7 +37,7 @@ type
 
          procedure ZeraClasse;
          procedure LoadFields;
-         procedure GravaDados;
+         procedure PostFaturamento;
          function LocateFaturamento : Boolean;
 
          constructor Create( Aowner : tComponent ); Override;
@@ -72,18 +72,27 @@ begin
   inherited;
 end;
 
-procedure tFaturamento.GravaDados;
+procedure tFaturamento.PostFaturamento;
 var qryFat : TSQLQuery;
 begin
 
    qryFat               := TSQLQuery.Create(Self);
    qryFat.SQLConnection := dtmDados.cnxEstoque;
 
-   with qryFat do begin
-      Sql.Clear;
-      Sql.Add('INSERT INTO TBLMVMFAT0 ( SERIE, NOTA, DTEMISSAO, IDCLIENTE, VLRTOTAL )');
-      Sql.Add('VALUES ( :SERIE, :NOTA, :DTEMISSAO, :IDCLIENTE, :VLRTOTAL )');
+   if FStatusFat = tpSInsert then begin
+      FIdFatEnt := GetNextGenerator( GEN_TBLMVMFAT0_IDFATENT, True );
+      FNota     := GetNextGenerator( GEN_TBLMVMFAT0_NOTA, True );
+   end;
 
+   with qryFat do begin
+      Close;
+      Sql.Clear;
+
+      Sql.Add('UPDATE OR INSERT INTO TBLMVMFAT0 ( IDFATENT, SERIE, NOTA, DTEMISSAO, IDCLIENTE, VLRTOTAL )');
+      Sql.Add('VALUES ( :IDFATENT, :SERIE, :NOTA, :DTEMISSAO, :IDCLIENTE, :VLRTOTAL )');
+      Sql.Add('MATCHING( IDFATENT )');
+
+      ParamByName('IDFATENT').AsInteger      := FIdFatEnt;
       ParamByName('SERIE').AsString          := FSerie;
       ParamByName('NOTA').AsInteger          := FNota;
       ParamByName('IDCLIENTE').AsInteger     := FIdCliente;
@@ -91,8 +100,11 @@ begin
       ParamByName('VLRTOTAL').AsFloat        := FVlrTotal;
 
       ExecSQL();
+      Close;
    end;
 
+   qryFat.Close;
+   FreeAndNil(qryFat);
 end;
 
 procedure tFaturamento.LoadFields;

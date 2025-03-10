@@ -80,6 +80,7 @@ object frmMvmVenda: TfrmMvmVenda
         NumbersOnly = True
         ParentCtl3D = False
         TabOrder = 1
+        OnEnter = edtNotaEnter
         OnExit = edtNotaExit
       end
     end
@@ -296,9 +297,9 @@ object frmMvmVenda: TfrmMvmVenda
       784
       87)
     object Label4: TLabel
-      Left = 584
+      Left = 729
       Top = 6
-      Width = 185
+      Width = 40
       Height = 22
       Alignment = taRightJustify
       Anchors = [akTop, akRight]
@@ -425,6 +426,7 @@ object frmMvmVenda: TfrmMvmVenda
         HelpType = htKeyword
         Caption = '&Cancelar'
         ImageIndex = 4
+        OnClick = btnCancelarClick
       end
       object btnSair: TToolButton
         Left = 240

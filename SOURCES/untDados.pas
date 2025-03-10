@@ -14,8 +14,9 @@ const
   procedure SearchId( ClasseConsulta: tConsulta; EditID : TDBEdit; FieldFK : String ); overload;
   procedure SearchId( ClasseConsulta: tConsulta; EditID : TEdit; FieldFK : String ); overload;
 
-  function MsgYesNo(sTexto : string; sCabecalho:string='Pergunta'; iBotaoDefault: Integer = WC_MB_MSGYES):boolean;
-  function SearchRecordDados(sCampo, sTabela, sCondicao: String): String;
+  function MsgYesNo( sTexto : string; sCabecalho:string='Pergunta'; iBotaoDefault: Integer = WC_MB_MSGYES ):boolean;
+  function SearchRecordDados( sCampo, sTabela, sCondicao: String ): String;
+  function GetNextGenerator( sGenerator : String; bPost : Boolean ) : Integer;
 implementation
 
 function MsgYesNo(sTexto : string;sCabecalho:string='Pergunta'; iBotaoDefault: Integer = WC_MB_MSGYES):boolean;
@@ -157,6 +158,28 @@ begin
       end;
 
    end;
+end;
+
+function GetNextGenerator( sGenerator : String; bPost : Boolean ) : Integer;
+var qrySel : TSQLQuery;
+    sSoma  : String;
+begin
+   sSoma := '0';
+   if bPost then sSoma := '1';
+
+   qrySel               := TSQLQuery.Create(nil);
+   qrySel.SQLConnection := dtmDados.cnxEstoque;
+
+   with qrySel do begin
+      close;
+      sQL.Clear;
+      sQL.Add( 'SELECT GEN_ID(' + sGenerator + ',' + sSoma + ') SEQUENCIA FROM RDB$DATABASE' );
+      open;
+      Result := qrySel.FieldByName('SEQUENCIA').AsInteger;
+      close;
+   end;
+
+   FreeAndNil(qrySel);
 end;
 
 end.
