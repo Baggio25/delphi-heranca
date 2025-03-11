@@ -8,6 +8,13 @@ type
 
    tpStatusFat  = ( tpSNone, tpSInsert, tpSEdit, tpSDelete );
 
+   tItensFaturamento = record
+      IdItem   : Integer;
+      Qtde     : Real;
+      VlrUnit  : Real;
+      VlrTotal : Real;
+   end;
+
    tFaturamento = class ( tComponent )
 
       private
@@ -25,8 +32,10 @@ type
          procedure SetDtEmissao(const Value: TDate);
          procedure SetIdCliente(const Value: Integer);
          procedure SetVlrTotal(const Value: Real);
+         procedure PostItensFaturamento;
     procedure SetIdFatEnt(const Value: Integer);
       public
+         ListaItens         : array of tItensFaturamento;
          property StatusFat : tpStatusFat read FStatusFat write SetStatusFat;
          property Serie     : String read FSerie write SetSerie;
          property Nota      : Integer read FNota write SetNota;
@@ -38,6 +47,7 @@ type
          procedure ZeraClasse;
          procedure LoadFields;
          procedure PostFaturamento;
+         procedure Delete;
          function LocateFaturamento : Boolean;
 
          constructor Create( Aowner : tComponent ); Override;
@@ -58,12 +68,31 @@ begin
    FDtEmissao := Date;
    FVlrTotal  := 0;
    FIdFatEnt  := 0;
+   SetLength(ListaItens, 0);
 end;
 
 constructor tFaturamento.Create(Aowner: tComponent);
 begin
    inherited;
    AppendValue;
+end;
+
+procedure tFaturamento.Delete;
+var qryDel : TSQLQuery;
+begin
+   qryDel               := TSQLQuery.Create(Self);
+   qryDel.SQLConnection := dtmDados.cnxEstoque;
+
+   with qryDel do begin
+      Close;
+      Sql.Clear;
+      Sql.Add('DELETE FROM TBLMVMFAT0 WHERE IDFATENT = ' + IntToStr(FIdFatEnt));
+      ExecSQL();
+      Close;
+   end;
+
+   qryDel.Close;
+   FreeAndNil(qryDel);
 end;
 
 destructor tFaturamento.Destroy;
@@ -75,7 +104,6 @@ end;
 procedure tFaturamento.PostFaturamento;
 var qryFat : TSQLQuery;
 begin
-
    qryFat               := TSQLQuery.Create(Self);
    qryFat.SQLConnection := dtmDados.cnxEstoque;
 
@@ -105,14 +133,58 @@ begin
 
    qryFat.Close;
    FreeAndNil(qryFat);
+
+   PostItensFaturamento;
+end;
+
+procedure tFaturamento.PostItensFaturamento;
+var qryMVI : TSQLQuery;
+    I      : Integer;
+    RecIte : tItensFaturamento;
+begin
+   qryMVI               := TSQLQuery.Create(Self);
+   qryMVI.SQLConnection := dtmDados.cnxEstoque;
+
+   with qryMVI do begin
+      Close;
+      Sql.Clear;
+      Sql.Add('DELETE FROM TBLMVMITE0 WHERE IDFATENT = ' + IntToStr(FIdFatEnt));
+      ExecSQL();
+      Close;
+   end;
+
+   for I := Low(ListaItens) to High(ListaItens) do begin
+      RecIte := ListaItens[i];
+
+      with qryMVI do begin
+         Close;
+         SQL.Clear;
+         SQL.Add('INSERT INTO TBLMVMITE0 ( IDFATENT, IDITEM, QTDE, VLRUNIT, VLRTOTAL )');
+         SQL.Add('VALUES ( :IDFATENT, :IDITEM, :QTDE, :VLRUNIT, :VLRTOTAL )');
+
+         ParamByName('IDFATENT').AsInteger  := FIdFatEnt;
+         ParamByName('IDITEM').AsInteger    := RecIte.IdItem;
+         ParamByName('QTDE').AsFloat        := RecIte.Qtde;
+         ParamByName('VLRUNIT').AsFloat     := RecIte.VlrUnit;
+         ParamByName('VLRTOTAL').AsFloat    := RecIte.VlrUnit;
+
+         ExecSQL();
+         Close;
+      end;
+   end;
+
+   qryMVI.Close;
+   FreeAndNil(qryMVI);
 end;
 
 procedure tFaturamento.LoadFields;
 var qryFat  : TSQLQuery;
+    ReqIte  : tItensFaturamento;
 begin
    qryFat               := TSQLQuery.Create(Self);
    qryFat.SQLConnection := dtmDados.cnxEstoque;
 
+   //Carrega dados do Fat0;
    with qryFat do begin
       Close;
       Sql.Clear;
@@ -125,6 +197,27 @@ begin
       FDtEmissao  := FieldByName('DTEMISSAO').AsDateTime;
       FVlrTotal   := FieldByName('VLRTOTAL').AsFloat;
       Close;
+   end;
+
+   //Carrega dados do MVI
+   SetLength(ListaItens, 0);
+   with qryFat do begin
+      Close;
+      Sql.Clear;
+      Sql.Add('SELECT IDITEM, QTDE, VLRUNIT, VLRTOTAL FROM TBLMVMITE0 WHERE IDFATENT = ' + IntToStr(FIdFatEnt));
+      Open;
+
+      while not Eof do begin
+         ReqIte.IdItem   := FieldByName('IDITEM').AsInteger;
+         ReqIte.Qtde     := FieldByName('QTDE').AsFloat;
+         ReqIte.VlrUnit  := FieldByName('VLRUNIT').AsFloat;
+         ReqIte.VlrTotal := FieldByName('VLRTOTAL').AsFloat;
+
+         SetLength(ListaItens, Length(ListaItens) + 1);
+         ListaItens[Length(ListaItens) - 1] := ReqIte;
+
+         Next;
+      end;
    end;
 
    FreeAndNil(qryFat);

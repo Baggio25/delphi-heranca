@@ -2,7 +2,7 @@ unit untDados;
 
 interface
 
-uses Forms, Windows, SqlExpr, untDtmDados, SysUtils, Vcl.StdCtrls, Vcl.DBCtrls, Vcl.Graphics,
+uses Forms, Windows, SqlExpr, untDtmDados, SysUtils, Vcl.StdCtrls, Vcl.DBCtrls, Vcl.Graphics, Data.DB,
   untClassConsulta;
 
 const
@@ -13,6 +13,7 @@ const
   procedure LoadCaptionID( TableName, FieldID, FieldDesc : String; EditID : TEdit; EditDesc : TEdit ); overload;
   procedure SearchId( ClasseConsulta: tConsulta; EditID : TDBEdit; FieldFK : String ); overload;
   procedure SearchId( ClasseConsulta: tConsulta; EditID : TEdit; FieldFK : String ); overload;
+  procedure SearchId( ClasseConsulta: tConsulta; EditID : TStringField; FieldFK : String ); overload;
 
   function MsgYesNo( sTexto : string; sCabecalho:string='Pergunta'; iBotaoDefault: Integer = WC_MB_MSGYES ):boolean;
   function SearchRecordDados( sCampo, sTabela, sCondicao: String ): String;
@@ -160,6 +161,15 @@ begin
    end;
 end;
 
+procedure SearchId( ClasseConsulta: tConsulta; EditID : TStringField; FieldFK : String ); overload;
+var iCodigo : Integer;
+begin
+   iCodigo := ClasseConsulta.Consultar;
+   if iCodigo > 0 then begin
+      EditID.AsString := IntToStr( iCodigo );
+   end;
+end;
+
 function GetNextGenerator( sGenerator : String; bPost : Boolean ) : Integer;
 var qrySel : TSQLQuery;
     sSoma  : String;
@@ -181,5 +191,4 @@ begin
 
    FreeAndNil(qrySel);
 end;
-
 end.

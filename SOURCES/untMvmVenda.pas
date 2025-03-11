@@ -8,7 +8,7 @@ uses
   Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Vcl.ToolWin, System.ImageList,
   Vcl.ImgList, JvExMask, JvToolEdit, Vcl.Buttons, Vcl.Mask, Vcl.DBCtrls,
   untClassFaturamento, untDados, untConstantes, untClassCnsCli0,
-  Datasnap.DBClient, UdfLib, untClassIte0;
+  Datasnap.DBClient, UdfLib, untClassIte0, untClassCnsIte0;
 
 type
   TfrmMvmVenda = class(TForm)
@@ -50,6 +50,7 @@ type
     cdsMVIUNIDADE: TStringField;
     cdsMVISOMAVLRTOTAL: TAggregateField;
     edtVALORTOTAL: TEdit;
+    lblVendaRealizada: TLabel;
     procedure btnSairClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -68,6 +69,8 @@ type
     procedure dbgMVIColEnter(Sender: TObject);
     procedure dsMVIStateChange(Sender: TObject);
     procedure cdsMVIAfterDelete(DataSet: TDataSet);
+    procedure dbgMVIEditButtonClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
   private
     iColSel : Integer;
     MovFat  : tFaturamento;
@@ -91,6 +94,11 @@ type
     procedure ProcessaTeclasGrid( var key: Word; Shift: TShiftState );
     procedure CalculaTotalMvi;
     procedure TotalNota;
+    procedure SaveItensGrid;
+    procedure LetreiroVendaFinalizada( sTexto : String );
+    procedure ConsultaItens;
+    procedure BotaoExcluirClick;
+    procedure ExcluiFaturamento;
     function ValidaDados           : Boolean;
     function ValidaEditsNota       : Boolean;
     function ValidaColunaAnterior  : Boolean;
@@ -163,6 +171,16 @@ begin
    if edtSerie.CanFocus then edtSerie.SetFocus;
 end;
 
+procedure TfrmMvmVenda.BotaoExcluirClick;
+begin
+   AtivaButtons;
+   MovFat.ZeraClasse;
+   MovFat.StatusFat := tpSDelete;
+   LimpaEdits;
+   AtivaPainelNota( True );
+   if edtSerie.CanFocus then edtSerie.SetFocus;
+end;
+
 procedure TfrmMvmVenda.BotaoNovoClick;
 begin
    AtivaButtons;
@@ -183,7 +201,7 @@ begin
       AtivaPainelNota( False );
       AtivaPainelCliente( False );
       MovFat.StatusFat := tpSNone;
-      ShowMessage('Nota: ' + FloatToStr(MovFat.Nota) + ', salva com sucesso.');
+      LetreiroVendaFinalizada('Nota Nº: ' + IntToStr(MovFat.Nota) + ' finalizada');
    end;
 end;
 
@@ -195,6 +213,11 @@ end;
 procedure TfrmMvmVenda.btnEditarClick(Sender: TObject);
 begin
    BotaoEditarClick;
+end;
+
+procedure TfrmMvmVenda.btnExcluirClick(Sender: TObject);
+begin
+   BotaoExcluirClick;
 end;
 
 procedure TfrmMvmVenda.btnIDClienteClick(Sender: TObject);
@@ -235,10 +258,33 @@ begin
 end;
 
 procedure TfrmMvmVenda.CarregaGrid;
+var iCont  : Integer;
+    RecIte : tItensFaturamento;
+    CadIte : tItens;
 begin
    cdsMVI.Close;
    cdsMVI.CreateDataSet;
 
+   for iCont := Low(MovFat.ListaItens) to High(MovFat.ListaItens) do begin
+      RecIte := MovFat.ListaItens[iCont];
+      CadIte := tItens.Create(IntToStr(RecIte.IdItem));
+
+      cdsMVI.Append;
+      cdsMVICODBARRA.AsString := IntToStr( RecIte.IdItem );
+      cdsMVIIDITEM.AsInteger  := RecIte.IdItem;
+
+      cdsMVINOMEPRO.AsString  := CadIte.NomePro;
+      cdsMVIUNIDADE.AsString  := CadIte.Unidade;
+
+      cdsMVIQTDE.AsFloat      := RecIte.Qtde;
+      cdsMVIVLRUNIT.AsFloat   := RecIte.VlrUnit;
+      cdsMVIVLRTOTAL.AsFloat  := RecIte.VlrTotal;
+      cdsMVI.Post;
+
+      FreeAndNil(CadIte);
+   end;
+
+   cdsMVI.First;
    iColSel := 0;
 end;
 
@@ -264,6 +310,15 @@ begin
    btnCancelar.Enabled  := False;
 
    btnSair.Enabled      := True;
+
+   LetreiroVendaFinalizada('');
+end;
+
+procedure TfrmMvmVenda.ConsultaItens;
+begin
+   if not (dsMVI.State in [dsInsert, dsEdit]) then cdsMVI.Edit;
+
+   SearchId( tCnsIte0.Create(Self), cdsMVICODBARRA, ID_CDSITE0);
 end;
 
 procedure TfrmMvmVenda.CriaClasseFaturamento;
@@ -285,6 +340,13 @@ end;
 procedure TfrmMvmVenda.dbgMVIColExit(Sender: TObject);
 begin
    iColSel := dbgMVI.SelectedIndex;
+end;
+
+procedure TfrmMvmVenda.dbgMVIEditButtonClick(Sender: TObject);
+begin
+   if dbgMVI.SelectedIndex = CL_CODBARRA then begin
+      ConsultaItens;
+   end;
 end;
 
 procedure TfrmMvmVenda.dsMVIStateChange(Sender: TObject);
@@ -312,6 +374,15 @@ procedure TfrmMvmVenda.edtSerieExit(Sender: TObject);
 begin
    if MovFat.StatusFat = tpSInsert then LoadNextNota;
    AtribuiEditsNotaToClasse;
+end;
+
+procedure TfrmMvmVenda.ExcluiFaturamento;
+begin
+   if MsgYesNo('Deseja excluir o faturamento', 'Atenção') then begin
+      MovFat.Delete;
+   end;
+
+   BotaoCancelarClick;
 end;
 
 procedure TfrmMvmVenda.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -353,6 +424,11 @@ begin
    AtivaPainelCliente(False);
 end;
 
+procedure TfrmMvmVenda.LetreiroVendaFinalizada( sTexto : String );
+begin
+   lblVendaRealizada.Caption := sTexto;
+end;
+
 procedure TfrmMvmVenda.LimpaEdits;
 begin
    edtSerie.Text      := '';
@@ -370,9 +446,14 @@ procedure TfrmMvmVenda.LocalizaFaturamento;
 begin
    if ValidaEditsNota then begin
       if MovFat.LocateFaturamento then begin
-         AtivaPainelCliente( True );
          CarregaEdits;
-         if edtIDCLIENTE.CanFocus then edtIDCLIENTE.SetFocus;
+
+         if MovFat.StatusFat in [tpSInsert, tpSEdit] then begin
+            AtivaPainelCliente( True );
+            if edtIDCLIENTE.CanFocus then edtIDCLIENTE.SetFocus;
+         end else if MovFat.StatusFat = tpSDelete then begin
+             ExcluiFaturamento;
+         end;
       end else begin
          if edtSerie.CanFocus then edtSerie.SetFocus;
       end;
@@ -402,6 +483,11 @@ begin
       end;
 
       key := 0;
+   end else if key = VK_F5 then begin
+      if dbgMVI.SelectedIndex = CL_CODBARRA then begin
+         key := 0;
+         ConsultaItens;
+      end;
    end;
 end;
 
@@ -411,7 +497,28 @@ begin
    MovFat.Nota       := StrToInt(edtNota.Text);
    MovFat.IdCliente  := StrToInt(edtIDCLIENTE.Text);
    MovFat.DtEmissao  := edtDTEMISSAO.Date;
-   MovFat.VlrTotal   := 150;
+   MovFat.VlrTotal   := StrToFloatDef(edtVALORTOTAL.Text, 0);
+
+   SaveItensGrid;
+end;
+
+procedure TfrmMvmVenda.SaveItensGrid;
+var RecIte : tItensFaturamento;
+begin
+   SetLength(MovFat.ListaItens, 0);
+   cdsMVI.First;
+
+   while not cdsMVI.Eof do begin
+      RecIte.IdItem   := cdsMVIIDITEM.AsInteger;
+      RecIte.Qtde     := cdsMVIQTDE.AsFloat;
+      RecIte.VlrUnit  := cdsMVIVLRUNIT.AsFloat;
+      RecIte.VlrTotal := cdsMVIVLRTOTAL.AsFloat;
+
+      SetLength(MovFat.ListaItens, Length(MovFat.ListaItens) + 1 );
+      MovFat.ListaItens[Length(MovFat.ListaItens) - 1] := RecIte;
+
+      cdsMVI.Next;
+   end;
 end;
 
 procedure TfrmMvmVenda.TotalNota;
@@ -444,8 +551,10 @@ begin
          bResult := False;
          ShowMessage('Produto não cadastrado');
       end else begin
-         cdsMVINOMEPRO.AsString := CadIte.NomePro;
-         cdsMVIUNIDADE.AsString := CadIte.Unidade;
+         cdsMVIIDITEM.AsInteger  := CadIte.IdItem;
+         cdsMVICODBARRA.AsString := IntToStr(CadIte.IdItem);
+         cdsMVINOMEPRO.AsString  := CadIte.NomePro;
+         cdsMVIUNIDADE.AsString  := CadIte.Unidade;
 
          if dsMVI.State = dsInsert then begin
             cdsMVIVLRUNIT.AsFloat  := CadIte.Preco;

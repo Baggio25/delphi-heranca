@@ -34,7 +34,6 @@ object frmMvmVenda: TfrmMvmVenda
     ParentBackground = False
     ParentFont = False
     TabOrder = 0
-    ExplicitWidth = 784
     object gpbNota: TGroupBox
       Left = 1
       Top = 1
@@ -93,7 +92,6 @@ object frmMvmVenda: TfrmMvmVenda
       Align = alClient
       Caption = 'Cliente'
       TabOrder = 1
-      ExplicitWidth = 518
       object btnIDCliente: TSpeedButton
         Left = 133
         Top = 25
@@ -314,6 +312,19 @@ object frmMvmVenda: TfrmMvmVenda
       ParentFont = False
       ExplicitLeft = 729
     end
+    object lblVendaRealizada: TLabel
+      Left = 37
+      Top = 33
+      Width = 223
+      Height = 32
+      Caption = 'lblVendaRealizada'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clNavy
+      Font.Height = -27
+      Font.Name = 'Arial'
+      Font.Style = []
+      ParentFont = False
+    end
     object edtVALORTOTAL: TEdit
       Left = 568
       Top = 28
@@ -354,9 +365,11 @@ object frmMvmVenda: TfrmMvmVenda
     TitleFont.Style = []
     OnColEnter = dbgMVIColEnter
     OnColExit = dbgMVIColExit
+    OnEditButtonClick = dbgMVIEditButtonClick
     Columns = <
       item
         Alignment = taRightJustify
+        ButtonStyle = cbsEllipsis
         Expanded = False
         FieldName = 'CODBARRA'
         Title.Alignment = taRightJustify
@@ -454,7 +467,6 @@ object frmMvmVenda: TfrmMvmVenda
     ParentShowHint = False
     ShowHint = False
     TabOrder = 3
-    ExplicitWidth = 784
     object tlbBotoes: TToolBar
       AlignWithMargins = True
       Left = 3
@@ -484,10 +496,6 @@ object frmMvmVenda: TfrmMvmVenda
       ShowHint = False
       TabOrder = 0
       Transparent = False
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 847
-      ExplicitHeight = 46
       object btnNovo: TToolButton
         Left = 0
         Top = 0
@@ -507,6 +515,7 @@ object frmMvmVenda: TfrmMvmVenda
         Top = 0
         Caption = 'E&xcluir'
         ImageIndex = 2
+        OnClick = btnExcluirClick
       end
       object btnSalvar: TToolButton
         Left = 144
@@ -535,8 +544,7 @@ object frmMvmVenda: TfrmMvmVenda
     end
   end
   object imgDefault: TImageList
-    Left = 724
-    Top = 280
+    Left = 540
     Bitmap = {
       494C010109000D00040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
@@ -942,8 +950,7 @@ object frmMvmVenda: TfrmMvmVenda
       000000000000}
   end
   object imgHot: TImageList
-    Left = 724
-    Top = 336
+    Left = 601
     Bitmap = {
       494C010109000D00040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
@@ -1349,8 +1356,8 @@ object frmMvmVenda: TfrmMvmVenda
       000000000000}
   end
   object imgDisable: TImageList
-    Left = 725
-    Top = 233
+    Left = 469
+    Top = 1
     Bitmap = {
       494C010109000D00040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
